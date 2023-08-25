@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 
-import { getAllUsers } from "../../services/userService";
+import { getAllUsers, createNewUserService } from "../../services/userService";
 import "./UserManage.scss";
+import ModalUser from "../../components/System/ModalUser";
 
 class UserManage extends Component {
     constructor(props) {
@@ -11,12 +12,18 @@ class UserManage extends Component {
         //state để dùng lưu biến trong component
         this.state = {
             arrUsers: [],
+            isOpenModalUser: false,
         };
     }
 
     async componentDidMount() {
+        await this.getAllUserFromReact();
+    }
+
+    //Get all user
+    getAllUserFromReact = async () => {
         let response = await getAllUsers("ALL");
-        // console.log(response);
+
         if (response && response.errCode === 0) {
             this.setState(
                 {
@@ -28,7 +35,39 @@ class UserManage extends Component {
                 }
             );
         }
-    }
+    };
+
+    handleAddNewUser = () => {
+        this.setState({
+            isOpenModalUser: true,
+        });
+    };
+
+    toggleUserModal = () => {
+        this.setState({
+            isOpenModalUser: !this.state.isOpenModalUser,
+        });
+    };
+
+    //Add a User
+    createNewUser = async (data) => {
+        try {
+            let response = await createNewUserService(data);
+
+            if (response && response.errCode !== 0) {
+                alert(response.errMessage);
+            } else {
+                await this.getAllUserFromReact();
+                this.setState({
+                    isOpenModalUser: false,
+                });
+            }
+
+            console.log("response create user: ", response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     render() {
         // console.log("render: ", this.state.arrUsers); //chạy 2 lần do một lần mount và một lần setState
@@ -58,7 +97,20 @@ class UserManage extends Component {
 
         return (
             <div className="users-container">
+                <ModalUser
+                    isOpen={this.state.isOpenModalUser}
+                    toggle={this.toggleUserModal}
+                    createNewUser={this.createNewUser}
+                />
                 <div className="title text-center">Manage user</div>
+                <div>
+                    <button
+                        className="btn btn-primary px-3 mx-3"
+                        onClick={() => this.handleAddNewUser()}
+                    >
+                        <i className="fas fa-plus"></i> Add New User
+                    </button>
+                </div>
                 <div className="user-table mt-4 mx-3">
                     <table id="customers">
                         <thead>

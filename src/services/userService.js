@@ -9,4 +9,10 @@ const getAllUsers = (inputId) => {
     return axios.get(`/api/get-all-users?id=${inputId}`); //phải cùng method vs server
 };
 
-export { handleLoginApi, getAllUsers };
+const createNewUserService = (data) => {
+    return axios.post(`/api/create-new-user`, {
+        ...data,
+    });
+};
+
+export { handleLoginApi, getAllUsers, createNewUserService };

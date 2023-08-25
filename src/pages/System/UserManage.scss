@@ -44,3 +44,38 @@
     border: none;
     background-color: transparent;
 }
+
+.modal-user-container {
+    .modal-content {
+        .modal-header {
+            .btn-close {
+                position: relative !important;
+            }
+        }
+    }
+}
+
+.modal-user-body {
+    display: flex;
+    gap: 10px; //khoảng cách giữa các phần tử con trong flex
+    flex-wrap: wrap;
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        width: 49%;
+
+        //viết class ngang hàng vs input này
+        &.max-width-input {
+            width: 100%;
+        }
+
+        input {
+            border-radius: 3px;
+            border: 1px solid grey;
+            height: 30px;
+            padding-left: 10px;
+            outline: none;
+        }
+    }
+}
