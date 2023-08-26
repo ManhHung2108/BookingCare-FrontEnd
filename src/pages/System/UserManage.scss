@@ -45,6 +45,11 @@
     background-color: transparent;
 }
 
+.users-container {
+    overflow: auto;
+    height: 100vh;
+}
+
 .modal-user-container {
     .modal-content {
         .modal-header {

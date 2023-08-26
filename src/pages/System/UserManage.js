@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
+import { cloneWith } from "lodash";
 
-import { getAllUsers, createNewUserService } from "../../services/userService";
+import {
+    getAllUsers,
+    createNewUserService,
+    deleteUserService,
+} from "../../services/userService";
 import "./UserManage.scss";
 import ModalUser from "../../components/System/ModalUser";
+import { emitter } from "../../utils";
 
 class UserManage extends Component {
     constructor(props) {
@@ -63,7 +69,28 @@ class UserManage extends Component {
                 });
             }
 
+            //Phát đi một emit để gửi sang Modal, khi dữ liệu đã được thêm mới
+            emitter.emit("EVENT_CLEARN_MODAL_INPUT", { id: "your id" });
             console.log("response create user: ", response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    //Delete
+    handleDeleteUser = async (id) => {
+        // console.log("delete");
+        try {
+            let response = await deleteUserService(id);
+            if (response && response.errCode !== 0) {
+                alert(response.errMessage);
+            } else {
+                //Load lại dữ liệu
+                await this.getAllUserFromReact();
+                alert(response.message);
+            }
+
+            console.log("response delete user: ", response);
         } catch (error) {
             console.log(error);
         }
@@ -86,7 +113,12 @@ class UserManage extends Component {
                             <button className="btn-Edit">
                                 <i className="fas fa-pencil-alt" />
                             </button>
-                            <button className="text-danger btn-Delete">
+                            <button
+                                className="text-danger btn-Delete"
+                                onClick={() => {
+                                    this.handleDeleteUser(user.id);
+                                }}
+                            >
                                 <i className="fas fa-trash"></i>
                             </button>
                         </td>
@@ -111,8 +143,8 @@ class UserManage extends Component {
                         <i className="fas fa-plus"></i> Add New User
                     </button>
                 </div>
-                <div className="user-table mt-4 mx-3">
-                    <table id="customers">
+                <div className="user-table mt-4 mx-3 table-responsive">
+                    <table id="customers" className="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Email</th>

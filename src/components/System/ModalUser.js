@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { connect } from "react-redux";
 
+import { emitter } from "../../utils";
+
 class ModalUser extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,24 @@ class ModalUser extends Component {
             lastName: "",
             address: "",
         };
+
+        this.listenToEmitter();
     }
+
+    listenToEmitter() {
+        //Lắng nghe emitter phát từ parent
+        emitter.on("EVENT_CLEARN_MODAL_INPUT", (data) => {
+            // console.log("listen emitter from parent: ", data);
+            //reset State
+            this.setState({
+                email: "",
+                passWord: "",
+                firstName: "",
+                lastName: "",
+                address: "",
+            });
+        });
+    } //bus event
 
     toggle() {
         this.props.toggle(); //lấy bên cha
@@ -49,6 +68,13 @@ class ModalUser extends Component {
         if (isValid) {
             //call api
             this.props.createNewUser(this.state); //gửi dữ liệu sang cho UserManage
+            // this.setState({
+            //     email: "",
+            //     passWord: "",
+            //     firstName: "",
+            //     lastName: "",
+            //     address: "",
+            // });
         }
     }
 
