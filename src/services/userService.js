@@ -6,7 +6,11 @@ const handleLoginApi = (email, passWord) => {
 
 const getAllUsers = (inputId) => {
     //axios trả về promise
-    return axios.get(`/api/get-all-users?id=${inputId}`); //phải cùng method vs server
+    return axios.get(`/api/get-all-users`, {
+        params: {
+            id: inputId,
+        },
+    }); //phải cùng method vs server
 };
 
 const createNewUserService = (data) => {
@@ -19,4 +23,15 @@ const deleteUserService = (userId) => {
     return axios.delete(`/api/delete-user/${userId}`);
 };
 
-export { handleLoginApi, getAllUsers, createNewUserService, deleteUserService };
+const editUserService = (updateData) => {
+    console.log(updateData);
+    return axios.put(`/api/edit-user/${updateData.id}`, updateData);
+};
+
+export {
+    handleLoginApi,
+    getAllUsers,
+    createNewUserService,
+    deleteUserService,
+    editUserService,
+};

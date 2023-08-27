@@ -16,6 +16,7 @@ import {
     userIsAuthenticated,
     userIsNotAuthenticated,
 } from "./hoc/authentication";
+import HomePage from "./pages/HomePage/HomePage";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -56,6 +57,10 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.SYSTEM}
                                     component={userIsAuthenticated(System)}
+                                />
+                                <Route
+                                    path={configs.routes.HOMEPAGE}
+                                    component={HomePage}
                                 />
                             </Switch>
                         </div>
