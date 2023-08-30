@@ -2,11 +2,15 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
+import { LANGUAGE } from "../../utils";
+import { changeLanguageAppAction } from "../../redux/actions";
+
 import "./HomeHeader.scss";
 
 class HomeHeader extends Component {
     render() {
-        const { lang } = this.props;
+        let language = this.props.lang;
+        // console.log(language);
         return (
             <Fragment>
                 <div className="home-header-container">
@@ -71,12 +75,45 @@ class HomeHeader extends Component {
                                     </div>
                                     <span>0986-938-375</span>
                                 </div>
-                                <div className="language-vi">VN</div>
-                                <div className="language-en">EN</div>
+                                <div
+                                    className={
+                                        language === LANGUAGE.VI
+                                            ? "language-vi active"
+                                            : "language-vi"
+                                    }
+                                >
+                                    <span
+                                        onClick={() => {
+                                            this.props.changeLanguage(
+                                                LANGUAGE.VI
+                                            );
+                                        }}
+                                    >
+                                        VN
+                                    </span>
+                                </div>
+                                <div
+                                    className={
+                                        language === LANGUAGE.EN
+                                            ? "language-en active"
+                                            : "language-en"
+                                    }
+                                >
+                                    <span
+                                        onClick={() => {
+                                            this.props.changeLanguage(
+                                                LANGUAGE.EN
+                                            );
+                                        }}
+                                    >
+                                        EN
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div className="home-header-banner">
                     <div className="search">
                         <div className="title">
@@ -181,6 +218,7 @@ class HomeHeader extends Component {
     }
 }
 
+//lấy state của redux vào props của react
 const mapStateFromToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn,
@@ -188,8 +226,13 @@ const mapStateFromToProps = (state) => {
     };
 };
 
+//gửi action lên redux(fire redux event)
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        changeLanguage: (language) => {
+            dispatch(changeLanguageAppAction(language));
+        },
+    };
 };
 
-export default connect(mapStateFromToProps, mapDispatchToProps)(HomeHeader);
+export default connect(mapStateFromToProps, mapDispatchToProps)(HomeHeader); //kết nối react-redux

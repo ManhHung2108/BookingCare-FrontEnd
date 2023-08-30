@@ -44,6 +44,7 @@
             justify-content: space-between;
 
             .child-content {
+                cursor: pointer;
                 b {
                     font-size: 12px;
                 }
@@ -95,18 +96,31 @@
 
                 .language-vi {
                     cursor: pointer;
-
+                    opacity: 0.2;
+                    transition: all 0.3s;
                     //Nếu có thêm class active
                     &.active {
+                        opacity: 0.8;
                         color: orange;
+                    }
+
+                    &:hover {
+                        opacity: 1;
                     }
                 }
                 .language-en {
                     cursor: pointer;
+                    opacity: 0.2;
+                    transition: all 0.3s;
                     margin: 0 10px;
 
                     &.active {
+                        opacity: 0.8;
                         color: blue;
+                    }
+
+                    &:hover {
+                        opacity: 1;
                     }
                 }
             }
