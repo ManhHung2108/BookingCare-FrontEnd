@@ -1,63 +1,195 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
+
 import "./HomeHeader.scss";
 
 class HomeHeader extends Component {
     render() {
+        const { lang } = this.props;
         return (
-            <div className="home-header-container">
-                <div className="home-header-content">
-                    <div className="left-content">
-                        <i className="fas fa-bars"></i>
-                        <div className="header-logo">
-                            <i className="fas fa-heartbeat"></i>
-                            <span>HealthBookings</span>
-                        </div>
-                    </div>
-                    <div className="center-content">
-                        <div className="child-content">
-                            <div>
-                                <b>Chuyên khoa</b>
-                            </div>
-                            <div className="sub-title">
-                                Tìm bác sĩ theo chuyên khoa
+            <Fragment>
+                <div className="home-header-container">
+                    <div className="home-header-content">
+                        <div className="left-content">
+                            <i className="fas fa-bars"></i>
+                            <div className="header-logo">
+                                <i className="fas fa-heartbeat"></i>
+                                <span>HealthBookings</span>
                             </div>
                         </div>
-                        <div className="child-content">
-                            <div>
-                                <b>Cơ sở y tế</b>
+                        <div className="center-content">
+                            <div className="child-content">
+                                <div>
+                                    <b>
+                                        <FormattedMessage id="homeHeader.speciality" />
+                                    </b>
+                                </div>
+                                <div className="sub-title">
+                                    <FormattedMessage id="homeHeader.search-doctor" />
+                                </div>
                             </div>
-                            <div className="sub-title">
-                                Chọn bệnh viện phòng khám
+                            <div className="child-content">
+                                <div>
+                                    <b>
+                                        <FormattedMessage id="homeHeader.health-facility" />
+                                    </b>
+                                </div>
+                                <div className="sub-title">
+                                    <FormattedMessage id="homeHeader.select-room" />
+                                </div>
+                            </div>
+                            <div className="child-content">
+                                <div>
+                                    <b>
+                                        <FormattedMessage id="homeHeader.doctor" />
+                                    </b>
+                                </div>
+                                <div className="sub-title">
+                                    <FormattedMessage id="homeHeader.select-doctor" />
+                                </div>
+                            </div>
+                            <div className="child-content">
+                                <div>
+                                    <b>
+                                        <FormattedMessage id="homeHeader.fee" />
+                                    </b>
+                                </div>
+                                <div className="sub-title">
+                                    <FormattedMessage id="homeHeader.check-health" />
+                                </div>
                             </div>
                         </div>
-                        <div className="child-content">
-                            <div>
-                                <b>Bác sĩ</b>
+                        <div className="right-content">
+                            <div className="right_content-container">
+                                <div className="support">
+                                    <div>
+                                        <i className="fas fa-question-circle"></i>
+                                        <span>
+                                            <FormattedMessage id="homeHeader.support" />
+                                        </span>
+                                    </div>
+                                    <span>0986-938-375</span>
+                                </div>
+                                <div className="language-vi">VN</div>
+                                <div className="language-en">EN</div>
                             </div>
-                            <div className="sub-title">Chọn bác sĩ giỏi</div>
-                        </div>
-                        <div className="child-content">
-                            <div>
-                                <b>Gói khám</b>
-                            </div>
-                            <div className="sub-title">
-                                Khám sức khỏe tổng quát
-                            </div>
-                        </div>
-                    </div>
-                    <div className="right-content">
-                        <div className="right_content-container">
-                            <div className="support">
-                                <i className="fas fa-question-circle">Hỗ trợ</i>
-                                <span>0986-938-375</span>
-                            </div>
-                            <div className="flag">VN</div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div className="home-header-banner">
+                    <div className="search">
+                        <div className="title">
+                            <h1>
+                                <FormattedMessage id="banner.title1" />
+                                <br></br>
+                                <b>
+                                    <FormattedMessage id="banner.title2" />
+                                </b>
+                            </h1>
+                        </div>
+                        <div className="search-form">
+                            <i className="fas fa-search"></i>
+                            <input type="text" placeholder="Tìm kiếm" />
+                        </div>
+                    </div>
+                    <div className="options">
+                        <div className="options-container">
+                            <div className="option-child">
+                                <div
+                                    className="icon-child"
+                                    style={{
+                                        backgroundImage: `url(${require("../../assets/images/161905-iconkham-chuyen-khoa.png")})`,
+                                    }}
+                                ></div>
+                                <p className="text-child">
+                                    <FormattedMessage id="banner.examination" />
+                                    <br />
+                                    <FormattedMessage id="banner.speciality" />
+                                </p>
+                            </div>
+                            <div className="option-child">
+                                <div
+                                    className="icon-child"
+                                    style={{
+                                        backgroundImage: `url(${require("../../assets/images/161817-iconkham-tu-xa.png")})`,
+                                    }}
+                                ></div>
+                                <p className="text-child">
+                                    <FormattedMessage id="banner.examination" />
+                                    <br />
+                                    <FormattedMessage id="banner.remote" />
+                                </p>
+                            </div>
+                            <div className="option-child">
+                                <div
+                                    className="icon-child"
+                                    style={{
+                                        backgroundImage: `url(${require("../../assets/images/161350-iconkham-tong-quan.png")})`,
+                                    }}
+                                ></div>
+                                <p className="text-child">
+                                    <FormattedMessage id="banner.examination" />
+                                    <br />
+                                    <FormattedMessage id="banner.generality" />
+                                </p>
+                            </div>
+                            <div className="option-child">
+                                <div
+                                    className="icon-child"
+                                    style={{
+                                        backgroundImage: `url(${require("../../assets/images/161340-iconxet-nghiem-y-hoc.png")})`,
+                                    }}
+                                ></div>
+                                <p className="text-child">
+                                    <FormattedMessage id="banner.test" />
+                                    <br />
+                                    <FormattedMessage id="banner.medical" />
+                                </p>
+                            </div>
+                            <div className="option-child">
+                                <div
+                                    className="icon-child"
+                                    style={{
+                                        backgroundImage: `url(${require("../../assets/images/161403-iconsuc-khoe-tinh-than.png")})`,
+                                    }}
+                                ></div>
+                                <p className="text-child">
+                                    <FormattedMessage id="banner.health" />
+                                    <br />
+                                    <FormattedMessage id="banner.spirit" />
+                                </p>
+                            </div>
+                            <div className="option-child">
+                                <div
+                                    className="icon-child"
+                                    style={{
+                                        backgroundImage: `url(${require("../../assets/images/161410-iconkham-nha-khoa.png")})`,
+                                    }}
+                                ></div>
+                                <p className="text-child">
+                                    <FormattedMessage id="banner.examination" />
+                                    <br />
+                                    <FormattedMessage id="banner.dentistry" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
         );
     }
 }
 
-export default HomeHeader;
+const mapStateFromToProps = (state) => {
+    return {
+        isLoggedIn: state.user.isLoggedIn,
+        lang: state.appReducer.language,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateFromToProps, mapDispatchToProps)(HomeHeader);
