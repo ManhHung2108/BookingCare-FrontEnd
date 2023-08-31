@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./styles/styles.scss";
-import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import reduxStore, { persistor } from "./redux/configStore";

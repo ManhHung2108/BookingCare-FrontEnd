@@ -41,7 +41,7 @@ class App extends Component {
         return (
             <Fragment>
                 <Router history={history}>
-                    {this.props.isLoggedIn && <Header />}
+                    {/* {this.props.isLoggedIn && <Header />} */}
                     <div className="main-container">
                         <div className="content-container">
                             <Switch>

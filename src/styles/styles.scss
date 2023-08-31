@@ -12,4 +12,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
 
 .main-container {
     box-sizing: border-box;
+    overflow-y: scroll;
+    height: 100vh; //vượt quá chiều cao màn hình thì sẽ scroll
 }
