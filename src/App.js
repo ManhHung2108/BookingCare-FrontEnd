@@ -53,10 +53,14 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.LOGIN}
                                     component={userIsNotAuthenticated(Login)}
+                                    //Được phép truy cập trang Login khi isLogged=false (hoc),
+                                    //nếu true thì chạy đến thẳng trang home để xủ lý chuyển sang admin
                                 />
                                 <Route
                                     path={configs.routes.SYSTEM}
                                     component={userIsAuthenticated(System)}
+                                    //Được phép truy cập trang System khi isLogged=true(hoc)
+                                    //nếu false chuyển sang trang login
                                 />
                                 <Route
                                     path={configs.routes.HOMEPAGE}

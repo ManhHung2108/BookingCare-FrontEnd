@@ -1,47 +1,41 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import PrevArrow from "./PrevArrow";
-import NextArrow from "./NextArrow";
-
-class Specialty extends Component {
+export default class HandBook extends Component {
     render() {
         return (
-            <div className="section-share section-specialty">
+            <div className="section-share section-handbook">
                 <div className="section-container">
                     <div className="section-header">
-                        <span className="title-section">
-                            Chuyên khoa phổ biến
-                        </span>
+                        <span className="title-section">Cẩm nang</span>
                         <button className="btn-section">Xem thêm</button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
+                                <div className="bg-img handbook-img"></div>
                                 <div>Cơ xương khớp 1</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
+                                <div className="bg-img handbook-img"></div>
                                 <div>Cơ xương khớp 2</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
+                                <div className="bg-img handbook-img"></div>
                                 <div>Cơ xương khớp 3</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
+                                <div className="bg-img handbook-img"></div>
                                 <div>Cơ xương khớp 4</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
+                                <div className="bg-img handbook-img"></div>
                                 <div>Cơ xương khớp 5</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
+                                <div className="bg-img handbook-img"></div>
                                 <div>Cơ xương khớp 6</div>
                             </div>
                         </Slider>
@@ -51,5 +45,3 @@ class Specialty extends Component {
         );
     }
 }
-
-export default connect()(Specialty);

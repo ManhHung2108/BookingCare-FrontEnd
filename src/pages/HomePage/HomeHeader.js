@@ -136,7 +136,7 @@ class HomeHeader extends Component {
                                 <div
                                     className="icon-child"
                                     style={{
-                                        backgroundImage: `url(${require("../../assets/images/161905-iconkham-chuyen-khoa.png")})`,
+                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161905-iconkham-chuyen-khoa.png")})`,
                                     }}
                                 ></div>
                                 <p className="text-child">
@@ -149,7 +149,7 @@ class HomeHeader extends Component {
                                 <div
                                     className="icon-child"
                                     style={{
-                                        backgroundImage: `url(${require("../../assets/images/161817-iconkham-tu-xa.png")})`,
+                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161817-iconkham-tu-xa.png")})`,
                                     }}
                                 ></div>
                                 <p className="text-child">
@@ -162,7 +162,7 @@ class HomeHeader extends Component {
                                 <div
                                     className="icon-child"
                                     style={{
-                                        backgroundImage: `url(${require("../../assets/images/161350-iconkham-tong-quan.png")})`,
+                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161350-iconkham-tong-quan.png")})`,
                                     }}
                                 ></div>
                                 <p className="text-child">
@@ -175,7 +175,7 @@ class HomeHeader extends Component {
                                 <div
                                     className="icon-child"
                                     style={{
-                                        backgroundImage: `url(${require("../../assets/images/161340-iconxet-nghiem-y-hoc.png")})`,
+                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161340-iconxet-nghiem-y-hoc.png")})`,
                                     }}
                                 ></div>
                                 <p className="text-child">
@@ -188,7 +188,7 @@ class HomeHeader extends Component {
                                 <div
                                     className="icon-child"
                                     style={{
-                                        backgroundImage: `url(${require("../../assets/images/161403-iconsuc-khoe-tinh-than.png")})`,
+                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161403-iconsuc-khoe-tinh-than.png")})`,
                                     }}
                                 ></div>
                                 <p className="text-child">
@@ -201,7 +201,7 @@ class HomeHeader extends Component {
                                 <div
                                     className="icon-child"
                                     style={{
-                                        backgroundImage: `url(${require("../../assets/images/161410-iconkham-nha-khoa.png")})`,
+                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161410-iconkham-nha-khoa.png")})`,
                                     }}
                                 ></div>
                                 <p className="text-child">

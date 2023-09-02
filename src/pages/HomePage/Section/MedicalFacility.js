@@ -4,45 +4,42 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import PrevArrow from "./PrevArrow";
-import NextArrow from "./NextArrow";
-
-class Specialty extends Component {
+class MedicalFacility extends Component {
     render() {
         return (
-            <div className="section-share section-specialty">
+            <div className="section-share section-medical-facility">
                 <div className="section-container">
                     <div className="section-header">
                         <span className="title-section">
-                            Chuyên khoa phổ biến
+                            Cơ sở y tế nổi bật
                         </span>
-                        <button className="btn-section">Xem thêm</button>
+                        <button className="btn-section">Tìm kiếm</button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div>Cơ xương khớp 1</div>
+                                <div className="bg-img medical-facility-img"></div>
+                                <div>Hệ thống thu cúc 1</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div>Cơ xương khớp 2</div>
+                                <div className="bg-img medical-facility-img"></div>
+                                <div>Hệ thống thu cúc 2</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div>Cơ xương khớp 3</div>
+                                <div className="bg-img medical-facility-img"></div>
+                                <div>Hệ thống thu cúc 3</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div>Cơ xương khớp 4</div>
+                                <div className="bg-img medical-facility-img"></div>
+                                <div>Hệ thống thu cúc 4</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div>Cơ xương khớp 5</div>
+                                <div className="bg-img medical-facility-img"></div>
+                                <div>Hệ thống thu cúc 5</div>
                             </div>
                             <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div>Cơ xương khớp 6</div>
+                                <div className="bg-img medical-facility-img"></div>
+                                <div>Hệ thống thu cúc 6</div>
                             </div>
                         </Slider>
                     </div>
@@ -52,4 +49,4 @@ class Specialty extends Component {
     }
 }
 
-export default connect()(Specialty);
+export default connect()(MedicalFacility);
