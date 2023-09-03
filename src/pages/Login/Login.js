@@ -71,6 +71,7 @@ class Login extends Component {
     };
 
     render() {
+        // console.log(`login: ${this.props.isLoggedIn}`);
         //JSX
         return (
             <div className="login-background">

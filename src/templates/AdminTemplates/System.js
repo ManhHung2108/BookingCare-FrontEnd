@@ -9,6 +9,7 @@ import Header from "./Header/Header";
 
 class System extends Component {
     render() {
+        // console.log(`system: ${this.props.isLoggedIn}`);
         const { systemMenuPath } = this.props;
         return (
             <Fragment>

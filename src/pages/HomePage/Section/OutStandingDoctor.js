@@ -20,7 +20,7 @@ class OutStandingDoctor extends Component {
                                     <div className="bg-img outstanding-doctor-img"></div>
                                     <div className="description text-center">
                                         <div>Giáo sư, Tiến sĩ Đỗ Hùng </div>
-                                        <div>Cơ xương khớp</div>
+                                        <span>Cơ xương khớp</span>
                                     </div>
                                 </div>
                             </div>
@@ -29,7 +29,7 @@ class OutStandingDoctor extends Component {
                                     <div className="bg-img outstanding-doctor-img"></div>
                                     <div className="description text-center">
                                         <div>Giáo sư, Tiến sĩ Đỗ Hùng </div>
-                                        <div>Cơ xương khớp</div>
+                                        <span>Cơ xương khớp</span>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@ class OutStandingDoctor extends Component {
                                     <div className="bg-img outstanding-doctor-img"></div>
                                     <div className="description text-center">
                                         <div>Giáo sư, Tiến sĩ Đỗ Hùng </div>
-                                        <div>Cơ xương khớp</div>
+                                        <span>Cơ xương khớp</span>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@ class OutStandingDoctor extends Component {
                                     <div className="bg-img outstanding-doctor-img"></div>
                                     <div className="description text-center">
                                         <div>Giáo sư, Tiến sĩ Đỗ Hùng </div>
-                                        <div>Cơ xương khớp</div>
+                                        <span>Cơ xương khớp</span>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@ class OutStandingDoctor extends Component {
                                     <div className="bg-img outstanding-doctor-img"></div>
                                     <div className="description text-center">
                                         <div>Giáo sư, Tiến sĩ Đỗ Hùng </div>
-                                        <div>Cơ xương khớp</div>
+                                        <span>Cơ xương khớp</span>
                                     </div>
                                 </div>
                             </div>

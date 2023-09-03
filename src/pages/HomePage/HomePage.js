@@ -8,6 +8,8 @@ import NextArrow from "./Section/NextArrow";
 import PrevArrow from "./Section/PrevArrow";
 import OutStandingDoctor from "./Section/OutStandingDoctor";
 import HandBook from "./Section/HandBook";
+import HomeFooter from "./HomeFooter";
+import About from "./Section/About";
 
 class HomePage extends Component {
     render() {
@@ -28,7 +30,8 @@ class HomePage extends Component {
                 <Specialty settings={settings} />
                 <HandBook settings={settings} />
                 <OutStandingDoctor settings={settings} />
-                <div style={{ height: "300px" }}></div>
+                <About />
+                <HomeFooter />
             </div>
         );
     }

@@ -1,6 +1,10 @@
 .home-header-container {
     width: 100%;
     padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 100;
 
     .home-header-content {
         display: flex;
@@ -154,17 +158,20 @@
         }
         .search-form {
             // border: 1px solid green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin: 10px auto;
             padding: 10px;
             background-color: #f7d800;
-            width: fit-content;
+            width: 35%;
             border-radius: 25px;
             i {
                 margin: 0 15px;
             }
             input {
                 height: 30px;
-                width: 360px;
+                width: 100%;
                 border: none;
                 outline: none;
                 background-color: transparent;
