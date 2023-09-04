@@ -25,7 +25,7 @@ export const history = createBrowserHistory({
 // reduxStateSyncConfig: Cấu hình cho createStateSyncMiddleware.
 // Trong trường hợp này, chỉ một hành động với loại actionTypes.APP_START_UP_COMPLETE sẽ được đồng bộ hóa giữa các tab/trình duyệt.
 const reduxStateSyncConfig = {
-    whitelist: [actionTypes.APP_START_UP_COMPLETE],
+    whitelist: [actionTypes.APP_START_UP_COMPLETE, actionTypes.CHANGE_LANGUAGE],
 };
 
 const rootReducer = createRootReducer(history);

@@ -18,6 +18,8 @@ const userPersistConfig = {
     whitelist: ["isLoggedIn", "userInfo"],
 };
 
+//Lưu lại trạng thái language khi reload
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (history) =>
     combineReducers({
