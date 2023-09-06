@@ -19,13 +19,17 @@ const userPersistConfig = {
 };
 
 //Lưu lại trạng thái language khi reload
-
+const appPersistConfig = {
+    ...persistCommonConfig,
+    key: "app",
+    whitelist: ["language"], //tên các biên trên redux muốn lưu lại
+};
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (history) =>
     combineReducers({
         router: connectRouter(history),
         user: persistReducer(userPersistConfig, userReducer),
-        appReducer: appReducer,
+        appReducer: persistReducer(appPersistConfig, appReducer),
     });
 
 // autoMergeLevel2: Một hàm để tự động hợp nhất trạng thái trong redux-persist.

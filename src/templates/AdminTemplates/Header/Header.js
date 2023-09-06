@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 
 import * as actions from "../../../redux/actions";
 import "./Header.scss";
@@ -12,7 +13,7 @@ class Header extends Component {
         this.props.changeLanguage(language);
     };
     render() {
-        const { processLogout } = this.props;
+        const { processLogout, userInfo } = this.props;
         return (
             <div className="header-container">
                 {/**Thanh navigation */}
@@ -21,6 +22,12 @@ class Header extends Component {
                 </div>
 
                 <div className="languages">
+                    <span className="welcome">
+                        <FormattedMessage id={"homeHeader.welcome"} />
+                        {userInfo && userInfo.lastName
+                            ? `${userInfo.firstName} ${userInfo.lastName}!`
+                            : ""}
+                    </span>
                     <span
                         className={
                             this.props.language === LANGUAGE.VI
@@ -62,6 +69,7 @@ class Header extends Component {
 const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
         language: state.appReducer.language,
     };
 };

@@ -32,6 +32,7 @@ class Menu extends Component {
             hasSubMenu,
             onLinkClick,
         } = this.props;
+        // console.log(active);
         return (
             <li
                 className={
@@ -137,13 +138,13 @@ class Navigator extends Component {
             for (let i = 0; i < subMenus.length; i++) {
                 const subMenu = subMenus[i];
                 if (subMenu.link === currentPath) {
-                    return true; //tìm ra link menu nào cùng với đường url thì trả về
+                    return true; //tìm ra link menu nào cùng với đường url thì trả về true
                 }
             }
         }
 
         if (link) {
-            return this.props.location.pathname === link;
+            return this.props.location.pathname === link; //true
         }
 
         return false;
@@ -198,7 +199,7 @@ class Navigator extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { location } = this.props;
-        const { location: prevLocation } = prevProps;
+        const { location: prevLocation } = prevProps; //lấy ra location từ đối tượng và gán cho prevLocation
         if (location !== prevLocation) {
             this.checkActiveMenu();
         }
@@ -229,6 +230,13 @@ class Navigator extends Component {
                                                           "_" +
                                                           menuIndex
                                                   ] === true;
+                                              //   console.log(
+                                              //       location, //lấy từ đường link url
+                                              //       menu.subMenus,
+                                              //       menu.link,
+                                              //       isMenuHasSubMenuActive
+                                              //   );
+
                                               return (
                                                   <MenuWithRouter
                                                       key={menuIndex}
