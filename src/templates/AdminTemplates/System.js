@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import UserManage from "../../pages/System/UserManage";
-import UserReduxManage from "../../pages/System/UserReduxManage";
+import UserReduxManage from "../../pages/System/Admin/UserReduxManage";
 
 import Header from "./Header/Header";
 

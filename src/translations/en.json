@@ -9,7 +9,7 @@
         "fee": "Check up package",
         "check-health": "General health check",
         "support": "Support",
-        "welcome": "Welcome"
+        "welcome": "Welcome, "
     },
     "banner": {
         "title1": "HEALTH FOUNDATION",
@@ -38,5 +38,21 @@
             "handbook": "Handbook",
             "manage-handbook": "Manage Handbook"
         }
+    },
+    "manage-user": {
+        "title": "Manage User",
+        "add": "Add new user",
+        "email": "Email",
+        "passWord": "PassWord",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "phoneNumber": "Phone Number",
+        "address": "Address",
+        "gender": "Gender",
+        "position": "Position",
+        "role": "Role",
+        "img": "Avatar",
+        "save": "Save User",
+        "choose": "Choose"
     }
 }

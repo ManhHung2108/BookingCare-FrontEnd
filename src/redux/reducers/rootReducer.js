@@ -6,6 +6,7 @@ import { connectRouter } from "connected-react-router";
 
 import userReducer from "./userReducer";
 import appReducer from "./appReducer";
+import adminReducer from "./adminReducer";
 
 const persistCommonConfig = {
     storage: storage,
@@ -30,6 +31,7 @@ export default (history) =>
         router: connectRouter(history),
         user: persistReducer(userPersistConfig, userReducer),
         appReducer: persistReducer(appPersistConfig, appReducer),
+        adminReducer: adminReducer,
     });
 
 // autoMergeLevel2: Một hàm để tự động hợp nhất trạng thái trong redux-persist.
