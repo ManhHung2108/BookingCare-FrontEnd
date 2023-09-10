@@ -19,7 +19,7 @@ export const userIsAuthenticated = connectedRouterRedirect({
 
 export const userIsNotAuthenticated = connectedRouterRedirect({
     // Want to redirect the user when they are authenticated
-    authenticatedSelector: (state) => !state.user.isLoggedIn, //nếu false thì chạy mới được phép truy cập, true thì chạy redirectPath
+    authenticatedSelector: (state) => !state.user.isLoggedIn, //nếu false thì mới được phép truy cập, true thì chạy redirectPath
     wrapperDisplayName: "UserIsNotAuthenticated",
     redirectPath: (state, ownProps) =>
         locationHelper.getRedirectQueryParam(ownProps) || "/",

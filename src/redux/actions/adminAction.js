@@ -1,4 +1,4 @@
-import { getAllCodeService } from "../../services";
+import { getAllCodeService, createNewUserService } from "../../services";
 import actionTypes from "../types/actionTypes";
 
 //redux-thunk
@@ -89,8 +89,38 @@ export const fecthRoleSuccess = (roleData) => {
         data: roleData,
     };
 };
+
 export const fecthRoleFailed = () => {
     return {
         type: actionTypes.FETCH_ROLE_FAILED,
+    };
+};
+
+//Tạo user mới
+export const createNewUserAction = (data) => {
+    // console.log(data);
+    return async (dispatch) => {
+        try {
+            let res = await createNewUserService(data);
+            if (res && res.errCode === 0) {
+                dispatch(saveUserSuccess());
+            }
+            return res;
+        } catch (error) {
+            dispatch(saveUserFailed());
+            console.log(error);
+        }
+    };
+};
+
+export const saveUserSuccess = () => {
+    return {
+        type: actionTypes.CREATE_USER_SUCCESS,
+    };
+};
+
+export const saveUserFailed = () => {
+    return {
+        type: actionTypes.CREATE_USER_FAILED,
     };
 };

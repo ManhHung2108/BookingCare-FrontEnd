@@ -46,6 +46,13 @@ const adminReducer = (state = initialState, action) => {
             return { ...state };
         }
 
+        case actionTypes.CREATE_USER_SUCCESS: {
+            return { ...state };
+        }
+        case actionTypes.CREATE_USER_FAILED: {
+            return { ...state };
+        }
+
         default:
             return state;
     }
