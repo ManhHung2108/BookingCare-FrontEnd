@@ -5,6 +5,7 @@ const initialState = {
     roles: [],
     positions: [],
     isLoadingGender: false,
+    users: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -50,6 +51,16 @@ const adminReducer = (state = initialState, action) => {
             return { ...state };
         }
         case actionTypes.CREATE_USER_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_ALL_USER_SUCCESS: {
+            state.users = action.users;
+            return { ...state };
+        }
+
+        case actionTypes.GET_ALL_USER_FAILED: {
+            state.users = [];
             return { ...state };
         }
 

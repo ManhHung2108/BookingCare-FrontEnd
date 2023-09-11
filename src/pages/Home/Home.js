@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 class Home extends Component {
-    notify = () => toast("Wow so easy!");
-
     render() {
         // let jsondata = localStorage.getItem("persist:user");
         // let data = JSON.parse(jsondata);

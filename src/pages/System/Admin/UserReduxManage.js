@@ -3,10 +3,12 @@ import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
+import { toast } from "react-toastify";
 
 import { LANGUAGE } from "../../../utils";
 import * as actions from "../../../redux/actions";
 import "./UserReduxManage.scss";
+import TableManageUser from "./TableManageUser";
 
 class UserReduxManage extends Component {
     constructor(props) {
@@ -26,6 +28,8 @@ class UserReduxManage extends Component {
             position: "",
             role: "",
             avatar: "",
+
+            users: [],
         };
     }
 
@@ -33,6 +37,7 @@ class UserReduxManage extends Component {
         this.props.getGenderStart();
         this.props.getPositionStart();
         this.props.getRoleStart();
+        this.getAllUser();
     }
 
     //Khi redux cập nhập lại props
@@ -64,7 +69,23 @@ class UserReduxManage extends Component {
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : "",
             });
         }
+
+        if (prevProps.users !== this.props.users) {
+            this.setState({
+                email: "",
+                passWord: "",
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+                address: "",
+                avatar: "",
+            });
+        }
     }
+
+    getAllUser = () => {
+        this.props.getAllUser("ALL");
+    };
 
     handleOnchangeImage = (event) => {
         let data = event.target.files;
@@ -134,18 +155,12 @@ class UserReduxManage extends Component {
             };
             let res = await this.props.createNewUser(data); //gửi data để gọi api
             if (res && res.errCode === 0) {
-                alert("Thêm thành công người dùng");
-                this.setState({
-                    email: "",
-                    passWord: "",
-                    firstName: "",
-                    lastName: "",
-                    phoneNumber: "",
-                    address: "",
-                    avatar: "",
-                });
+                // alert("Thêm thành công người dùng");
+                toast.success("Thêm mới thành công người dùng!");
+                this.getAllUser();
             } else {
-                alert(res.errMessage);
+                // alert(res.errMessage);
+                toast.error(res.errMessage);
             }
         }
     };
@@ -171,9 +186,21 @@ class UserReduxManage extends Component {
 
         return isValid;
     };
+
+    handleDeleteUser = async (id) => {
+        let res = await this.props.deleteUser(id);
+        if (res && res.errCode === 0) {
+            toast.success("Xóa thành công!");
+            this.getAllUser();
+        } else {
+            toast.warning("Xóa thất bại!");
+        }
+    };
+
     render() {
-        let { language, genders, isLoadingGender, roles, positions } =
+        let { language, genders, isLoadingGender, roles, positions, users } =
             this.props;
+
         let {
             email,
             passWord,
@@ -435,6 +462,14 @@ class UserReduxManage extends Component {
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 )}
+
+                <div>
+                    <TableManageUser
+                        data={users}
+                        language={language}
+                        deleteUser={this.handleDeleteUser}
+                    />
+                </div>
             </div>
         );
     }
@@ -447,6 +482,7 @@ const mapStateToProps = (state) => {
         isLoadingGender: state.adminReducer.isLoadingGender,
         positions: state.adminReducer.positions,
         roles: state.adminReducer.roles,
+        users: state.adminReducer.users,
     };
 };
 
@@ -463,6 +499,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         createNewUser: (data) => {
             return dispatch(actions.createNewUserAction(data));
+        },
+        getAllUser: (data) => {
+            return dispatch(actions.getAllUserAction(data));
+        },
+        deleteUser: (id) => {
+            return dispatch(actions.deleteUserAction(id));
         },
     };
 };

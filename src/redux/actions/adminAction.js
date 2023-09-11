@@ -1,4 +1,9 @@
-import { getAllCodeService, createNewUserService } from "../../services";
+import {
+    getAllCodeService,
+    createNewUserService,
+    getAllUsersService,
+    deleteUserService,
+} from "../../services";
 import actionTypes from "../types/actionTypes";
 
 //redux-thunk
@@ -122,5 +127,58 @@ export const saveUserSuccess = () => {
 export const saveUserFailed = () => {
     return {
         type: actionTypes.CREATE_USER_FAILED,
+    };
+};
+
+//Lấy danh sách user
+export const getAllUserAction = (inputId) => {
+    return async (dispatch) => {
+        try {
+            let res = await getAllUsersService(inputId);
+            if (res && res.errCode === 0) {
+                dispatch(getAllUserSuccess(res.users));
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(getAllUserFailed());
+        }
+    };
+};
+
+export const getAllUserSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ALL_USER_SUCCESS,
+        users: data,
+    };
+};
+
+export const getAllUserFailed = () => {
+    return {
+        type: actionTypes.GET_ALL_USER_FAILED,
+    };
+};
+
+//Xóa người dùng
+export const deleteUserAction = (id) => {
+    return async (dispatch) => {
+        try {
+            let res = await deleteUserService(id);
+            return res;
+        } catch (error) {
+            dispatch(deleteUserFailed());
+            console.log(error);
+        }
+    };
+};
+
+export const deleteUserSuccess = () => {
+    return {
+        type: actionTypes.DELETE_USER_SUCCESS,
+    };
+};
+
+export const deleteUserFailed = () => {
+    return {
+        type: actionTypes.DELETE_USER_FAILED,
     };
 };

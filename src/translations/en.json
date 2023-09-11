@@ -54,5 +54,10 @@
         "img": "Avatar",
         "save": "Save User",
         "choose": "Choose"
+    },
+    "actions": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete"
     }
 }

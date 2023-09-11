@@ -9,7 +9,6 @@ import configs from "./configs";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import System from "./templates/AdminTemplates/System";
-import Header from "./templates/AdminTemplates/Header/Header";
 import { history } from "./redux/configStore";
 
 import {
@@ -68,6 +67,19 @@ class App extends Component {
                                 />
                             </Switch>
                         </div>
+
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                        />
                     </div>
                 </Router>
             </Fragment>

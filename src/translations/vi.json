@@ -54,5 +54,10 @@
         "img": "Ảnh đại diện",
         "save": "Lưu user",
         "choose": "Chọn"
+    },
+    "actions": {
+        "add": "Thêm",
+        "edit": "Sửa",
+        "delete": "Xóa"
     }
 }

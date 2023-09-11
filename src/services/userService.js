@@ -4,7 +4,7 @@ const handleLoginApi = (email, passWord) => {
     return axios.post("/api/login", { email, passWord });
 };
 
-const getAllUsers = (inputId) => {
+const getAllUsersService = (inputId) => {
     //axios trả về promise
     return axios.get(`/api/get-all-users`, {
         params: {
@@ -34,7 +34,7 @@ const getAllCodeService = (inputType) => {
 
 export {
     handleLoginApi,
-    getAllUsers,
+    getAllUsersService,
     createNewUserService,
     deleteUserService,
     editUserService,
