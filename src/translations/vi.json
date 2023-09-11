@@ -52,8 +52,10 @@
         "position": "Chức danh",
         "role": "Vai trò",
         "img": "Ảnh đại diện",
+        "choose": "Chọn",
+        "listUser": "Danh sách User",
         "save": "Lưu user",
-        "choose": "Chọn"
+        "edit": "Lưu thay đổi"
     },
     "actions": {
         "add": "Thêm",

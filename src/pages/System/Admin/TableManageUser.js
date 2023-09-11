@@ -12,6 +12,11 @@ export default class TableManageUser extends Component {
             filteredData: [],
         };
     }
+
+    handleEditUser = (user) => {
+        //Gửi data sang parent để lưu data vào form
+        this.props.handleEditUserFromParent(user);
+    };
     render() {
         let { data, language } = this.props;
         let { nameFilter, filteredData } = this.state;
@@ -71,7 +76,12 @@ export default class TableManageUser extends Component {
                 key: "action",
                 render: (_, record) => (
                     <Space size="middle">
-                        <button className="btn btn-primary">
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                                this.handleEditUser(record);
+                            }}
+                        >
                             <FormattedMessage id={"actions.edit"} />
                         </button>
                         <button
@@ -100,6 +110,7 @@ export default class TableManageUser extends Component {
             }
             this.setState({ filteredData, nameFilter: "" });
         };
+
         return (
             <div className="container mt-5">
                 <Table
@@ -109,6 +120,12 @@ export default class TableManageUser extends Component {
                             : dataSource
                     }
                     columns={columns}
+                    bordered
+                    title={() => (
+                        <h3>
+                            <FormattedMessage id={"manage-user.listUser"} />
+                        </h3>
+                    )}
                 />
             </div>
         );

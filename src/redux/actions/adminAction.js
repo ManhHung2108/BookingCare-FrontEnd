@@ -1,8 +1,10 @@
+import { toast } from "react-toastify";
 import {
     getAllCodeService,
     createNewUserService,
     getAllUsersService,
     deleteUserService,
+    editUserService,
 } from "../../services";
 import actionTypes from "../types/actionTypes";
 
@@ -180,5 +182,37 @@ export const deleteUserSuccess = () => {
 export const deleteUserFailed = () => {
     return {
         type: actionTypes.DELETE_USER_FAILED,
+    };
+};
+
+//Sửa người dùng
+export const editUserAction = (data) => {
+    return async (dispatch) => {
+        try {
+            let res = await editUserService(data);
+            if (res && res.errCode === 0) {
+                toast.success("Cập nhập user thành công!");
+                dispatch(editUserSuccess());
+                dispatch(getAllUserAction("ALL"));
+            } else {
+                toast.success(res.errMessage);
+            }
+        } catch (error) {
+            toast.error("Cập nhập user lỗi!");
+            dispatch(editUserFailed());
+            console.log("editUserAction lỗi", error);
+        }
+    };
+};
+
+export const editUserSuccess = () => {
+    return {
+        type: actionTypes.EDIT_USER_SUCCESS,
+    };
+};
+
+export const editUserFailed = () => {
+    return {
+        type: actionTypes.EDIT_USER_FAILED,
     };
 };

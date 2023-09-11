@@ -7,7 +7,6 @@ class Home extends Component {
         // let jsondata = localStorage.getItem("persist:user");
         // let data = JSON.parse(jsondata);
         // let isLoggedIn = !data.isLoggedIn;
-
         const { isLoggedIn } = this.props;
         let linkToRedirect = isLoggedIn ? "/system/user-manage" : "/home";
         return <Redirect to={linkToRedirect} />;

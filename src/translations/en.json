@@ -52,8 +52,10 @@
         "position": "Position",
         "role": "Role",
         "img": "Avatar",
+        "choose": "Choose",
+        "listUser": "List User",
         "save": "Save User",
-        "choose": "Choose"
+        "edit": "Edit user"
     },
     "actions": {
         "add": "Add",

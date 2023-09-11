@@ -5,7 +5,7 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { toast } from "react-toastify";
 
-import { LANGUAGE } from "../../../utils";
+import { LANGUAGE, CRUD_ACTIONS } from "../../../utils";
 import * as actions from "../../../redux/actions";
 import "./UserReduxManage.scss";
 import TableManageUser from "./TableManageUser";
@@ -18,6 +18,7 @@ class UserReduxManage extends Component {
             previewImgUrl: "",
             isOpen: false,
 
+            id: "",
             email: "",
             passWord: "",
             firstName: "",
@@ -29,7 +30,7 @@ class UserReduxManage extends Component {
             role: "",
             avatar: "",
 
-            users: [],
+            action: "",
         };
     }
 
@@ -43,8 +44,11 @@ class UserReduxManage extends Component {
     //Khi redux cập nhập lại props
     componentDidUpdate(prevProps, prevState, snapshot) {
         //Ta set lại state mặc định
+        let arrGenders = this.props.genders;
+        let arrPositions = this.props.positions;
+        let arrRoles = this.props.roles;
+
         if (prevProps.genders !== this.props.genders) {
-            let arrGenders = this.props.genders;
             this.setState({
                 gender:
                     arrGenders && arrGenders.length > 0
@@ -54,7 +58,6 @@ class UserReduxManage extends Component {
         }
 
         if (prevProps.positions !== this.props.positions) {
-            let arrPositions = this.props.positions;
             this.setState({
                 position:
                     arrPositions && arrPositions.length > 0
@@ -64,12 +67,12 @@ class UserReduxManage extends Component {
         }
 
         if (prevProps.roles !== this.props.roles) {
-            let arrRoles = this.props.roles;
             this.setState({
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : "",
             });
         }
 
+        //reset lại form
         if (prevProps.users !== this.props.users) {
             this.setState({
                 email: "",
@@ -79,6 +82,16 @@ class UserReduxManage extends Component {
                 phoneNumber: "",
                 address: "",
                 avatar: "",
+                gender:
+                    arrGenders && arrGenders.length > 0
+                        ? arrGenders[0].key
+                        : "",
+                position:
+                    arrPositions && arrPositions.length > 0
+                        ? arrPositions[0].key
+                        : "",
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : "",
+                action: "",
             });
         }
     }
@@ -125,6 +138,7 @@ class UserReduxManage extends Component {
 
     handleSaveUser = async () => {
         let {
+            id,
             email,
             passWord,
             firstName,
@@ -135,33 +149,45 @@ class UserReduxManage extends Component {
             position,
             role,
             avatar,
+            action,
         } = this.state;
 
+        let data = {
+            id: id,
+            email: email,
+            passWord: passWord,
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            address: address,
+            gender: gender,
+            roleId: role,
+            positionId: position,
+            // avatar: avatar,
+        };
+
         let isValid = this.checkValidateInput();
-        if (isValid === false) {
-            return;
-        } else {
-            //Thỏa mãn dispatch action lên reducer
-            let data = {
-                email: email,
-                passWord: passWord,
-                firstName: firstName,
-                lastName: lastName,
-                phoneNumber: phoneNumber,
-                gender: gender,
-                address: address,
-                role: role,
-                position: position,
-            };
-            let res = await this.props.createNewUser(data); //gửi data để gọi api
-            if (res && res.errCode === 0) {
-                // alert("Thêm thành công người dùng");
-                toast.success("Thêm mới thành công người dùng!");
-                this.getAllUser();
+
+        //Check trạng thái của nút là create hay là edit
+        if (action === CRUD_ACTIONS.CREATE) {
+            if (isValid === false) {
+                return;
             } else {
-                // alert(res.errMessage);
-                toast.error(res.errMessage);
+                //Thỏa mãn dispatch action create user lên reducer
+                let res = await this.props.createNewUser(data); //gửi data để gọi api
+                if (res && res.errCode === 0) {
+                    // alert("Thêm thành công người dùng");
+                    toast.success("Thêm mới thành công người dùng!");
+                    this.getAllUser();
+                } else {
+                    // alert(res.errMessage);
+                    toast.error(res.errMessage);
+                }
             }
+        }
+        if (action === CRUD_ACTIONS.EDIT) {
+            //dispatch action edit user lên reducer
+            await this.props.editUser(data);
         }
     };
 
@@ -197,6 +223,25 @@ class UserReduxManage extends Component {
         }
     };
 
+    handleEditUser = (user) => {
+        // console.log("check edit user from parent: ", user);
+        this.setState({
+            id: user.id,
+            email: user.email,
+            passWord: "HARDCODE",
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            address: user.address,
+            avatar: user.image,
+            gender: user.gender,
+            position: user.positionId,
+            role: user.roleId,
+
+            action: CRUD_ACTIONS.EDIT, //chỉnh lại action là edit
+        });
+    };
+
     render() {
         let { language, genders, isLoadingGender, roles, positions, users } =
             this.props;
@@ -212,6 +257,7 @@ class UserReduxManage extends Component {
             position,
             role,
             avatar,
+            action,
         } = this.state;
 
         return (
@@ -239,6 +285,11 @@ class UserReduxManage extends Component {
                                     type="email"
                                     name="email"
                                     value={email}
+                                    disabled={
+                                        action === CRUD_ACTIONS.EDIT
+                                            ? true
+                                            : false
+                                    }
                                     onChange={(e) =>
                                         this.handleOnchangeInput(e)
                                     }
@@ -256,6 +307,11 @@ class UserReduxManage extends Component {
                                     autoComplete="off"
                                     name="passWord"
                                     value={passWord}
+                                    disabled={
+                                        action === CRUD_ACTIONS.EDIT
+                                            ? true
+                                            : false
+                                    }
                                     onChange={(e) =>
                                         this.handleOnchangeInput(e)
                                     }
@@ -335,6 +391,7 @@ class UserReduxManage extends Component {
                                     className="form-control"
                                     id="inputGender"
                                     name="gender"
+                                    value={gender}
                                     onChange={(e) =>
                                         this.handleOnchangeInput(e)
                                     }
@@ -368,6 +425,7 @@ class UserReduxManage extends Component {
                                     onChange={(e) =>
                                         this.handleOnchangeInput(e)
                                     }
+                                    value={position}
                                 >
                                     {positions &&
                                         positions.length > 0 &&
@@ -393,6 +451,7 @@ class UserReduxManage extends Component {
                                     className="form-control"
                                     id="inputRole"
                                     name="role"
+                                    value={role}
                                     onChange={(e) =>
                                         this.handleOnchangeInput(e)
                                     }
@@ -446,15 +505,37 @@ class UserReduxManage extends Component {
                             </div>
                             <div className="col-12 mt-3">
                                 <button
-                                    className="btn btn-primary"
+                                    className={
+                                        action === CRUD_ACTIONS.EDIT
+                                            ? "btn btn-warning text-light"
+                                            : "btn btn-primary"
+                                    }
                                     onClick={() => this.handleSaveUser()}
                                 >
-                                    <FormattedMessage id={"manage-user.save"} />
+                                    {action === CRUD_ACTIONS.EDIT ? (
+                                        <FormattedMessage
+                                            id={"manage-user.edit"}
+                                        />
+                                    ) : (
+                                        <FormattedMessage
+                                            id={"manage-user.save"}
+                                        />
+                                    )}
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <TableManageUser
+                        data={users}
+                        language={language}
+                        deleteUser={this.handleDeleteUser}
+                        handleEditUserFromParent={this.handleEditUser}
+                        action={action}
+                    />
+                </div>
+
                 {/**Xử lý mở to người dùng click preview Image sẽ được phóng to */}
                 {this.state.isOpen && (
                     <Lightbox
@@ -462,14 +543,6 @@ class UserReduxManage extends Component {
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 )}
-
-                <div>
-                    <TableManageUser
-                        data={users}
-                        language={language}
-                        deleteUser={this.handleDeleteUser}
-                    />
-                </div>
             </div>
         );
     }
@@ -505,6 +578,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteUser: (id) => {
             return dispatch(actions.deleteUserAction(id));
+        },
+        editUser: (data) => {
+            return dispatch(actions.editUserAction(data));
         },
     };
 };
