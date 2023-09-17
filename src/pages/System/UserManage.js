@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 
 import {
-    getAllCodeService,
+    getAllUsersService,
     createNewUserService,
     deleteUserService,
     editUserService,
@@ -31,7 +31,8 @@ class UserManage extends Component {
 
     //Get all user
     getAllUserFromReact = async () => {
-        let response = await getAllCodeService("ALL");
+        let response = await getAllUsersService("ALL");
+        console.log(response);
 
         if (response && response.errCode === 0) {
             this.setState(

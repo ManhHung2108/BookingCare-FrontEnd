@@ -107,14 +107,16 @@ export default class TableManageUser extends Component {
                         .includes(nameFilter.toLowerCase());
                 });
             }
-            this.setState({ filteredData, nameFilter: "" });
+            this.setState({ filteredData });
         };
 
         return (
             <div className="container mt-5">
                 <Table
                     dataSource={
-                        filteredData && filteredData.length > 0
+                        filteredData &&
+                        filteredData.length > 0 &&
+                        nameFilter !== ""
                             ? filteredData
                             : dataSource
                     }

@@ -6,10 +6,17 @@ import "react-image-lightbox/style.css"; // This only needs to be imported once 
 import { toast } from "react-toastify";
 import { Buffer } from "buffer";
 
-import { LANGUAGE, CRUD_ACTIONS, CommonUtils } from "../../../utils";
+import {
+    LANGUAGE,
+    CRUD_ACTIONS,
+    CommonUtils,
+    validateEmail,
+    validatePhone,
+} from "../../../utils";
 import * as actions from "../../../redux/actions";
 import "./UserReduxManage.scss";
 import TableManageUser from "./TableManageUser";
+import { toUpper } from "lodash";
 
 class UserReduxManage extends Component {
     constructor(props) {
@@ -177,20 +184,42 @@ class UserReduxManage extends Component {
             if (isValid === false) {
                 return;
             } else {
+                if (!validateEmail(email)) {
+                    toast.warning("Email không đúng định dạng!");
+                    return;
+                }
+                if (!validatePhone(phoneNumber)) {
+                    toast.warn("Số điện thoại không hợp lệ!");
+                    return;
+                }
+                if (passWord.length <= 6) {
+                    toast.warn("Mật khẩu phải chứa it nhất 6 kí tự!");
+                    return;
+                }
+
                 //Thỏa mãn dispatch action create user lên reducer
                 let res = await this.props.createNewUser(data); //gửi data để gọi api
                 if (res && res.errCode === 0) {
-                    // alert("Thêm thành công người dùng");
                     toast.success("Thêm mới thành công người dùng!");
                     this.getAllUser();
                 } else {
-                    // alert(res.errMessage);
                     toast.error(res.errMessage);
                 }
             }
         }
 
         if (action === CRUD_ACTIONS.EDIT) {
+            if (isValid === false) {
+                return;
+            }
+            if (!validatePhone(phoneNumber)) {
+                toast.warn("Số điện thoại không hợp lệ!");
+                return;
+            }
+            if (passWord.length <= 6) {
+                toast.warn("Mật khẩu phải chứa it nhất 6 kí tự!");
+                return;
+            }
             //dispatch action edit user lên reducer
             await this.props.editUser(data);
         }
@@ -210,7 +239,7 @@ class UserReduxManage extends Component {
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
-                alert(`${arrCheck[i]} không được để trống `);
+                toast.warning(`${toUpper(arrCheck[i])} không được để trống `);
                 break;
             }
         }
