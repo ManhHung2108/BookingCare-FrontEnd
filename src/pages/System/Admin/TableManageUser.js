@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
-import { connect } from "react-redux";
 import { Table, Space, Input } from "antd";
 import { LANGUAGE } from "../../../utils";
 

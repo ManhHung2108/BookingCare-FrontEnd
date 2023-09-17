@@ -1,4 +1,4 @@
-import React, { Component, useCallback } from "react";
+import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { connect } from "react-redux";
 import _ from "lodash"; //xử lý mảng và obj hiệu quả tương tự jquery

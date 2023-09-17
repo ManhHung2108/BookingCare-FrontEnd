@@ -4,9 +4,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import PrevArrow from "./PrevArrow";
-import NextArrow from "./NextArrow";
-
 class Specialty extends Component {
     render() {
         return (

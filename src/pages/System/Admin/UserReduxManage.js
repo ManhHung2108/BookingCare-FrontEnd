@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { toast } from "react-toastify";
+import { Buffer } from "buffer";
 
-import { LANGUAGE, CRUD_ACTIONS } from "../../../utils";
+import { LANGUAGE, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import * as actions from "../../../redux/actions";
 import "./UserReduxManage.scss";
 import TableManageUser from "./TableManageUser";
@@ -91,6 +92,7 @@ class UserReduxManage extends Component {
                         ? arrPositions[0].key
                         : "",
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : "",
+                previewImgUrl: "",
                 action: "",
             });
         }
@@ -100,15 +102,17 @@ class UserReduxManage extends Component {
         this.props.getAllUser("ALL");
     };
 
-    handleOnchangeImage = (event) => {
+    handleOnchangeImage = async (event) => {
         let data = event.target.files;
         let file = data[0];
         if (file) {
+            let base64 = await CommonUtils.getBase64(file);
+            // console.log("image base64: ", base64);
             //Tạo đường link ảo của HTML để xem được biến obj
             let objectUrl = URL.createObjectURL(file);
             this.setState({
                 previewImgUrl: objectUrl,
-                avatar: file,
+                avatar: base64,
             });
 
             // console.log("check file: ", objectUrl); //copy đường link này lên url để xem
@@ -163,7 +167,7 @@ class UserReduxManage extends Component {
             gender: gender,
             roleId: role,
             positionId: position,
-            // avatar: avatar,
+            avatar: avatar,
         };
 
         let isValid = this.checkValidateInput();
@@ -185,6 +189,7 @@ class UserReduxManage extends Component {
                 }
             }
         }
+
         if (action === CRUD_ACTIONS.EDIT) {
             //dispatch action edit user lên reducer
             await this.props.editUser(data);
@@ -225,6 +230,11 @@ class UserReduxManage extends Component {
 
     handleEditUser = (user) => {
         // console.log("check edit user from parent: ", user);
+        let imageBase64 = "";
+        if (user.image) {
+            imageBase64 = new Buffer(user.image, "base64").toString("binary");
+        }
+
         this.setState({
             id: user.id,
             email: user.email,
@@ -233,11 +243,11 @@ class UserReduxManage extends Component {
             lastName: user.lastName,
             phoneNumber: user.phoneNumber,
             address: user.address,
-            avatar: user.image,
+            avatar: "",
             gender: user.gender,
             position: user.positionId,
             role: user.roleId,
-
+            previewImgUrl: imageBase64,
             action: CRUD_ACTIONS.EDIT, //chỉnh lại action là edit
         });
     };
