@@ -5,6 +5,7 @@ import {
     getAllUsersService,
     deleteUserService,
     editUserService,
+    getTopDoctorHomeService,
 } from "../../services";
 import actionTypes from "../types/actionTypes";
 
@@ -214,5 +215,35 @@ export const editUserSuccess = () => {
 export const editUserFailed = () => {
     return {
         type: actionTypes.EDIT_USER_FAILED,
+    };
+};
+
+//
+export const getTopDoctorAction = () => {
+    return async (dispatch) => {
+        try {
+            let res = await getTopDoctorHomeService("");
+            if (res && res.errCode === 0) {
+                dispatch(getTopDoctorSuccess(res.data));
+                // console.log("check res get top doctor: ", res);
+            } else {
+                dispatch(getTopDoctorFailed());
+            }
+        } catch (error) {
+            console.log("Lỗi getTopDoctorAction: ", error);
+            dispatch(getTopDoctorFailed());
+        }
+    };
+};
+
+const getTopDoctorSuccess = (data) => {
+    return {
+        type: actionTypes.GET_TOP_DOCTORS_SUCCESS,
+        data,
+    };
+};
+const getTopDoctorFailed = () => {
+    return {
+        type: actionTypes.GET_TOP_DOCTORS_FAILED,
     };
 };

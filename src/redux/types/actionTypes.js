@@ -39,6 +39,9 @@ const actionTypes = Object.freeze({
 
     GET_ALL_USER_SUCCESS: "GET_ALL_USER_SUCCESS",
     GET_ALL_USER_FAILED: "GET_ALL_USER_FAILED",
+
+    GET_TOP_DOCTORS_SUCCESS: "GET_TOP_DOCTORS_SUCCESS",
+    GET_TOP_DOCTORS_FAILED: "GET_TOP_DOCTORS_FAILED",
 });
 
 export default actionTypes;

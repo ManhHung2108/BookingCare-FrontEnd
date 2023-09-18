@@ -60,7 +60,7 @@ class UserReduxManage extends Component {
             this.setState({
                 gender:
                     arrGenders && arrGenders.length > 0
-                        ? arrGenders[0].key
+                        ? arrGenders[0].keyMap
                         : "",
             });
         }
@@ -69,18 +69,18 @@ class UserReduxManage extends Component {
             this.setState({
                 position:
                     arrPositions && arrPositions.length > 0
-                        ? arrPositions[0].key
+                        ? arrPositions[0].keyMap
                         : "",
             });
         }
 
         if (prevProps.roles !== this.props.roles) {
             this.setState({
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : "",
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : "",
             });
         }
 
-        //reset lại form
+        //reset lại form mặc định cho các thẻ select
         if (prevProps.users !== this.props.users) {
             this.setState({
                 email: "",
@@ -92,13 +92,13 @@ class UserReduxManage extends Component {
                 avatar: "",
                 gender:
                     arrGenders && arrGenders.length > 0
-                        ? arrGenders[0].key
+                        ? arrGenders[0].keyMap
                         : "",
                 position:
                     arrPositions && arrPositions.length > 0
-                        ? arrPositions[0].key
+                        ? arrPositions[0].keyMap
                         : "",
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : "",
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : "",
                 previewImgUrl: "",
                 action: "",
             });
@@ -192,8 +192,8 @@ class UserReduxManage extends Component {
                     toast.warn("Số điện thoại không hợp lệ!");
                     return;
                 }
-                if (passWord.length <= 6) {
-                    toast.warn("Mật khẩu phải chứa it nhất 6 kí tự!");
+                if (passWord.length < 6) {
+                    toast.warn("Mật khẩu phải chứa ít nhất 6 kí tự!");
                     return;
                 }
 
@@ -441,7 +441,7 @@ class UserReduxManage extends Component {
                                             return (
                                                 <option
                                                     key={item.id}
-                                                    value={item.key}
+                                                    value={item.keyMap}
                                                 >
                                                     {language === LANGUAGE.VI
                                                         ? item.valueVi
@@ -472,7 +472,7 @@ class UserReduxManage extends Component {
                                             return (
                                                 <option
                                                     key={item.id}
-                                                    value={item.key}
+                                                    value={item.keyMap}
                                                 >
                                                     {language === LANGUAGE.VI
                                                         ? item.valueVi
@@ -501,7 +501,7 @@ class UserReduxManage extends Component {
                                             return (
                                                 <option
                                                     key={item.id}
-                                                    value={item.key}
+                                                    value={item.keyMap}
                                                 >
                                                     {language === LANGUAGE.VI
                                                         ? item.valueVi

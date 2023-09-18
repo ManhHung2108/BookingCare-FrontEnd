@@ -18,7 +18,7 @@ class System extends Component {
                         <Switch>
                             <Route
                                 path="/system/user-manage"
-                                component={UserManage}
+                                component={UserReduxManage}
                             />
                             <Route
                                 path="/system/user-manage-redux"
