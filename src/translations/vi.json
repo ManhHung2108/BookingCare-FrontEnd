@@ -61,5 +61,9 @@
         "add": "Thêm",
         "edit": "Sửa",
         "delete": "Xóa"
+    },
+    "homepage": {
+        "out-standing-doctor": "Bác sĩ nổi bật tuần qua",
+        "more-infor": "Xem thêm"
     }
 }

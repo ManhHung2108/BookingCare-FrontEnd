@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Buffer } from "buffer";
+import { FormattedMessage } from "react-intl";
 
 import { LANGUAGE, CommonUtils } from "../../../utils";
 import { getTopDoctorAction } from "../../../redux/actions";
@@ -36,7 +37,7 @@ class OutStandingDoctor extends Component {
             return this.state.arrDoctors.map((doctor, index) => {
                 let imageBase64 = "";
                 if (doctor.image) {
-                    //decode để lấy ra ảnh dạng base64
+                    //decode từ base64 để lấy ra ảnh dạng binary
                     imageBase64 = new Buffer(doctor.image, "base64").toString(
                         "binary"
                     );
@@ -68,23 +69,18 @@ class OutStandingDoctor extends Component {
             <div className="section-share section-doctor">
                 <div className="section-container">
                     <div className="section-header">
-                        <span className="title-section">Bác sĩ nổi bật</span>
-                        <button className="btn-section">Tìm kiếm</button>
+                        <span className="title-section">
+                            <FormattedMessage id="homepage.out-standing-doctor" />
+                        </span>
+                        <button className="btn-section">
+                            <FormattedMessage id="homepage.more-infor" />
+                        </button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
                             {topDoctorsRedux && topDoctorsRedux.length > 0
                                 ? renderTopDoctor()
                                 : ""}
-                            {/* <div className="section-customize">
-                                <div className="container-content">
-                                    <div className="bg-img outstanding-doctor-img"></div>
-                                    <div className="description text-center">
-                                        <div>Giáo sư, Tiến sĩ Đỗ Hùng </div>
-                                        <span>Cơ xương khớp</span>
-                                    </div>
-                                </div>
-                            </div> */}
                         </Slider>
                     </div>
                 </div>

@@ -113,8 +113,10 @@ class UserReduxManage extends Component {
         let data = event.target.files;
         let file = data[0];
         if (file) {
+            //encode sang dạng base64
             let base64 = await CommonUtils.getBase64(file);
             // console.log("image base64: ", base64);
+
             //Tạo đường link ảo của HTML để xem được biến obj
             let objectUrl = URL.createObjectURL(file);
             this.setState({
@@ -261,6 +263,7 @@ class UserReduxManage extends Component {
         // console.log("check edit user from parent: ", user);
         let imageBase64 = "";
         if (user.image) {
+            //decode từ base64 sang binary
             imageBase64 = new Buffer(user.image, "base64").toString("binary");
         }
 

@@ -12,7 +12,7 @@
         "welcome": "Welcome, "
     },
     "banner": {
-        "title1": "HEALTH FOUNDATION",
+        "title1": "MEDICAL FOUNDATION",
         "title2": "Comprehensive health care",
         "examination": "Examination",
         "speciality": "Specialty",
@@ -61,5 +61,9 @@
         "add": "Add",
         "edit": "Edit",
         "delete": "Delete"
+    },
+    "homepage": {
+        "out-standing-doctor": "Last Week's featured doctor",
+        "more-infor": "More"
     }
 }
