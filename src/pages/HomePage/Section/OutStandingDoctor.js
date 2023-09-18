@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Buffer } from "buffer";
 import { FormattedMessage } from "react-intl";
 
-import { LANGUAGE, CommonUtils } from "../../../utils";
+import { LANGUAGE } from "../../../utils";
 import { getTopDoctorAction } from "../../../redux/actions";
 
 class OutStandingDoctor extends Component {
