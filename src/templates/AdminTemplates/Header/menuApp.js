@@ -14,7 +14,7 @@ export const adminMenu = [
             },
             {
                 name: "menu.admin.manage-doctor",
-                link: "/system/user-doctor",
+                link: "/system/manage-doctor",
                 // subMenus: [
                 //     {
                 // name: "menu.system.system-administrator.user-manage",
@@ -28,7 +28,7 @@ export const adminMenu = [
             },
             {
                 name: "menu.admin.manage-admin",
-                link: "/system/user-doctor",
+                link: "/system/manage-admin",
             },
             // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
         ],
