@@ -6,6 +6,11 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 
 import "./ManageDoctor.scss";
+import {
+    getAllDoctorAction,
+    saveDetailDoctorAction,
+} from "../../../redux/actions/adminAction";
+import { LANGUAGE } from "../../../utils/constants";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 
@@ -16,21 +21,29 @@ class ManageDoctor extends Component {
             contentMarkdown: "",
             contentHTML: "",
             description: "",
-            data: [
-                {
-                    id: "1",
-                    name: "Đỗ Mạnh Hùng",
-                },
-                {
-                    id: "2",
-                    name: "Mạnh Quân",
-                },
-            ],
+            listDoctor: [],
             selectedDoctor: "",
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {}
+    componentDidMount() {
+        this.handleGetAllDoctor();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.listDoctorRedux !== this.props.listDoctorRedux) {
+            this.setState({
+                listDoctor: this.props.listDoctorRedux,
+            });
+        }
+    }
+
+    handleGetAllDoctor = () => {
+        this.props.getAllDoctor();
+        this.setState({
+            listDoctor: this.props.listDoctorRedux,
+        });
+    };
 
     //Chú ý đặt arrow func để có thể truy cập this.setState
     handleEditorChange = ({ html, text }) => {
@@ -45,8 +58,22 @@ class ManageDoctor extends Component {
         this.setState({ description: e.target.value });
     };
 
-    handleSaveContentMarkdown = () => {
+    handleSaveContentMarkdown = async () => {
         console.log("check state: ", this.state);
+        let data = {
+            doctorId: this.state.selectedDoctor,
+            contentHTML: this.state.contentHTML,
+            contentMarkdown: this.state.contentMarkdown,
+            description: this.state.description,
+        };
+        await this.props.saveDetailDoctor(data);
+
+        this.setState({
+            contentMarkdown: "",
+            contentHTML: "",
+            description: "",
+            selectedDoctor: "",
+        });
     };
 
     handleChange = (value) => {
@@ -57,7 +84,9 @@ class ManageDoctor extends Component {
 
     render() {
         const { Option } = Select;
-        const { selectedDoctor, data } = this.state;
+        const { selectedDoctor, listDoctor } = this.state;
+        const { language } = this.props;
+        console.log(language);
         return (
             <div className="manage-doctor-container container">
                 <div className="manage-doctor-title">
@@ -80,9 +109,11 @@ class ManageDoctor extends Component {
                             }
                         >
                             {/* Render các Option từ dữ liệu API */}
-                            {data.map((item) => (
+                            {listDoctor.map((item) => (
                                 <Option key={item.id} value={item.id}>
-                                    {item.name}
+                                    {language === LANGUAGE.VI
+                                        ? `${item.firstName} ${item.lastName}`
+                                        : `${item.lastName} ${item.firstName}`}
                                 </Option>
                             ))}
                         </Select>
@@ -104,6 +135,7 @@ class ManageDoctor extends Component {
                 </div>
                 <div className="manage-doctor-editor mt-3">
                     <MdEditor
+                        value={this.state.contentMarkdown}
                         style={{ height: "500px" }}
                         renderHTML={(text) => mdParser.render(text)}
                         onChange={this.handleEditorChange}
@@ -121,4 +153,20 @@ class ManageDoctor extends Component {
         );
     }
 }
-export default connect()(ManageDoctor);
+const mapStateToProps = (state) => {
+    return {
+        language: state.appReducer.language,
+        listDoctorRedux: state.adminReducer.listDoctor,
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllDoctor: () => {
+            return dispatch(getAllDoctorAction());
+        },
+        saveDetailDoctor: (data) => {
+            return dispatch(saveDetailDoctorAction(data));
+        },
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ManageDoctor);

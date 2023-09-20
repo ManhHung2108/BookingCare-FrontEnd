@@ -25,7 +25,7 @@ class OutStandingDoctor extends Component {
         if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
             //Khi có thay đổi data thì gọi lại loadTopDoctors
             this.setState({ arrDoctors: this.props.topDoctorsRedux });
-            this.props.loadTopDoctors();
+            // this.props.loadTopDoctors();
         }
     }
 

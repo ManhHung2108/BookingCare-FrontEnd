@@ -6,6 +6,8 @@ import {
     deleteUserService,
     editUserService,
     getTopDoctorHomeService,
+    getAllDoctorService,
+    saveDetailDoctorService,
 } from "../../services";
 import actionTypes from "../types/actionTypes";
 
@@ -245,5 +247,58 @@ const getTopDoctorSuccess = (data) => {
 const getTopDoctorFailed = () => {
     return {
         type: actionTypes.GET_TOP_DOCTORS_FAILED,
+    };
+};
+
+//Lấy tất cả doctor
+export const getAllDoctorAction = () => {
+    return async (dispatch) => {
+        try {
+            let res = await getAllDoctorService();
+            if (res && res.errCode === 0) {
+                dispatch(getAllDoctorSuccess(res.data));
+            }
+        } catch (error) {
+            console.log("Lỗi getAllDoctor: ", error);
+            dispatch(getAllDoctorFailed());
+        }
+    };
+};
+
+export const getAllDoctorSuccess = (doctors) => {
+    return {
+        type: actionTypes.GET_ALL_DOCTORS_SUCCESS,
+        data: doctors,
+    };
+};
+export const getAllDoctorFailed = () => {
+    return {
+        type: actionTypes.GET_ALL_DOCTORS_FAILED,
+    };
+};
+
+//Lưu thông tin chi tiết doctor
+export const saveDetailDoctorAction = (data) => {
+    return async (dispatch) => {
+        try {
+            let res = await saveDetailDoctorService(data);
+            if (res && res.errCode === 0) {
+                toast.success("Lưu thông tin chi tiết bác sĩ thành công!");
+                dispatch({
+                    type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
+                });
+            } else {
+                toast.error("Lưu thông tin chi tiết bác sĩ thất bại!");
+                dispatch({
+                    type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+                });
+            }
+        } catch (error) {
+            toast.error("Lưu thông tin chi tiết bác sĩ thất bại!");
+            console.log("Lỗi saveDetailDoctor: ", error);
+            dispatch({
+                type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+            });
+        }
     };
 };
