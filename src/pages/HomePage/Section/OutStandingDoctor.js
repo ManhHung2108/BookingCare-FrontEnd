@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Buffer } from "buffer";
 import { FormattedMessage } from "react-intl";
+import { withRouter } from "react-router-dom";
 
 import { LANGUAGE } from "../../../utils";
 import { getTopDoctorAction } from "../../../redux/actions";
@@ -33,6 +34,10 @@ class OutStandingDoctor extends Component {
         const { topDoctorsRedux, language } = this.props;
         // console.log("Check props topDoctors from redux: ", topDoctorsRedux);
 
+        const handleDetailDoctor = (doctor) => {
+            this.props.history.push(`detail-doctor/${doctor.id}`);
+        };
+
         const renderTopDoctor = () => {
             return this.state.arrDoctors.map((doctor, index) => {
                 let imageBase64 = "";
@@ -46,7 +51,13 @@ class OutStandingDoctor extends Component {
                 let nameEn = `${doctor.positionData.valueEn}, ${doctor.firstName} ${doctor.lastName}`;
 
                 return (
-                    <div className="section-customize" key={doctor.id}>
+                    <div
+                        className="section-customize"
+                        key={doctor.id}
+                        onClick={() => {
+                            handleDetailDoctor(doctor);
+                        }}
+                    >
                         <div className="container-content">
                             <div
                                 className="bg-img outstanding-doctor-img"
@@ -65,6 +76,7 @@ class OutStandingDoctor extends Component {
                 );
             });
         };
+
         return (
             <div className="section-share section-doctor">
                 <div className="section-container">
@@ -104,4 +116,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor)
+);

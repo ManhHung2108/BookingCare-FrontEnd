@@ -3,6 +3,7 @@ import actionTypes from "../types/actionTypes";
 const initialState = {
     isLoggedIn: false,
     userInfo: null,
+    doctorDetail: null,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -25,6 +26,16 @@ const appReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: false,
                 userInfo: null,
+            };
+        case actionTypes.GET_DETAIL_DOCTOR_SUCCESS:
+            state.doctorDetail = action.data;
+            return {
+                ...state,
+            };
+        case actionTypes.GET_DETAIL_DOCTOR_FAILED:
+            state.doctorDetail = {};
+            return {
+                ...state,
             };
         default:
             return state;

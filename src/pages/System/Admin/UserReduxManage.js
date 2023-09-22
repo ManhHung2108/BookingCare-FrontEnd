@@ -313,9 +313,9 @@ class UserReduxManage extends Component {
                             <div className="col-12 my-3">
                                 <FormattedMessage id={"manage-user.add"} />
                             </div>
-                            <div className="col-12">
+                            {/* <div className="col-12">
                                 {isLoadingGender && "Loading..."}
-                            </div>
+                            </div> */}
                             <div className="col-3">
                                 <label>
                                     <FormattedMessage

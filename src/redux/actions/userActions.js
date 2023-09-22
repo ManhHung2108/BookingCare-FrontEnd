@@ -1,4 +1,6 @@
+import { toast } from "react-toastify";
 import actionTypes from "../types/actionTypes";
+import { getDetailDoctor } from "../../services";
 
 export const addUserSuccess = () => ({
     type: actionTypes.ADD_USER_SUCCESS,
@@ -16,3 +18,38 @@ export const userLoginFail = () => ({
 export const processLogout = () => ({
     type: actionTypes.PROCESS_LOGOUT,
 });
+
+export const getDetailDoctorAction = (id) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
+            let res = await getDetailDoctor(id);
+            if (res && res.errCode === 0) {
+                dispatch(getDetailDoctorSuccess(res.data));
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            } else {
+                dispatch(getDetailDoctorFailed());
+            }
+        } catch (error) {
+            console.log("Lỗi getDetailDoctor!", error);
+            toast.error("Lấy thông tin chi tiết bác sĩ thất bại!");
+        }
+    };
+};
+
+const getDetailDoctorSuccess = (data) => {
+    return {
+        type: actionTypes.GET_DETAIL_DOCTOR_SUCCESS,
+        data,
+    };
+};
+
+const getDetailDoctorFailed = () => {
+    return {
+        type: actionTypes.GET_DETAIL_DOCTOR_FAILED,
+    };
+};

@@ -10,6 +10,7 @@ const initContentOfConfirmModal = {
 const initialState = {
     started: true,
     language: "vi",
+    isLoading: false,
     systemMenuPath: "/system/user-manage",
     contentOfConfirmModal: {
         ...initContentOfConfirmModal,
@@ -38,6 +39,14 @@ const appReducer = (state = initialState, action) => {
                 ...state,
                 language: action.language,
             };
+        }
+        case actionTypes.DiSPLAY_LOADING: {
+            state.isLoading = true;
+            return { ...state };
+        }
+        case actionTypes.HIDE_LOADING: {
+            state.isLoading = false;
+            return { ...state };
         }
         default:
             return state;

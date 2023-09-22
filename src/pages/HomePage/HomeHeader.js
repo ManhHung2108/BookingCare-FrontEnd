@@ -10,6 +10,7 @@ import "./HomeHeader.scss";
 class HomeHeader extends Component {
     render() {
         let language = this.props.lang;
+        let { isShowBanner } = this.props;
         // console.log(language);
         return (
             <Fragment>
@@ -114,105 +115,107 @@ class HomeHeader extends Component {
                     </div>
                 </div>
 
-                <div className="home-header-banner">
-                    <div className="search">
-                        <div className="title">
-                            <h1>
-                                <FormattedMessage id="banner.title1" />
-                                <br></br>
-                                <b>
-                                    <FormattedMessage id="banner.title2" />
-                                </b>
-                            </h1>
+                {isShowBanner && (
+                    <div className="home-header-banner">
+                        <div className="search">
+                            <div className="title">
+                                <h1>
+                                    <FormattedMessage id="banner.title1" />
+                                    <br></br>
+                                    <b>
+                                        <FormattedMessage id="banner.title2" />
+                                    </b>
+                                </h1>
+                            </div>
+                            <div className="search-form">
+                                <i className="fas fa-search"></i>
+                                <input type="text" placeholder="Tìm kiếm" />
+                            </div>
                         </div>
-                        <div className="search-form">
-                            <i className="fas fa-search"></i>
-                            <input type="text" placeholder="Tìm kiếm" />
+                        <div className="options">
+                            <div className="options-container">
+                                <div className="option-child">
+                                    <div
+                                        className="icon-child"
+                                        style={{
+                                            backgroundImage: `url(${require("../../assets/images/icon-menu/161905-iconkham-chuyen-khoa.png")})`,
+                                        }}
+                                    ></div>
+                                    <p className="text-child">
+                                        <FormattedMessage id="banner.examination" />
+                                        <br />
+                                        <FormattedMessage id="banner.speciality" />
+                                    </p>
+                                </div>
+                                <div className="option-child">
+                                    <div
+                                        className="icon-child"
+                                        style={{
+                                            backgroundImage: `url(${require("../../assets/images/icon-menu/161817-iconkham-tu-xa.png")})`,
+                                        }}
+                                    ></div>
+                                    <p className="text-child">
+                                        <FormattedMessage id="banner.examination" />
+                                        <br />
+                                        <FormattedMessage id="banner.remote" />
+                                    </p>
+                                </div>
+                                <div className="option-child">
+                                    <div
+                                        className="icon-child"
+                                        style={{
+                                            backgroundImage: `url(${require("../../assets/images/icon-menu/161350-iconkham-tong-quan.png")})`,
+                                        }}
+                                    ></div>
+                                    <p className="text-child">
+                                        <FormattedMessage id="banner.examination" />
+                                        <br />
+                                        <FormattedMessage id="banner.generality" />
+                                    </p>
+                                </div>
+                                <div className="option-child">
+                                    <div
+                                        className="icon-child"
+                                        style={{
+                                            backgroundImage: `url(${require("../../assets/images/icon-menu/161340-iconxet-nghiem-y-hoc.png")})`,
+                                        }}
+                                    ></div>
+                                    <p className="text-child">
+                                        <FormattedMessage id="banner.test" />
+                                        <br />
+                                        <FormattedMessage id="banner.medical" />
+                                    </p>
+                                </div>
+                                <div className="option-child">
+                                    <div
+                                        className="icon-child"
+                                        style={{
+                                            backgroundImage: `url(${require("../../assets/images/icon-menu/161403-iconsuc-khoe-tinh-than.png")})`,
+                                        }}
+                                    ></div>
+                                    <p className="text-child">
+                                        <FormattedMessage id="banner.health" />
+                                        <br />
+                                        <FormattedMessage id="banner.spirit" />
+                                    </p>
+                                </div>
+                                <div className="option-child">
+                                    <div
+                                        className="icon-child"
+                                        style={{
+                                            backgroundImage: `url(${require("../../assets/images/icon-menu/161410-iconkham-nha-khoa.png")})`,
+                                        }}
+                                    ></div>
+                                    <p className="text-child">
+                                        <FormattedMessage id="banner.examination" />
+                                        <br />
+                                        <FormattedMessage id="banner.dentistry" />
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="options">
-                        <div className="options-container">
-                            <div className="option-child">
-                                <div
-                                    className="icon-child"
-                                    style={{
-                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161905-iconkham-chuyen-khoa.png")})`,
-                                    }}
-                                ></div>
-                                <p className="text-child">
-                                    <FormattedMessage id="banner.examination" />
-                                    <br />
-                                    <FormattedMessage id="banner.speciality" />
-                                </p>
-                            </div>
-                            <div className="option-child">
-                                <div
-                                    className="icon-child"
-                                    style={{
-                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161817-iconkham-tu-xa.png")})`,
-                                    }}
-                                ></div>
-                                <p className="text-child">
-                                    <FormattedMessage id="banner.examination" />
-                                    <br />
-                                    <FormattedMessage id="banner.remote" />
-                                </p>
-                            </div>
-                            <div className="option-child">
-                                <div
-                                    className="icon-child"
-                                    style={{
-                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161350-iconkham-tong-quan.png")})`,
-                                    }}
-                                ></div>
-                                <p className="text-child">
-                                    <FormattedMessage id="banner.examination" />
-                                    <br />
-                                    <FormattedMessage id="banner.generality" />
-                                </p>
-                            </div>
-                            <div className="option-child">
-                                <div
-                                    className="icon-child"
-                                    style={{
-                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161340-iconxet-nghiem-y-hoc.png")})`,
-                                    }}
-                                ></div>
-                                <p className="text-child">
-                                    <FormattedMessage id="banner.test" />
-                                    <br />
-                                    <FormattedMessage id="banner.medical" />
-                                </p>
-                            </div>
-                            <div className="option-child">
-                                <div
-                                    className="icon-child"
-                                    style={{
-                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161403-iconsuc-khoe-tinh-than.png")})`,
-                                    }}
-                                ></div>
-                                <p className="text-child">
-                                    <FormattedMessage id="banner.health" />
-                                    <br />
-                                    <FormattedMessage id="banner.spirit" />
-                                </p>
-                            </div>
-                            <div className="option-child">
-                                <div
-                                    className="icon-child"
-                                    style={{
-                                        backgroundImage: `url(${require("../../assets/images/icon-menu/161410-iconkham-nha-khoa.png")})`,
-                                    }}
-                                ></div>
-                                <p className="text-child">
-                                    <FormattedMessage id="banner.examination" />
-                                    <br />
-                                    <FormattedMessage id="banner.dentistry" />
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                )}
             </Fragment>
         );
     }

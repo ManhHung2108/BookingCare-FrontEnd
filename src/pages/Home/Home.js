@@ -8,7 +8,7 @@ class Home extends Component {
         // let data = JSON.parse(jsondata);
         // let isLoggedIn = !data.isLoggedIn;
         const { isLoggedIn } = this.props;
-        let linkToRedirect = isLoggedIn ? "/system/user-manage" : "/login";
+        let linkToRedirect = isLoggedIn ? "/system/user-manage" : "/home";
         return <Redirect to={linkToRedirect} />;
     }
 }

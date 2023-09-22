@@ -16,6 +16,8 @@ import {
     userIsNotAuthenticated,
 } from "./hoc/authentication";
 import HomePage from "./pages/HomePage/HomePage";
+import LoadingComponent from "./components/GlobalSetting/LoadingComponent";
+import DetailDoctor from "./pages/HomePage/Doctor/DetailDoctor";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -39,6 +41,7 @@ class App extends Component {
     render() {
         return (
             <Fragment>
+                <LoadingComponent />
                 <Router history={history}>
                     {/* {this.props.isLoggedIn && <Header />} */}
                     <div className="main-container">
@@ -64,6 +67,10 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.HOMEPAGE}
                                     component={HomePage}
+                                />
+                                <Route
+                                    path={configs.routes.DETAIL_DOCTOR}
+                                    component={DetailDoctor}
                                 />
                             </Switch>
                         </div>

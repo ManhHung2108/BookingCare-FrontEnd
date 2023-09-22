@@ -139,9 +139,15 @@ export const saveUserFailed = () => {
 export const getAllUserAction = (inputId) => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
             let res = await getAllUsersService(inputId);
             if (res && res.errCode === 0) {
                 dispatch(getAllUserSuccess(res.users));
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
             }
         } catch (error) {
             console.log(error);
@@ -224,10 +230,16 @@ export const editUserFailed = () => {
 export const getTopDoctorAction = () => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
             let res = await getTopDoctorHomeService("");
             if (res && res.errCode === 0) {
                 dispatch(getTopDoctorSuccess(res.data));
                 // console.log("check res get top doctor: ", res);
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
             } else {
                 dispatch(getTopDoctorFailed());
             }
@@ -254,9 +266,15 @@ const getTopDoctorFailed = () => {
 export const getAllDoctorAction = () => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
             let res = await getAllDoctorService();
             if (res && res.errCode === 0) {
                 dispatch(getAllDoctorSuccess(res.data));
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
             }
         } catch (error) {
             console.log("Lỗi getAllDoctor: ", error);
