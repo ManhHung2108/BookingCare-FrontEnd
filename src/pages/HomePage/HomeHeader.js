@@ -6,8 +6,22 @@ import { LANGUAGE } from "../../utils";
 import { changeLanguageAppAction } from "../../redux/actions";
 
 import "./HomeHeader.scss";
+import HamburgerMenu from "../../components/HamburgerMenu/HamburgerMenu";
 
 class HomeHeader extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isOpen: false,
+        };
+    }
+
+    handleOpenMenu = () => {
+        this.setState({
+            isOpen: !this.state.isOpen,
+        });
+    };
+
     render() {
         let language = this.props.lang;
         let { isShowBanner } = this.props;
@@ -17,7 +31,12 @@ class HomeHeader extends Component {
                 <div className="home-header-container">
                     <div className="home-header-content">
                         <div className="left-content">
-                            <i className="fas fa-bars"></i>
+                            <i
+                                className="fas fa-bars"
+                                onClick={() => {
+                                    this.handleOpenMenu();
+                                }}
+                            ></i>
                             <div className="header-logo">
                                 <i className="fas fa-heartbeat"></i>
                                 <span>HealthBookings</span>
@@ -216,6 +235,11 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 )}
+
+                <HamburgerMenu
+                    isOpen={this.state.isOpen}
+                    handleOpenMenuFromHeader={this.handleOpenMenu}
+                />
             </Fragment>
         );
     }
