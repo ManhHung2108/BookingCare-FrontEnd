@@ -30,13 +30,16 @@
             "manage-doctor": "Manage Doctor",
             "manage-admin": "Manage Admin",
             "crud": "CRUD user",
-            "crud-redux": "CRUD redux",
+            "crud-redux": "Manage user",
             "clinic": "Clinics",
             "manage-clinic": "Manage Clinics",
             "specialty": "Specialties",
             "manage-specialty": "Manage Specialty",
             "handbook": "Handbook",
             "manage-handbook": "Manage Handbook"
+        },
+        "doctor": {
+            "manage-schedule": "Manage Doctor's schedule"
         }
     },
     "manage-user": {

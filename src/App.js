@@ -18,6 +18,7 @@ import {
 import HomePage from "./pages/HomePage/HomePage";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent";
 import DetailDoctor from "./pages/HomePage/Doctor/DetailDoctor";
+import Doctor from "./templates/AdminTemplates/Doctor";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -63,6 +64,10 @@ class App extends Component {
                                     component={userIsAuthenticated(System)}
                                     //Được phép truy cập trang System khi isLogged=true(hoc)
                                     //nếu false chuyển sang trang login
+                                />
+                                <Route
+                                    path={"/doctor"}
+                                    component={userIsAuthenticated(Doctor)}
                                 />
                                 <Route
                                     path={configs.routes.HOMEPAGE}

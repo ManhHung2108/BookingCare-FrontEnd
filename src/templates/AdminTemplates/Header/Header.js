@@ -4,11 +4,38 @@ import { FormattedMessage } from "react-intl";
 
 import * as actions from "../../../redux/actions";
 import "./Header.scss";
-import { adminMenu } from "./menuApp";
+import { adminMenu, doctorMenu } from "./menuApp";
 import Navigator from "../../../components/System/Navigator";
-import { LANGUAGE } from "../../../utils";
+import { LANGUAGE, USER_ROLE } from "../../../utils";
+import _ from "lodash";
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuSystem: [],
+        };
+    }
+    componentDidMount = () => {
+        let { userInfo } = this.props;
+        let menu = [];
+        if (userInfo && !_.isEmpty(userInfo)) {
+            let role = userInfo.roleId;
+            if (role === USER_ROLE.ADMIN) {
+                menu = adminMenu;
+            }
+            if (role === USER_ROLE.DOCTOR) {
+                menu = doctorMenu;
+            }
+        }
+
+        this.setState({
+            menuSystem: menu,
+        });
+
+        console.log("check thông tin người dùng từ redux: ", userInfo);
+    };
+
     handleChangeLanguage = (language) => {
         this.props.changeLanguage(language);
     };
@@ -18,7 +45,7 @@ class Header extends Component {
             <div className="header-container">
                 {/**Thanh navigation */}
                 <div className="header-tab-container">
-                    <Navigator menus={adminMenu} />
+                    <Navigator menus={this.state.menuSystem} />
                 </div>
 
                 <div className="languages">
