@@ -28,6 +28,13 @@ class Login extends Component {
         );
     };
 
+    handleKeyDown = (e) => {
+        // console.log("check key down: ", e);
+        if (e.key === "Enter" || e.keyCode === 13) {
+            this.handleLogin(e);
+        }
+    };
+
     handleLogin = async (e) => {
         //clearn hết đi
         this.setState({
@@ -107,6 +114,9 @@ class Login extends Component {
                                         value={this.state.passWord}
                                         onChange={(e) => {
                                             this.handleChange(e);
+                                        }}
+                                        onKeyDown={(e) => {
+                                            this.handleKeyDown(e);
                                         }}
                                         autoComplete="off"
                                     />

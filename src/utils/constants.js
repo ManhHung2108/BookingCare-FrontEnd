@@ -15,3 +15,7 @@ export const USER_ROLE = {
     DOCTOR: "R2",
     PATIENT: "R3",
 };
+
+export const dateFormat = {
+    SEND_TO_SERVER: "DD/MM/YYYY",
+};

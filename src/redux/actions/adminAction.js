@@ -320,3 +320,23 @@ export const saveDetailDoctorAction = (data) => {
         }
     };
 };
+
+//Lấy tất cả thời gian
+export const getAllScheduleTimeAction = (type) => {
+    return async (dispatch) => {
+        try {
+            let res = await getAllCodeService("TIME");
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.GET_ALLCODE_SCHEDULE_TIME_SUCCESS,
+                    data: res.data,
+                });
+            }
+        } catch (err) {
+            console.log("Lỗi getAllScheduleHoursAction: ", err);
+            dispatch({
+                type: actionTypes.GET_ALLCODE_SCHEDULE_TIME_FAILED,
+            });
+        }
+    };
+};

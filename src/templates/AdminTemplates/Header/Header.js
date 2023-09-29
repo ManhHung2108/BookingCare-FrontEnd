@@ -33,7 +33,7 @@ class Header extends Component {
             menuSystem: menu,
         });
 
-        console.log("check thông tin người dùng từ redux: ", userInfo);
+        // console.log("check thông tin người dùng từ redux: ", userInfo);
     };
 
     handleChangeLanguage = (language) => {

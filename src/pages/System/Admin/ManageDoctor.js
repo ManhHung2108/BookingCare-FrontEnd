@@ -71,6 +71,7 @@ class ManageDoctor extends Component {
             description: this.state.description,
             action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
         };
+        //Gửi cục data lên server để check cần sửa hay tạo mới
         await this.props.saveDetailDoctor(data);
 
         this.setState({
@@ -100,14 +101,14 @@ class ManageDoctor extends Component {
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
                 description: markdown.description,
-                hasOldData: true,
+                hasOldData: true, //có set là true
             });
         } else {
             this.setState({
                 contentMarkdown: "",
                 contentHTML: "",
                 description: "",
-                hasOldData: false,
+                hasOldData: false, //chưa có
             });
         }
     };
