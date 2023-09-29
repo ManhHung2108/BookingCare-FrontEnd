@@ -53,8 +53,8 @@ class DetailDoctor extends Component {
         return (
             <>
                 <HomeHeader isShowBanner={false} />
-                <div className="container">
-                    <div className="intro-doctor">
+                <div className="container-fluid">
+                    <div className="intro-doctor container">
                         <div
                             className="intro-left"
                             style={{
@@ -79,19 +79,21 @@ class DetailDoctor extends Component {
                         </div>
                     </div>
                     <div className="schedule-doctor"></div>
-                    <div className="detail-doctor">
-                        {doctorDetail &&
-                            doctorDetail.Markdown &&
-                            doctorDetail.Markdown.contentHTML && (
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: doctorDetail.Markdown
-                                            .contentHTML,
-                                    }}
-                                ></div>
-                            )}
+                    <div className="detail-container">
+                        <div className="detail-doctor container">
+                            {doctorDetail &&
+                                doctorDetail.Markdown &&
+                                doctorDetail.Markdown.contentHTML && (
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: doctorDetail.Markdown
+                                                .contentHTML,
+                                        }}
+                                    ></div>
+                                )}
+                        </div>
+                        <div className="comments-doctor"></div>
                     </div>
-                    <div className="comments-doctor"></div>
                 </div>
             </>
         );

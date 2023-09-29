@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 
+import configs from "../../configs";
 import "./HamburgerMenu.scss";
 
 export default class HamburgerMenu extends Component {
@@ -13,14 +14,9 @@ export default class HamburgerMenu extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isOpen !== this.props.isOpen) {
-            this.setState(
-                {
-                    isOpen: this.props.isOpen,
-                },
-                () => {
-                    console.log(this.state);
-                }
-            );
+            this.setState({
+                isOpen: this.props.isOpen,
+            });
         }
     }
 
@@ -30,7 +26,7 @@ export default class HamburgerMenu extends Component {
     render() {
         const menus = [
             {
-                link: "/home",
+                link: configs.routes.HOMEPAGE,
                 nameVi: "Trang chủ",
             },
             {
@@ -46,16 +42,17 @@ export default class HamburgerMenu extends Component {
                 nameVi: "Điều khoản sử dụng",
             },
             {
-                link: "/login",
+                link: configs.routes.LOGIN,
                 nameVi: "Đăng nhập",
             },
         ];
 
         return (
-            <div
-                className={`nen-mo ${this.state.isOpen ? "display" : ""}`}
-                onClick={this.handleMenuOpen}
-            >
+            <>
+                <div
+                    className={`nen-mo ${this.state.isOpen ? "display" : ""}`}
+                    onClick={this.handleMenuOpen}
+                ></div>
                 <nav
                     className={`navbar-container ${
                         this.state.isOpen ? "open" : ""
@@ -76,7 +73,7 @@ export default class HamburgerMenu extends Component {
                         })}
                     </ul>
                 </nav>
-            </div>
+            </>
         );
     }
 }

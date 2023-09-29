@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 import { LANGUAGE } from "../../utils";
 import { changeLanguageAppAction } from "../../redux/actions";
+import routes from "../../configs/routes";
 
 import "./HomeHeader.scss";
 import HamburgerMenu from "../../components/HamburgerMenu/HamburgerMenu";
@@ -37,10 +39,10 @@ class HomeHeader extends Component {
                                     this.handleOpenMenu();
                                 }}
                             ></i>
-                            <div className="header-logo">
+                            <Link to={routes.HOMEPAGE} className="header-logo">
                                 <i className="fas fa-heartbeat"></i>
                                 <span>HealthBookings</span>
-                            </div>
+                            </Link>
                         </div>
                         <div className="center-content">
                             <div className="child-content">
