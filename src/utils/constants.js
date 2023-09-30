@@ -17,5 +17,5 @@ export const USER_ROLE = {
 };
 
 export const dateFormat = {
-    SEND_TO_SERVER: "DD/MM/YYYY",
+    SEND_TO_SERVER: "YYYY/MM/DD",
 };

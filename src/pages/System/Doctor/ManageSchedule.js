@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import FormattedDate from "../../../components/Formating/FormattedDate";
+import { toast } from "react-toastify";
 
 import "./ManageSchedule.scss";
 import {
@@ -13,7 +14,7 @@ import {
     getAllScheduleTimeAction,
 } from "../../../redux/actions/adminAction";
 import { LANGUAGE, dateFormat } from "../../../utils/constants";
-import { toast } from "react-toastify";
+import { saveBulkScheduleDoctorService } from "../../../services";
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -90,7 +91,7 @@ class ManageSchedule extends Component {
         }
     };
 
-    handleSaveSchedule = () => {
+    handleSaveSchedule = async () => {
         const { currentDate, selectedDoctor, rangeTime } = this.state;
         const { language } = this.props;
         if (!currentDate) {
@@ -117,8 +118,8 @@ class ManageSchedule extends Component {
             dateFormat.SEND_TO_SERVER
         );
 
-        //Lấy ra mảng các time được chọn
         if (rangeTime && rangeTime.length > 0) {
+            //Lấy ra mảng các time được chọn
             let selectedTime = rangeTime.filter(
                 (item) => item.isSelected === true
             );
@@ -131,7 +132,7 @@ class ManageSchedule extends Component {
                     let object = {};
                     object.doctorId = selectedDoctor;
                     object.date = formattedDate;
-                    object.time = schedule.keyMap;
+                    object.timeType = schedule.keyMap;
                     // data.push(object);
                     // return data;
                     return object;
@@ -144,8 +145,16 @@ class ManageSchedule extends Component {
                             : "Isvalid selected Time!"
                     }`
                 );
+                return;
             }
         }
+
+        let res = await saveBulkScheduleDoctorService({
+            arrSchedule: data,
+            doctorId: selectedDoctor,
+            date: formattedDate,
+        });
+        console.log("check response saveBulkScheduleDoctorService: ", res);
 
         // console.log("Check data: ", data);
 
