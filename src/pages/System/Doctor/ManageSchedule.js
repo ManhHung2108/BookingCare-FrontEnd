@@ -12,7 +12,8 @@ import {
     getAllDoctorAction,
     getAllScheduleTimeAction,
 } from "../../../redux/actions/adminAction";
-import { LANGUAGE } from "../../../utils/constants";
+import { LANGUAGE, dateFormat } from "../../../utils/constants";
+import { toast } from "react-toastify";
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class ManageSchedule extends Component {
         this.state = {
             listDoctor: [],
             selectedDoctor: "",
-            currentDate: new Date(),
+            currentDate: "",
             rangeTime: [],
         };
     }
@@ -35,11 +36,22 @@ class ManageSchedule extends Component {
                 listDoctor: this.props.listDoctorRedux,
             });
         }
+        //Lấy ra thời gian lưu vào state
         if (
             prevProps.allScheduleTimeRedux !== this.props.allScheduleTimeRedux
         ) {
+            // console.log("check rangeTime: ", this.props.allScheduleTimeRedux);
+            let data = this.props.allScheduleTimeRedux;
+            if (data && data.length > 0) {
+                data = data.map((item) => {
+                    return {
+                        ...item,
+                        isSelected: false,
+                    };
+                });
+            }
             this.setState({
-                rangeTime: this.props.allScheduleTimeRedux,
+                rangeTime: data,
             });
         }
     }
@@ -61,23 +73,103 @@ class ManageSchedule extends Component {
         this.setState({ currentDate: date });
     };
 
-    handleSubmit = () => {
-        const { currentDate } = this.state;
-        if (currentDate) {
-            // Lấy các thành phần ngày và giờ từ DatePicker
-            const year = currentDate.getFullYear();
-            const month = (currentDate.getMonth() + 1)
-                .toString()
-                .padStart(2, "0");
-            const day = currentDate.getDate().toString().padStart(2, "0");
+    handleSelectTime = (data) => {
+        let { rangeTime } = this.state;
+        //Tìm ra vị trí khi được click
+        let index = rangeTime.findIndex((item) => {
+            return item.id === data.id;
+        });
 
-            // Tạo chuỗi datetime phù hợp để lưu vào SQL
-            const sqlDatetime = `${year}-${month}-${day}`;
-
-            // Sử dụng giá trị sqlDatetime trong truy vấn SQL hoặc chèn dữ liệu vào cơ sở dữ liệu MySQL
-            console.log(sqlDatetime);
+        //Sửa lại isSelected của item được click
+        if (index !== -1) {
+            let newRangeTime = rangeTime;
+            newRangeTime[index].isSelected = !newRangeTime[index].isSelected;
+            this.setState({
+                rangeTime: newRangeTime,
+            });
         }
     };
+
+    handleSaveSchedule = () => {
+        const { currentDate, selectedDoctor, rangeTime } = this.state;
+        const { language } = this.props;
+        if (!currentDate) {
+            toast.error(
+                `${
+                    LANGUAGE.VI === language
+                        ? "Yêu cầu chọn ngày!"
+                        : "Isvalid selected Date!"
+                }`
+            );
+        }
+        if (!selectedDoctor) {
+            toast.error(
+                `${
+                    LANGUAGE.VI === language
+                        ? "Yêu cầu chọn bác sĩ!"
+                        : "Isvalid selected Doctor!"
+                }`
+            );
+        }
+
+        let data = []; //gửi lên server
+        let formattedDate = moment(currentDate).format(
+            dateFormat.SEND_TO_SERVER
+        );
+
+        //Lấy ra mảng các time được chọn
+        if (rangeTime && rangeTime.length > 0) {
+            let selectedTime = rangeTime.filter(
+                (item) => item.isSelected === true
+            );
+            // console.log("Check selected time: ", selectedTime);
+
+            //Check nếu chưa có lịch thì sẽ đưa ra thông báo
+            if (selectedTime && selectedTime.length > 0) {
+                //Mỗi lần lặp lấy ra 1 obj và thêm vào mảng data
+                data = selectedTime.map((schedule) => {
+                    let object = {};
+                    object.doctorId = selectedDoctor;
+                    object.date = formattedDate;
+                    object.time = schedule.keyMap;
+                    // data.push(object);
+                    // return data;
+                    return object;
+                });
+            } else {
+                toast.error(
+                    `${
+                        LANGUAGE.VI === language
+                            ? "Yêu cầu chọn thời gian!"
+                            : "Isvalid selected Time!"
+                    }`
+                );
+            }
+        }
+
+        // console.log("Check data: ", data);
+
+        // console.log(
+        //     moment(currentDate).format("DD/MM/YYYY"),
+        //     selectedDoctor,
+        //     rangeTime
+        // );
+
+        // if (currentDate) {
+        //     const year = currentDate.getFullYear();
+        //     const month = (currentDate.getMonth() + 1)
+        //         .toString()
+        //         .padStart(2, "0");
+        //     const day = currentDate.getDate().toString().padStart(2, "0");
+
+        //     // Tạo chuỗi datetime phù hợp để lưu vào SQL
+        //     const sqlDatetime = `${year}-${month}-${day}`;
+
+        //     // Sử dụng giá trị sqlDatetime trong truy vấn SQL hoặc chèn dữ liệu vào cơ sở dữ liệu MySQL
+        //     console.log(sqlDatetime);
+        // }
+    };
+
     render() {
         const { Option } = Select;
         const { selectedDoctor, listDoctor, currentDate, rangeTime } =
@@ -133,6 +225,7 @@ class ManageSchedule extends Component {
                                 }}
                                 dateFormat="dd/MM/yyyy" // Định dạng ngày tháng thành "dd/mm/yyyy"
                                 minDate={new Date()} // Giới hạn ngày tối thiểu là ngày hiện tại
+                                value={currentDate}
                             />
                         </div>
                         <div className="col-12 pick-hour_container">
@@ -142,8 +235,13 @@ class ManageSchedule extends Component {
                                 rangeTime.map((item) => {
                                     return (
                                         <button
-                                            className="btn btn-schedule"
+                                            className={`btn btn btn-schedule ${
+                                                item.isSelected ? "active" : ""
+                                            }`}
                                             key={item.id}
+                                            onClick={() => {
+                                                this.handleSelectTime(item);
+                                            }}
                                         >
                                             {language === LANGUAGE.VI
                                                 ? item.valueVi
@@ -155,7 +253,7 @@ class ManageSchedule extends Component {
                         <div className="col-12 mt-3">
                             <button
                                 className="btn btn-primary"
-                                onClick={() => this.handleSubmit()}
+                                onClick={() => this.handleSaveSchedule()}
                             >
                                 <FormattedMessage id={"manage-schedule.save"} />
                             </button>
