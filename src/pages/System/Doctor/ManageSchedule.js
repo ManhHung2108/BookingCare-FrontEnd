@@ -114,9 +114,12 @@ class ManageSchedule extends Component {
         }
 
         let data = []; //gửi lên server
-        let formattedDate = moment(currentDate).format(
-            dateFormat.SEND_TO_SERVER
-        );
+        // let formattedDate = moment(currentDate).format(
+        //     dateFormat.SEND_TO_SERVER
+        // );
+
+        //Gửi lên dạng timeTamp
+        let formattedDate = new Date(currentDate).getTime();
 
         if (rangeTime && rangeTime.length > 0) {
             //Lấy ra mảng các time được chọn
