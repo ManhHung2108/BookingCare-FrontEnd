@@ -157,7 +157,16 @@ class ManageSchedule extends Component {
             doctorId: selectedDoctor,
             date: formattedDate,
         });
-        console.log("check response saveBulkScheduleDoctorService: ", res);
+        if (res && res.errCode === 0) {
+            toast.success(
+                `${
+                    LANGUAGE.VI === language
+                        ? "Lưu kế hoạch khám bệnh thành công!"
+                        : "Isvalid ScheduleTime Time!"
+                }`
+            );
+        }
+        // console.log("check response saveBulkScheduleDoctorService: ", res);
 
         // console.log("Check data: ", data);
 
