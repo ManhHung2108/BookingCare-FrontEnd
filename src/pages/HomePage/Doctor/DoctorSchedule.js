@@ -12,10 +12,11 @@ class DoctorSchedule extends Component {
         super(props);
         this.state = {
             allDays: [],
+            allAvalableTime: [],
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setArrDays(this.props.language);
     }
 
@@ -23,7 +24,18 @@ class DoctorSchedule extends Component {
         if (prevProps.language !== this.props.language) {
             this.setArrDays(this.props.language);
         }
+        if (prevProps.doctorIdFromParent !== this.props.doctorIdFromParent) {
+            this.setTime(
+                this.props.doctorIdFromParent,
+                moment(new Date()).startOf("day").valueOf()
+            );
+        }
     }
+
+    //Viết hoa chữ cái đầu
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
 
     //Hàm cho phép hiển thị 7 ngày sắp tới
     setArrDays = (language) => {
@@ -31,14 +43,16 @@ class DoctorSchedule extends Component {
         for (let i = 0; i < 7; i++) {
             let obj = {};
             if (language === LANGUAGE.VI) {
-                obj.label = moment(new Date())
+                let labelVi = moment(new Date())
                     .add(i, "days")
                     .format("dddd - DD/MM");
+
+                obj.label = this.capitalizeFirstLetter(labelVi);
             } else {
                 obj.label = moment(new Date())
                     .add(i, "days")
                     .locale("en")
-                    .format("dddd - DD/MM");
+                    .format("ddd - DD/MM");
             }
             obj.value = moment(new Date())
                 .add(i, "days")
@@ -50,6 +64,14 @@ class DoctorSchedule extends Component {
 
         this.setState({
             allDays: allDays,
+        });
+    };
+
+    setTime = async (doctorId, date) => {
+        let res = await getScheduleDoctorByDateServicde(doctorId, date);
+        console.log("check response schedule from react: ", res);
+        this.setState({
+            allAvalableTime: res.data,
         });
     };
 
@@ -67,16 +89,23 @@ class DoctorSchedule extends Component {
 
             let res = await getScheduleDoctorByDateServicde(doctorId, date);
             console.log("check response schedule from react: ", res);
+
+            if (res && res.errCode == 0) {
+                this.setState({
+                    allAvalableTime: res.data,
+                });
+            }
         }
 
         // console.log("event onchangDate value: ", e.target.value);
     };
 
     render() {
-        let { allDays } = this.state;
+        let { language } = this.props;
+        let { allDays, allAvalableTime } = this.state;
         return (
             <div className="doctor-schedule_container">
-                <div className="schedule-date">
+                <div className="schedules-date">
                     <select
                         onChange={(e) => {
                             this.handleChangeSelectDate(e);
@@ -93,7 +122,25 @@ class DoctorSchedule extends Component {
                             })}
                     </select>
                 </div>
-                <div className="schedule-available_time"></div>
+                <div className="schedules-available_time">
+                    <div className="text-calenders">
+                        <i className="fas fa-calendar-alt"></i>
+                        <span>Lịch Khám</span>
+                    </div>
+                    <div className="times">
+                        {allAvalableTime &&
+                            allAvalableTime.length > 0 &&
+                            allAvalableTime.map((item, index) => {
+                                return (
+                                    <button key={index}>
+                                        {language === LANGUAGE.VI
+                                            ? item.timeData.valueVi
+                                            : item.timeData.valueEn}
+                                    </button>
+                                );
+                            })}
+                    </div>
+                </div>
             </div>
         );
     }
