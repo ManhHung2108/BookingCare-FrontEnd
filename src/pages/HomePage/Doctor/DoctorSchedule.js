@@ -6,6 +6,7 @@ import localization from "moment/locale/vi";
 import { getScheduleDoctorByDateServicde } from "../../../services/userService";
 
 import { LANGUAGE } from "../../../utils";
+import { FormattedMessage } from "react-intl";
 
 class DoctorSchedule extends Component {
     constructor(props) {
@@ -17,18 +18,29 @@ class DoctorSchedule extends Component {
     }
 
     async componentDidMount() {
-        this.setArrDays(this.props.language);
+        let allDays = this.getArrDays(this.props.language);
+        this.setState({
+            allDays: allDays,
+        });
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.language !== this.props.language) {
-            this.setArrDays(this.props.language);
+            let allDays = this.getArrDays(this.props.language);
+            this.setState({
+                allDays: allDays,
+            });
         }
+
         if (prevProps.doctorIdFromParent !== this.props.doctorIdFromParent) {
-            this.setTime(
+            let allAvalableTime = await this.getTime(
                 this.props.doctorIdFromParent,
                 moment(new Date()).startOf("day").valueOf()
             );
+
+            this.setState({
+                allAvalableTime: allAvalableTime,
+            });
         }
     }
 
@@ -38,22 +50,38 @@ class DoctorSchedule extends Component {
     };
 
     //Hàm cho phép hiển thị 7 ngày sắp tới
-    setArrDays = (language) => {
+    getArrDays = (language) => {
         let allDays = [];
         for (let i = 0; i < 7; i++) {
             let obj = {};
             if (language === LANGUAGE.VI) {
-                let labelVi = moment(new Date())
-                    .add(i, "days")
-                    .format("dddd - DD/MM");
-
-                obj.label = this.capitalizeFirstLetter(labelVi);
+                if (i === 0) {
+                    const ddMM = moment(new Date())
+                        .add(i, "days")
+                        .format("DD/MM");
+                    let today = `Hôm nay - ${ddMM}`;
+                    obj.label = today;
+                } else {
+                    let labelVi = moment(new Date())
+                        .add(i, "days")
+                        .format("dddd - DD/MM");
+                    obj.label = this.capitalizeFirstLetter(labelVi);
+                }
             } else {
-                obj.label = moment(new Date())
-                    .add(i, "days")
-                    .locale("en")
-                    .format("ddd - DD/MM");
+                if (i === 0) {
+                    const ddMM = moment(new Date())
+                        .add(i, "days")
+                        .format("DD/MM");
+                    let today = `Today - ${ddMM}`;
+                    obj.label = today;
+                } else {
+                    obj.label = moment(new Date())
+                        .add(i, "days")
+                        .locale("en")
+                        .format("ddd - DD/MM");
+                }
             }
+
             obj.value = moment(new Date())
                 .add(i, "days")
                 .startOf("day") //đầu ngày để ko lấy thời gian
@@ -61,25 +89,15 @@ class DoctorSchedule extends Component {
 
             allDays.push(obj);
         }
-
-        this.setState({
-            allDays: allDays,
-        });
+        return allDays;
     };
 
-    setTime = async (doctorId, date) => {
+    getTime = async (doctorId, date) => {
         let res = await getScheduleDoctorByDateServicde(doctorId, date);
-        console.log("check response schedule from react: ", res);
-        this.setState({
-            allAvalableTime: res.data,
-        });
+        return res.data;
     };
 
     handleChangeSelectDate = async (e) => {
-        // console.log(
-        //     "check doctorId for handleChangeSelectDate: ",
-        //     this.props.doctorIdFromParent
-        // );
         if (
             this.props.doctorIdFromParent &&
             this.props.doctorIdFromParent !== -1
@@ -88,7 +106,7 @@ class DoctorSchedule extends Component {
             let date = e.target.value;
 
             let res = await getScheduleDoctorByDateServicde(doctorId, date);
-            console.log("check response schedule from react: ", res);
+            // console.log("check response schedule from react: ", res);
 
             if (res && res.errCode == 0) {
                 this.setState({
@@ -96,8 +114,6 @@ class DoctorSchedule extends Component {
                 });
             }
         }
-
-        // console.log("event onchangDate value: ", e.target.value);
     };
 
     render() {
@@ -125,20 +141,54 @@ class DoctorSchedule extends Component {
                 <div className="schedules-available_time">
                     <div className="text-calenders">
                         <i className="fas fa-calendar-alt"></i>
-                        <span>Lịch Khám</span>
+                        <span>
+                            <FormattedMessage
+                                id={"patient.detail-doctor.schedule"}
+                            />
+                        </span>
                     </div>
                     <div className="times">
-                        {allAvalableTime &&
-                            allAvalableTime.length > 0 &&
-                            allAvalableTime.map((item, index) => {
-                                return (
-                                    <button key={index}>
-                                        {language === LANGUAGE.VI
-                                            ? item.timeData.valueVi
-                                            : item.timeData.valueEn}
-                                    </button>
-                                );
-                            })}
+                        {allAvalableTime && allAvalableTime.length > 0 ? (
+                            <React.Fragment>
+                                <div className="times-content">
+                                    {allAvalableTime.map((item, index) => {
+                                        return (
+                                            <button
+                                                key={index}
+                                                className={`${
+                                                    language === LANGUAGE.VI
+                                                        ? "btn-vie"
+                                                        : "btn-en"
+                                                }`}
+                                            >
+                                                {language === LANGUAGE.VI
+                                                    ? item.timeData.valueVi
+                                                    : item.timeData.valueEn}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                                <div className="book-free">
+                                    <span>
+                                        <FormattedMessage
+                                            id={"patient.detail-doctor.choose"}
+                                        />
+                                        <i className="far fa-hand-point-up"></i>
+                                        <FormattedMessage
+                                            id={
+                                                "patient.detail-doctor.book-free"
+                                            }
+                                        />
+                                    </span>
+                                </div>
+                            </React.Fragment>
+                        ) : (
+                            <div className="no-schedule">
+                                <FormattedMessage
+                                    id={"patient.detail-doctor.no-schedule"}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -74,5 +74,13 @@
     "homepage": {
         "out-standing-doctor": "Last Week's featured doctor",
         "more-infor": "More"
+    },
+    "patient": {
+        "detail-doctor": {
+            "schedule": "Schedule",
+            "no-schedule": "The doctor does not have appointments scheduled for this time, please choose another time!",
+            "choose": "Choose ",
+            "book-free": " and book (free)"
+        }
     }
 }

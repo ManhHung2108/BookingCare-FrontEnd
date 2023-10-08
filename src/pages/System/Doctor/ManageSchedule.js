@@ -196,6 +196,13 @@ class ManageSchedule extends Component {
         const { selectedDoctor, listDoctor, currentDate, rangeTime } =
             this.state;
         const { language } = this.props;
+
+        // Tạo một đối tượng Date đại diện cho ngày hiện tại
+        var today = new Date();
+        // Tạo một đối tượng Date đại diện cho ngày mai
+        var tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+
         return (
             <div className="manage-schedule_container">
                 <div className="m-s-title">
@@ -245,7 +252,7 @@ class ManageSchedule extends Component {
                                     this.handleSelectDate(date);
                                 }}
                                 dateFormat="dd/MM/yyyy" // Định dạng ngày tháng thành "dd/mm/yyyy"
-                                minDate={new Date()} // Giới hạn ngày tối thiểu là ngày hiện tại
+                                minDate={tomorrow} // Giới hạn ngày tối thiểu là ngày hiện tại
                                 value={currentDate}
                             />
                         </div>
