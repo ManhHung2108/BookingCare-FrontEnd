@@ -340,3 +340,51 @@ export const getAllScheduleTimeAction = (type) => {
         }
     };
 };
+
+//Lấy tất cả giá, tỉnh thành, phương thức thanh toán của bác sĩ
+export const getRequiredDoctorInfor = () => {
+    return async (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_START,
+        });
+
+        try {
+            let resPrice = await getAllCodeService("PRICE");
+            let resPayment = await getAllCodeService("PAYMENT");
+            let resProvince = await getAllCodeService("PROVINCE");
+
+            if (
+                resPrice &&
+                resPayment &&
+                resProvince &&
+                resPrice.errCode === 0 &&
+                resPayment.errCode === 0 &&
+                resProvince.errCode === 0
+            ) {
+                let data = {
+                    resPrice: resPrice.data,
+                    resPayment: resPayment.data,
+                    resProvince: resProvince.data,
+                };
+                dispatch(fecthRequiredDoctorInforSuccess(data));
+            } else {
+                dispatch(fecthRequiredDoctorInforFailed());
+            }
+        } catch (error) {
+            dispatch(fecthRequiredDoctorInforFailed());
+            console.log("fetachGenderStart error: ", error);
+        }
+    };
+};
+
+export const fecthRequiredDoctorInforSuccess = (data) => {
+    return {
+        type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS,
+        data: data,
+    };
+};
+export const fecthRequiredDoctorInforFailed = () => {
+    return {
+        type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED,
+    };
+};

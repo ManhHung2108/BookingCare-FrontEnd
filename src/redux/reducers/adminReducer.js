@@ -9,6 +9,9 @@ const initialState = {
     topDoctors: [],
     listDoctor: [],
     allScheduleTime: [],
+    prices: [],
+    provinces: [],
+    payments: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -90,6 +93,29 @@ const adminReducer = (state = initialState, action) => {
         }
         case actionTypes.GET_ALLCODE_SCHEDULE_TIME_FAILED: {
             state.allScheduleTime = [];
+            return { ...state };
+        }
+        case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_START: {
+            state.isLoadingGender = true;
+
+            return { ...state };
+        }
+        case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS: {
+            let copyState = { ...state };
+            copyState.prices = action.data.resPrice;
+            copyState.provinces = action.data.resProvince;
+            copyState.payments = action.data.resPayment;
+            copyState.isLoadingGender = false;
+
+            return copyState;
+        }
+        case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED: {
+            let copyState = { ...state };
+            copyState.prices = [];
+            copyState.payments = [];
+            copyState.provinces = [];
+            copyState.isLoadingGender = false;
+
             return { ...state };
         }
         default:

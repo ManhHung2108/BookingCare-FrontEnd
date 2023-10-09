@@ -8,10 +8,12 @@ import "react-markdown-editor-lite/lib/index.css";
 import "./ManageDoctor.scss";
 import {
     getAllDoctorAction,
+    getRequiredDoctorInfor,
     saveDetailDoctorAction,
 } from "../../../redux/actions/adminAction";
 import { CRUD_ACTIONS, LANGUAGE } from "../../../utils/constants";
 import { getDetailDoctor } from "../../../services/userService";
+import { FormattedMessage } from "react-intl";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 
@@ -19,18 +21,31 @@ class ManageDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            //save to markdown table
             contentMarkdown: "",
             contentHTML: "",
             description: "",
-            listDoctor: [],
             selectedDoctor: "",
-            hasOldData: false,
             action: "",
+            listDoctor: [],
+            hasOldData: false,
+
+            //save to doctor_infor table
+            listPrice: [],
+            selectedPrice: "",
+            listPayment: [],
+            selectedPayment: "",
+            listProvince: [],
+            selectedProvice: "",
+            nameClinic: "",
+            addressClinic: "",
+            note: "",
         };
     }
 
     componentDidMount() {
         this.handleGetAllDoctor();
+        this.props.getAllDoctorInfor();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -39,10 +54,26 @@ class ManageDoctor extends Component {
                 listDoctor: this.props.listDoctorRedux,
             });
         }
+        if (prevProps.listPriceRedux !== this.props.listPriceRedux) {
+            this.setState({
+                listPrice: this.props.listPriceRedux,
+            });
+        }
+        if (prevProps.listPaymentRedux !== this.props.listPaymentRedux) {
+            this.setState({
+                listPayment: this.props.listPaymentRedux,
+            });
+        }
+        if (prevProps.listProvinceRedux !== this.props.listProvinceRedux) {
+            this.setState({
+                listProvince: this.props.listProvinceRedux,
+            });
+        }
     }
 
     handleGetAllDoctor = () => {
         this.props.getAllDoctor();
+
         this.setState({
             listDoctor: this.props.listDoctorRedux,
         });
@@ -115,21 +146,32 @@ class ManageDoctor extends Component {
 
     render() {
         const { Option } = Select;
-        const { selectedDoctor, listDoctor, hasOldData } = this.state;
+        const {
+            selectedDoctor,
+            listDoctor,
+            hasOldData,
+            listPrice,
+            listPayment,
+            listProvince,
+        } = this.state;
         const { language } = this.props;
         // console.log(language);
         return (
             <div className="manage-doctor-container container">
                 <div className="manage-doctor-title">
-                    Tạo thêm thông tin Bác sĩ
+                    <FormattedMessage id={"admin.manage-doctor.title"} />
                 </div>
                 <div className="more-infor row">
                     <div className="content-left col-5">
-                        <label>Chọn bác sĩ</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-doctor.select-doctor"}
+                            />
+                        </label>
                         <br />
                         <Select
                             showSearch
-                            placeholder="Chọn một mục"
+                            placeholder="Chọn bác sĩ"
                             style={{ width: "100%" }}
                             onChange={this.handleSelectDoctor}
                             value={selectedDoctor}
@@ -151,17 +193,111 @@ class ManageDoctor extends Component {
                     </div>
                     <div className="content-right col-7">
                         <label htmlFor="description">
-                            Thông tin giới thiệu:
+                            <FormattedMessage
+                                id={"admin.manage-doctor.intro"}
+                            />
                         </label>
                         <textarea
                             id="description"
                             className="form-control"
-                            rows={4}
+                            // rows={4}
                             onChange={(e) => {
                                 this.handleChangeDesc(e);
                             }}
                             value={this.state.description}
                         ></textarea>
+                    </div>
+                </div>
+                <div className="more-infor-extra row mt-3">
+                    <div className="col-4 form-group">
+                        <label>Chọn giá</label>
+                        <br />
+                        <Select
+                            showSearch
+                            placeholder="Chọn giá"
+                            style={{ width: "100%" }}
+                            // onChange={this.handleSelectDoctor}
+                            // value={selectedDoctor}
+                            filterOption={(input, option) =>
+                                option.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {/* Render các Option từ dữ liệu API */}
+                            {listPrice.map((item) => (
+                                <Option key={item.id} value={item.keyMap}>
+                                    {language === LANGUAGE.VI
+                                        ? item.valueVi
+                                        : item.valueEn}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className="col-4 form-group">
+                        <label>Chọn phương thức thanh toán</label>
+                        <br />
+                        <Select
+                            showSearch
+                            placeholder="Chọn phương thức thanh toán"
+                            style={{ width: "100%" }}
+                            // onChange={this.handleSelectDoctor}
+                            // value={selectedDoctor}
+                            filterOption={(input, option) =>
+                                option.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {/* Render các Option từ dữ liệu API */}
+                            {listPayment.map((item) => (
+                                <Option key={item.id} value={item.id}>
+                                    {language === LANGUAGE.VI
+                                        ? item.valueVi
+                                        : item.valueEn}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className="col-4 form-group">
+                        <label>Chọn phương tỉnh thành</label>
+                        <br />
+                        <Select
+                            showSearch
+                            placeholder="Chọn tỉnh thành"
+                            style={{ width: "100%" }}
+                            // onChange={this.handleSelectDoctor}
+                            // value={selectedDoctor}
+                            filterOption={(input, option) =>
+                                option.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {/* Render các Option từ dữ liệu API */}
+                            {listProvince.map((item) => (
+                                <Option key={item.id} value={item.id}>
+                                    {language === LANGUAGE.VI
+                                        ? item.valueVi
+                                        : item.valueEn}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className="col-4 form-group">
+                        <label>Tên phòng khám</label>
+                        <br />
+                        <input className="form-control" />
+                    </div>
+                    <div className="col-4 form-group">
+                        <label>Địa chỉ phòng khám</label>
+                        <br />
+                        <input className="form-control" />
+                    </div>
+                    <div className="col-4 form-group">
+                        <label>Note</label>
+                        <br />
+                        <input className="form-control" />
                     </div>
                 </div>
                 <div className="manage-doctor-editor mt-3">
@@ -182,7 +318,11 @@ class ManageDoctor extends Component {
                         this.handleSaveContentMarkdown();
                     }}
                 >
-                    {hasOldData ? "Lưu thông tin" : "Tạo thông tin"}
+                    {hasOldData ? (
+                        <FormattedMessage id={"admin.manage-doctor.save"} />
+                    ) : (
+                        <FormattedMessage id={"admin.manage-doctor.add"} />
+                    )}
                 </button>
             </div>
         );
@@ -192,12 +332,18 @@ const mapStateToProps = (state) => {
     return {
         language: state.appReducer.language,
         listDoctorRedux: state.adminReducer.listDoctor,
+        listPriceRedux: state.adminReducer.prices,
+        listPaymentRedux: state.adminReducer.payments,
+        listProvinceRedux: state.adminReducer.provinces,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllDoctor: () => {
             return dispatch(getAllDoctorAction());
+        },
+        getAllDoctorInfor: () => {
+            return dispatch(getRequiredDoctorInfor());
         },
         saveDetailDoctor: (data) => {
             return dispatch(saveDetailDoctorAction(data));
