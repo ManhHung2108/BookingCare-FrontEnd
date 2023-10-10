@@ -25,18 +25,18 @@ class ManageDoctor extends Component {
             contentMarkdown: "",
             contentHTML: "",
             description: "",
-            selectedDoctor: "",
+            selectedDoctor: null,
             action: "",
             listDoctor: [],
             hasOldData: false,
 
             //save to doctor_infor table
             listPrice: [],
-            selectedPrice: "",
+            selectedPrice: null,
             listPayment: [],
-            selectedPayment: "",
+            selectedPayment: null,
             listProvince: [],
-            selectedProvice: "",
+            selectedProvince: null,
             nameClinic: "",
             addressClinic: "",
             note: "",
@@ -88,8 +88,9 @@ class ManageDoctor extends Component {
         });
     };
 
-    handleChangeDesc = (e) => {
-        this.setState({ description: e.target.value });
+    handleChangeText = (e) => {
+        let { name, value } = e.target;
+        this.setState({ [name]: value });
     };
 
     handleSaveContentMarkdown = async () => {
@@ -101,6 +102,13 @@ class ManageDoctor extends Component {
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
             action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
+
+            priceId: this.state.selectedPrice,
+            paymentId: this.state.selectedPayment,
+            provinceId: this.state.selectedProvince,
+            nameClinic: this.state.nameClinic,
+            addressClinic: this.state.addressClinic,
+            note: this.state.note,
         };
         //Gửi cục data lên server để check cần sửa hay tạo mới
         await this.props.saveDetailDoctor(data);
@@ -111,6 +119,13 @@ class ManageDoctor extends Component {
             description: "",
             selectedDoctor: "",
             hasOldData: false,
+
+            selectedPrice: null,
+            selectedPayment: null,
+            selectedProvince: null,
+            nameClinic: "",
+            addressClinic: "",
+            note: "",
         });
     };
 
@@ -120,6 +135,7 @@ class ManageDoctor extends Component {
         });
 
         let response = await getDetailDoctor(value);
+
         //check xem đã có thông tin chưa
         if (
             response &&
@@ -128,11 +144,33 @@ class ManageDoctor extends Component {
             response.data.Markdown
         ) {
             let markdown = response.data.Markdown;
+
+            let doctorInfor = response.data.Doctor_Infor;
+            if (doctorInfor) {
+                this.setState({
+                    nameClinic: doctorInfor.nameClinic,
+                    addressClinic: doctorInfor.addressClinic,
+                    note: doctorInfor.note,
+                    selectedPrice: doctorInfor.priceId,
+                    selectedPayment: doctorInfor.paymentId,
+                    selectedProvince: doctorInfor.provinceId,
+                });
+            } else {
+                this.setState({
+                    nameClinic: "",
+                    addressClinic: "",
+                    note: "",
+                    selectedPrice: null,
+                    selectedPayment: null,
+                    selectedProvince: null,
+                });
+            }
+
             this.setState({
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
                 description: markdown.description,
-                hasOldData: true, //có set là true
+                hasOldData: true, //có set là true,
             });
         } else {
             this.setState({
@@ -144,10 +182,22 @@ class ManageDoctor extends Component {
         }
     };
 
+    handleChangeSelectDoctorInfor = (selectOption, name) => {
+        this.setState({
+            [name]: selectOption,
+        });
+    };
+
     render() {
         const { Option } = Select;
         const {
             selectedDoctor,
+            selectedPrice,
+            selectedProvince,
+            selectedPayment,
+            note,
+            nameClinic,
+            addressClinic,
             listDoctor,
             hasOldData,
             listPrice,
@@ -171,7 +221,11 @@ class ManageDoctor extends Component {
                         <br />
                         <Select
                             showSearch
-                            placeholder="Chọn bác sĩ"
+                            placeholder={
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.select-doctor"}
+                                />
+                            }
                             style={{ width: "100%" }}
                             onChange={this.handleSelectDoctor}
                             value={selectedDoctor}
@@ -202,22 +256,36 @@ class ManageDoctor extends Component {
                             className="form-control"
                             // rows={4}
                             onChange={(e) => {
-                                this.handleChangeDesc(e);
+                                this.handleChangeText(e);
                             }}
                             value={this.state.description}
+                            name="description"
                         ></textarea>
                     </div>
                 </div>
                 <div className="more-infor-extra row mt-3">
                     <div className="col-4 form-group">
-                        <label>Chọn giá</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-doctor.price"}
+                            />
+                        </label>
                         <br />
                         <Select
                             showSearch
-                            placeholder="Chọn giá"
+                            placeholder={
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.price"}
+                                />
+                            }
                             style={{ width: "100%" }}
-                            // onChange={this.handleSelectDoctor}
-                            // value={selectedDoctor}
+                            onChange={(value) =>
+                                this.handleChangeSelectDoctorInfor(
+                                    value,
+                                    "selectedPrice"
+                                )
+                            }
+                            value={selectedPrice}
                             filterOption={(input, option) =>
                                 option.children
                                     .toLowerCase()
@@ -228,21 +296,34 @@ class ManageDoctor extends Component {
                             {listPrice.map((item) => (
                                 <Option key={item.id} value={item.keyMap}>
                                     {language === LANGUAGE.VI
-                                        ? item.valueVi
-                                        : item.valueEn}
+                                        ? `${item.valueVi}`
+                                        : `${item.valueEn} USD`}
                                 </Option>
                             ))}
                         </Select>
                     </div>
                     <div className="col-4 form-group">
-                        <label>Chọn phương thức thanh toán</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-doctor.payment"}
+                            />
+                        </label>
                         <br />
                         <Select
                             showSearch
-                            placeholder="Chọn phương thức thanh toán"
+                            placeholder={
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.payment"}
+                                />
+                            }
                             style={{ width: "100%" }}
-                            // onChange={this.handleSelectDoctor}
-                            // value={selectedDoctor}
+                            onChange={(value) =>
+                                this.handleChangeSelectDoctorInfor(
+                                    value,
+                                    "selectedPayment"
+                                )
+                            }
+                            value={selectedPayment}
                             filterOption={(input, option) =>
                                 option.children
                                     .toLowerCase()
@@ -251,7 +332,7 @@ class ManageDoctor extends Component {
                         >
                             {/* Render các Option từ dữ liệu API */}
                             {listPayment.map((item) => (
-                                <Option key={item.id} value={item.id}>
+                                <Option key={item.id} value={item.keyMap}>
                                     {language === LANGUAGE.VI
                                         ? item.valueVi
                                         : item.valueEn}
@@ -260,14 +341,27 @@ class ManageDoctor extends Component {
                         </Select>
                     </div>
                     <div className="col-4 form-group">
-                        <label>Chọn phương tỉnh thành</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-doctor.province"}
+                            />
+                        </label>
                         <br />
                         <Select
                             showSearch
-                            placeholder="Chọn tỉnh thành"
+                            placeholder={
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.province"}
+                                />
+                            }
                             style={{ width: "100%" }}
-                            // onChange={this.handleSelectDoctor}
-                            // value={selectedDoctor}
+                            onChange={(value) =>
+                                this.handleChangeSelectDoctorInfor(
+                                    value,
+                                    "selectedProvince"
+                                )
+                            }
+                            value={selectedProvince}
                             filterOption={(input, option) =>
                                 option.children
                                     .toLowerCase()
@@ -276,7 +370,7 @@ class ManageDoctor extends Component {
                         >
                             {/* Render các Option từ dữ liệu API */}
                             {listProvince.map((item) => (
-                                <Option key={item.id} value={item.id}>
+                                <Option key={item.id} value={item.keyMap}>
                                     {language === LANGUAGE.VI
                                         ? item.valueVi
                                         : item.valueEn}
@@ -285,19 +379,50 @@ class ManageDoctor extends Component {
                         </Select>
                     </div>
                     <div className="col-4 form-group">
-                        <label>Tên phòng khám</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-doctor.name-clinic"}
+                            />
+                        </label>
                         <br />
-                        <input className="form-control" />
+                        <input
+                            className="form-control"
+                            onChange={(event) => {
+                                this.handleChangeText(event);
+                            }}
+                            value={nameClinic}
+                            name="nameClinic"
+                        />
                     </div>
                     <div className="col-4 form-group">
-                        <label>Địa chỉ phòng khám</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-doctor.address-clinic"}
+                            />
+                        </label>
                         <br />
-                        <input className="form-control" />
+                        <input
+                            className="form-control"
+                            value={addressClinic}
+                            onChange={(event) => {
+                                this.handleChangeText(event);
+                            }}
+                            name="addressClinic"
+                        />
                     </div>
                     <div className="col-4 form-group">
-                        <label>Note</label>
+                        <label>
+                            <FormattedMessage id={"admin.manage-doctor.note"} />
+                        </label>
                         <br />
-                        <input className="form-control" />
+                        <input
+                            className="form-control"
+                            value={note}
+                            onChange={(event) => {
+                                this.handleChangeText(event);
+                            }}
+                            name="note"
+                        />
                     </div>
                 </div>
                 <div className="manage-doctor-editor mt-3">
