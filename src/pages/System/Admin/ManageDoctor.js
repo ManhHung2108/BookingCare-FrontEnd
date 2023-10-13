@@ -135,7 +135,6 @@ class ManageDoctor extends Component {
         });
 
         let response = await getDetailDoctor(value);
-
         //check xem đã có thông tin chưa
         if (
             response &&
@@ -145,25 +144,20 @@ class ManageDoctor extends Component {
         ) {
             let markdown = response.data.Markdown;
 
-            let doctorInfor = response.data.Doctor_Infor;
-            if (doctorInfor) {
-                this.setState({
-                    nameClinic: doctorInfor.nameClinic,
-                    addressClinic: doctorInfor.addressClinic,
-                    note: doctorInfor.note,
-                    selectedPrice: doctorInfor.priceId,
-                    selectedPayment: doctorInfor.paymentId,
-                    selectedProvince: doctorInfor.provinceId,
-                });
-            } else {
-                this.setState({
-                    nameClinic: "",
-                    addressClinic: "",
-                    note: "",
-                    selectedPrice: null,
-                    selectedPayment: null,
-                    selectedProvince: null,
-                });
+            let addressClinic = "",
+                nameClinic = "",
+                note = "",
+                priceId = null,
+                paymentId = null,
+                provinceId = null;
+
+            if (response.data.Doctor_Infor) {
+                nameClinic = response.data.Doctor_Infor.nameClinic;
+                addressClinic = response.data.Doctor_Infor.addressClinic;
+                note = response.data.Doctor_Infor.note;
+                priceId = response.data.Doctor_Infor.priceId;
+                paymentId = response.data.Doctor_Infor.paymentId;
+                provinceId = response.data.Doctor_Infor.provinceId;
             }
 
             this.setState({
@@ -171,6 +165,13 @@ class ManageDoctor extends Component {
                 contentMarkdown: markdown.contentMarkdown,
                 description: markdown.description,
                 hasOldData: true, //có set là true,
+
+                nameClinic: nameClinic,
+                addressClinic: addressClinic,
+                note: note,
+                selectedPrice: priceId,
+                selectedPayment: paymentId,
+                selectedProvince: provinceId,
             });
         } else {
             this.setState({
@@ -178,6 +179,13 @@ class ManageDoctor extends Component {
                 contentHTML: "",
                 description: "",
                 hasOldData: false, //chưa có
+
+                addressClinic: "",
+                nameClinic: "",
+                note: "",
+                priceId: null,
+                paymentId: null,
+                provinceId: null,
             });
         }
     };

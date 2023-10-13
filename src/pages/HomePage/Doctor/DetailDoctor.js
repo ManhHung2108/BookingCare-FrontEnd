@@ -6,6 +6,7 @@ import "./DetailDoctor.scss";
 import { getDetailDoctorAction } from "../../../redux/actions";
 import { LANGUAGE } from "../../../utils";
 import DoctorSchedule from "./DoctorSchedule";
+import DoctorExtraInfor from "./DoctorExtraInfor";
 
 class DetailDoctor extends Component {
     constructor(props) {
@@ -90,7 +91,13 @@ class DetailDoctor extends Component {
                             />
                         </div>
                         <div className="schedule-doctor_right">
-                            Thông tin bác sĩ
+                            <DoctorExtraInfor
+                                doctorIdFromParent={
+                                    doctorDetail && doctorDetail.id
+                                        ? doctorDetail.id
+                                        : -1
+                                }
+                            />
                         </div>
                     </div>
                     <div className="detail-container">
