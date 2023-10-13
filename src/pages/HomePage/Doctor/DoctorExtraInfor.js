@@ -1,20 +1,37 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 
 import "./DoctorExtraInfor.scss";
+import { getExtraInforDoctorByIdServicde } from "../../../services";
+import { LANGUAGE } from "../../../utils/constants";
+import NumberFormat from "react-number-format";
 
 class DoctorExtraInfor extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isShowDetailInfor: false,
+            extraInfor: {},
         };
     }
 
     componentDidMount() {}
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.language !== prevProps.language) {
+        }
+
+        if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
+            let res = await getExtraInforDoctorByIdServicde(
+                this.props.doctorIdFromParent
+            );
+            if (res && res.errCode === 0) {
+                this.setState({
+                    extraInfor: res.data,
+                });
+            }
+            // console.log("get ExtraInfor data: ", res);
         }
     }
 
@@ -25,25 +42,60 @@ class DoctorExtraInfor extends Component {
     };
 
     render() {
-        let { isShowDetailInfor } = this.state;
+        let { isShowDetailInfor, extraInfor } = this.state;
+        let { language } = this.props;
         return (
             <div className="doctor-extraInfor_container">
                 <div className="doctor-extraInfor_header">
-                    <div className="text-address">ĐỊA CHỈ KHÁM</div>
+                    <div className="text-address">
+                        <FormattedMessage
+                            id={"patient.extra-infor-doctor.text-address"}
+                        />
+                    </div>
                     <div className="name-clinic">
-                        Phòng khám chuyên khoa Da Liễu
+                        {extraInfor && extraInfor.nameClinic
+                            ? extraInfor.nameClinic
+                            : ""}
                     </div>
                     <div className="address-clinic">
-                        207 Phố Huế - Hai Bà Trưng - Hà Nội
+                        {extraInfor && extraInfor.addressClinic
+                            ? extraInfor.addressClinic
+                            : ""}
                     </div>
                 </div>
                 <div className="doctor-extraInfor_footer">
                     {isShowDetailInfor === false && (
                         <div className="short-infor">
-                            <h3>GIÁ KHÁM:</h3>
+                            <h3>
+                                <FormattedMessage
+                                    id={"patient.extra-infor-doctor.text-price"}
+                                />
+                            </h3>
                             <span>
-                                {" "}
-                                250.000<sup>đ</sup>.
+                                {extraInfor &&
+                                extraInfor.priceData &&
+                                language === LANGUAGE.VI ? (
+                                    <NumberFormat
+                                        value={extraInfor.priceData.valueVi}
+                                        displayType="text"
+                                        thousandSeparator={true}
+                                        suffix="VND"
+                                    />
+                                ) : (
+                                    ""
+                                )}
+                                {extraInfor &&
+                                extraInfor.priceData &&
+                                language === LANGUAGE.EN ? (
+                                    <NumberFormat
+                                        value={extraInfor.priceData.valueEn}
+                                        displayType="text"
+                                        thousandSeparator={true}
+                                        suffix="$"
+                                    />
+                                ) : (
+                                    ""
+                                )}
                             </span>
                             <span
                                 className="show-detailInfor_price"
@@ -51,29 +103,83 @@ class DoctorExtraInfor extends Component {
                                     this.showHideDetailInfor();
                                 }}
                             >
-                                Xem chi tiết
+                                <FormattedMessage
+                                    id={
+                                        "patient.extra-infor-doctor.text-view-detail"
+                                    }
+                                />
                             </span>
                         </div>
                     )}
                     {isShowDetailInfor && (
                         <>
-                            <div className="title-price">GIÁ KHÁM: </div>
+                            <div className="title-price">
+                                <FormattedMessage
+                                    id={"patient.extra-infor-doctor.text-price"}
+                                />
+                            </div>
                             <div className="detail-infor">
                                 <div className="infor-price">
-                                    <span className="text">Giá khám</span>
+                                    <span className="text">
+                                        <FormattedMessage
+                                            id={
+                                                "patient.extra-infor-doctor.text-price"
+                                            }
+                                        />
+                                    </span>
                                     <span className="price">
-                                        250.000<sup>đ</sup>
+                                        {extraInfor &&
+                                        extraInfor.priceData &&
+                                        language === LANGUAGE.VI ? (
+                                            <NumberFormat
+                                                value={
+                                                    extraInfor.priceData.valueVi
+                                                }
+                                                displayType="text"
+                                                thousandSeparator={true}
+                                                suffix="VND"
+                                            />
+                                        ) : (
+                                            ""
+                                        )}
+                                        {extraInfor &&
+                                        extraInfor.priceData &&
+                                        language === LANGUAGE.EN ? (
+                                            <NumberFormat
+                                                value={
+                                                    extraInfor.priceData.valueEn
+                                                }
+                                                displayType="text"
+                                                thousandSeparator={true}
+                                                suffix="$"
+                                            />
+                                        ) : (
+                                            ""
+                                        )}
                                     </span>
                                 </div>
                                 <div className="note">
-                                    Được ưu tiên khám trước khi đặt lịch qua
-                                    HealthBookings. Giá khám cho người nước
-                                    ngoài là 30 USD
+                                    {extraInfor && extraInfor.note
+                                        ? extraInfor.note
+                                        : ""}
                                 </div>
                             </div>
                             <div className="infor-payment">
-                                Người bệnh có thể thanh toán chi phí bằng hình
-                                thức tiền mặt và quẹt thẻ
+                                <FormattedMessage
+                                    id={
+                                        "patient.extra-infor-doctor.text-payment"
+                                    }
+                                />
+                                {extraInfor &&
+                                extraInfor.paymentData &&
+                                language === LANGUAGE.VI
+                                    ? extraInfor.paymentData.valueVi
+                                    : ""}
+                                {extraInfor &&
+                                extraInfor.paymentData &&
+                                language === LANGUAGE.EN
+                                    ? extraInfor.paymentData.valueEn
+                                    : ""}
                             </div>
                             <div className="hide-detailInfor_price">
                                 <span
@@ -81,7 +187,11 @@ class DoctorExtraInfor extends Component {
                                         this.showHideDetailInfor();
                                     }}
                                 >
-                                    Ẩn bảng giá
+                                    <FormattedMessage
+                                        id={
+                                            "patient.extra-infor-doctor.text-hide-price"
+                                        }
+                                    />
                                 </span>
                             </div>
                         </>
