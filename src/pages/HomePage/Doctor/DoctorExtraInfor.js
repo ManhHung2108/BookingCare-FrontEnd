@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import NumberFormat from "react-number-format";
 
 import "./DoctorExtraInfor.scss";
 import { getExtraInforDoctorByIdServicde } from "../../../services";
 import { LANGUAGE } from "../../../utils/constants";
-import NumberFormat from "react-number-format";
 
 class DoctorExtraInfor extends Component {
     constructor(props) {
