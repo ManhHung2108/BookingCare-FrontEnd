@@ -2,26 +2,28 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { Modal } from "reactstrap";
+import _ from "lodash";
 
 import "./BookingModal.scss";
+import ProfileDoctor from "../ProfileDoctor";
 
 class BookingModal extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            modal: false,
-        };
+        this.state = {};
     }
     componentDidMount() {}
     componentDidUpdate(prevProps, prevState, snapshot) {}
-    toggle = () => {
-        this.setState({
-            modal: !this.state.modal,
-        });
-    };
 
     render() {
         const { isOpenModal, handleCloseModalBooking, dataTime } = this.props;
+        let doctorId = "";
+        //check tồn tại và không rỗng
+        if (dataTime && !_.isEmpty(dataTime)) {
+            doctorId = dataTime.doctorId;
+        }
+
+        // console.log("check data props from modal: ", this.props);
         return (
             <div>
                 <Modal
@@ -45,8 +47,9 @@ class BookingModal extends Component {
                         </div>
                         <div className="booking-modal-body container">
                             {/* {JSON.stringify(dataTime)} */}
-                            <div className="doctor-infor"></div>
-                            <div className="price">Giá Khám 500,000VND</div>
+                            <div className="doctor-infor">
+                                <ProfileDoctor doctorId={doctorId} />
+                            </div>
                             <div className="row">
                                 <div className="col-6 form-group">
                                     <label>Họ Tên</label>
