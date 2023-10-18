@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
+import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 import moment from "moment";
 import localization from "moment/locale/vi";
@@ -77,7 +78,11 @@ class ProfileDoctor extends Component {
             return (
                 <>
                     <div>{`${time} - ${date}`}</div>
-                    <div>Miễn phí đặt lịch</div>
+                    <div>
+                        <FormattedMessage
+                            id={"patient.booking-modal.free-booking"}
+                        />
+                    </div>
                 </>
             );
         }
@@ -133,7 +138,7 @@ class ProfileDoctor extends Component {
                     </div>
                 </div>
                 <div className="price">
-                    Giá khám:{" "}
+                    <FormattedMessage id={"patient.booking-modal.text-price"} />
                     {dataProfile.Doctor_Infor &&
                         dataProfile.Doctor_Infor.priceData &&
                         language === LANGUAGE.VI && (

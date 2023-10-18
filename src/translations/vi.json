@@ -88,6 +88,20 @@
             "text-view-detail": "Xem chi tiết",
             "text-payment": "Người bệnh có thể thanh toán chi phí bằng hình thức: ",
             "text-hide-price": "Ẩn bảng giá"
+        },
+        "booking-modal": {
+            "title": "Thông tin đặt lịch khám bệnh",
+            "fullName": "Họ và tên",
+            "phoneNumber": "Số điện thoại",
+            "email": "Email",
+            "address": "Địa chỉ liên hệ",
+            "reason": "Lý do khám",
+            "birthday": "Ngày sinh",
+            "gender": "Giới tính",
+            "btnConfirm": "Xác nhận",
+            "btnCancel": "Hủy",
+            "text-price": "Giá khám: ",
+            "free-booking": "Miễn phí đặt lịch"
         }
     },
     "admin": {

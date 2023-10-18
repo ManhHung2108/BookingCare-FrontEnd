@@ -29,6 +29,10 @@
         .booking-modal-body {
             height : 100%;
             padding: 15px;
+
+            .react-datepicker-wrapper {
+                width: 100%;
+            }
         }
 
         .booking-modal-footer {
