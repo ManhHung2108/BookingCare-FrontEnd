@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
+import _ from "lodash";
+import moment from "moment";
+import localization from "moment/locale/vi";
 
 import "./ProfileDoctor.scss";
 import { getProfileDoctorByIdService } from "../../../services/userService";
@@ -46,9 +49,44 @@ class ProfileDoctor extends Component {
         return result;
     };
 
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    renderTimeBooking = (dataTime) => {
+        let { language } = this.props;
+
+        if (dataTime && !_.isEmpty(dataTime)) {
+            let time =
+                language === LANGUAGE.VI
+                    ? dataTime.timeData.valueVi
+                    : dataTime.timeData.valueEn;
+
+            let date =
+                language === LANGUAGE.VI
+                    ? this.capitalizeFirstLetter(
+                          moment
+                              .unix(+dataTime.date / 1000)
+                              .format("dddd - DD/MM/YYYY")
+                      )
+                    : moment
+                          .unix(+dataTime.date / 1000)
+                          .locale("en")
+                          .format("ddd - MM/DD/YYYY");
+
+            return (
+                <>
+                    <div>{`${time} - ${date}`}</div>
+                    <div>Miễn phí đặt lịch</div>
+                </>
+            );
+        }
+        return <></>;
+    };
+
     render() {
         let { dataProfile } = this.state;
-        let { language } = this.props;
+        let { language, isShowDescription, dataTime } = this.props;
 
         let nameVi = "",
             nameEn = "";
@@ -75,13 +113,22 @@ class ProfileDoctor extends Component {
                             {language === LANGUAGE.VI ? nameVi : nameEn}
                         </div>
                         <div className="intro-right_down">
-                            {dataProfile &&
-                                dataProfile.Markdown &&
-                                dataProfile.Markdown.description && (
-                                    <span>
-                                        {dataProfile.Markdown.description}
-                                    </span>
-                                )}
+                            {isShowDescription === true ? (
+                                <>
+                                    {dataProfile &&
+                                        dataProfile.Markdown &&
+                                        dataProfile.Markdown.description && (
+                                            <span>
+                                                {
+                                                    dataProfile.Markdown
+                                                        .description
+                                                }
+                                            </span>
+                                        )}
+                                </>
+                            ) : (
+                                <>{this.renderTimeBooking(dataTime)}</>
+                            )}
                         </div>
                     </div>
                 </div>
