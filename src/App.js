@@ -19,6 +19,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoadingComponent from "./components/GlobalSetting/LoadingComponent";
 import DetailDoctor from "./pages/HomePage/Doctor/DetailDoctor";
 import Doctor from "./templates/AdminTemplates/Doctor";
+import VerifyEmail from "./pages/HomePage/VerifyEmail";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -76,6 +77,10 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.DETAIL_DOCTOR}
                                     component={DetailDoctor}
+                                />
+                                <Route
+                                    path={configs.routes.VERIFY_EMAIL_BOOKING}
+                                    component={VerifyEmail}
                                 />
                             </Switch>
                         </div>
