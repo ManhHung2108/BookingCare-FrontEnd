@@ -149,8 +149,41 @@ class HomeHeader extends Component {
                                 </h1>
                             </div>
                             <div className="search-form">
-                                <i className="fas fa-search"></i>
-                                <input type="text" placeholder="Tìm kiếm" />
+                                <div className="search-input">
+                                    <i className="fas fa-search"></i>
+                                    <input type="text" placeholder="Tìm kiếm" />
+                                </div>
+                                <div className="search-result">
+                                    <div className="search-result_specialties">
+                                        <h3>Chuyên khoa</h3>
+                                        <a href="/#">
+                                            <div
+                                                className="image"
+                                                style={{
+                                                    backgroundImage: `url(${require("../../assets/images/specialty/112457-co-xuong-khop.jpg")})`,
+                                                }}
+                                            ></div>
+                                            <h4>Thần kinh</h4>
+                                            <div className="xoa"></div>
+                                        </a>
+                                        <a href="/#">
+                                            <div
+                                                className="image"
+                                                style={{
+                                                    backgroundImage: `url(${require("../../assets/images/specialty/112457-co-xuong-khop.jpg")})`,
+                                                }}
+                                            ></div>
+                                            <h4>Thần kinh</h4>
+                                            <div className="xoa"></div>
+                                        </a>
+                                    </div>
+                                    <div className="search-result_clinics">
+                                        <h3>Phòng khám</h3>
+                                    </div>
+                                    <div className="search-result_doctors">
+                                        <h3>Bác sĩ</h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="options">
