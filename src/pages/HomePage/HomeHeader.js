@@ -15,6 +15,7 @@ class HomeHeader extends Component {
         super(props);
         this.state = {
             isOpen: false,
+            isFocused: false,
         };
     }
 
@@ -24,9 +25,22 @@ class HomeHeader extends Component {
         });
     };
 
+    handleFocusSearch = () => {
+        this.setState({
+            isFocused: true,
+        });
+    };
+
+    handleBlurSearch = () => {
+        this.setState({
+            isFocused: false,
+        });
+    };
+
     render() {
         let language = this.props.lang;
         let { isShowBanner } = this.props;
+        let { isFocused } = this.state;
         // console.log(language);
         return (
             <Fragment>
@@ -148,10 +162,23 @@ class HomeHeader extends Component {
                                     </b>
                                 </h1>
                             </div>
-                            <div className="search-form">
+                            <div
+                                className={`search-form ${
+                                    isFocused ? "hien" : ""
+                                }`}
+                            >
                                 <div className="search-input">
                                     <i className="fas fa-search"></i>
-                                    <input type="text" placeholder="Tìm kiếm" />
+                                    <input
+                                        type="text"
+                                        placeholder="Tìm kiếm"
+                                        onFocus={() => {
+                                            this.handleFocusSearch();
+                                        }}
+                                        onBlur={() => {
+                                            this.handleBlurSearch();
+                                        }}
+                                    />
                                 </div>
                                 <div className="search-result">
                                     <div className="search-result_specialties">
