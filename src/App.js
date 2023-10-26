@@ -70,6 +70,7 @@ class App extends Component {
                                     path={"/doctor"}
                                     component={userIsAuthenticated(Doctor)}
                                 />
+
                                 <Route
                                     path={configs.routes.HOMEPAGE}
                                     component={HomePage}
