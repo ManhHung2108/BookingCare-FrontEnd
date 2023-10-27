@@ -117,6 +117,20 @@
             "name-clinic": "Tên phòng khám",
             "address-clinic": "Địa chỉ phòng khám",
             "note": "Ghi chú"
+        },
+        "manage-specialty": {
+            "title": "Quản lý chuyên khoa",
+            "text-nameVi": "Tên Tiếng Việt",
+            "text-nameEn": "Tên Tiếng Anh",
+            "text-image": "Ảnh chuyên khoa",
+            "text-upload": "Tải ảnh ",
+            "text-desc": "Giới thiệu",
+            "text-errnameVi": "Tên tiếng Việt không được để trống",
+            "text-errnameEn": "Tên tiếng Anh không được để trống",
+            "text-errimage": "Ảnh chuyên khoa không được để trống",
+            "text-errdesc": "Giới thiệu không được để trống",
+            "save": "Lưu chuyên khoa",
+            "add": "Tạo mới chuyên khoa"
         }
     }
 }

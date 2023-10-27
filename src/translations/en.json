@@ -117,6 +117,19 @@
             "name-clinic": "Clinic's name",
             "address-clinic": "Clinic's address",
             "note": "Note"
+        },
+        "manage-specialty": {
+            "title": "Manage Specialty",
+            "text-nameVi": "Name's Vietnamese",
+            "text-nameEn": "Name's English",
+            "text-image": "Image Specialty",
+            "text-upload": "Upload image ",
+            "text-errnameVi": "Name's Vietnamese is empty",
+            "text-errnameEn": "Name's English is empty",
+            "text-errimage": "Image Specialty is empty",
+            "text-errdesc": "Description is empty",
+            "save": "Save Specialty",
+            "add": "Create Specialty"
         }
     }
 }

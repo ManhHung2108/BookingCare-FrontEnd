@@ -24,13 +24,25 @@
             }
         }
 
+        .error {
+            color: red;
+        }
+
         .btn-save_specialty {
             margin          : 15px 0;
             background-color: orange;
             border          : none;
-            padding         : 10px 8px;
+            padding         : 6px 8px;
             min-width       : 100px;
             border-radius   : 5px;
+            color           : #fff;
+
+            &:hover {
+                background-color: transparent;
+                border          : 1px solid orange;
+                color           : orange;
+                transition      : ease-out 0.5s;
+            }
         }
     }
 
