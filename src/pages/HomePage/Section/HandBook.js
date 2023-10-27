@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FormattedMessage } from "react-intl";
 
 export default class HandBook extends Component {
     render() {
@@ -9,8 +10,12 @@ export default class HandBook extends Component {
             <div className="section-share section-handbook">
                 <div className="section-container">
                     <div className="section-header">
-                        <span className="title-section">Cẩm nang</span>
-                        <button className="btn-section">Xem thêm</button>
+                        <span className="title-section">
+                            <FormattedMessage id="homepage.hand-book" />
+                        </span>
+                        <button className="btn-section">
+                            <FormattedMessage id="homepage.more-infor" />
+                        </button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>

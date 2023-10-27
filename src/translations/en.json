@@ -73,7 +73,9 @@
     },
     "homepage": {
         "out-standing-doctor": "Last Week's featured doctor",
-        "more-infor": "More"
+        "more-infor": "More",
+        "popular-specialties": "Popular specialties",
+        "hand-book": "Handbook"
     },
     "patient": {
         "detail-doctor": {

@@ -73,7 +73,9 @@
     },
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật tuần qua",
-        "more-infor": "Xem thêm"
+        "more-infor": "Xem thêm",
+        "popular-specialties": "Chuyên khoa phổ biến",
+        "hand-book": "Cẩm nang"
     },
     "patient": {
         "detail-doctor": {

@@ -4,55 +4,61 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { getAllSpecialtyService } from "../../../services";
+import { FormattedMessage } from "react-intl";
+
 class Specialty extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            listSpecialty: [],
+        };
+    }
+    async componentDidMount() {
+        let res = await getAllSpecialtyService();
+        if (res && res.errCode === 0) {
+            this.setState({
+                listSpecialty: res.data ? res.data : [],
+            });
+        }
+    }
+
     render() {
+        const { listSpecialty } = this.state;
         return (
             <div className="section-share section-specialty">
                 <div className="section-container">
                     <div className="section-header">
                         <span className="title-section">
-                            Chuyên khoa phổ biến
+                            <FormattedMessage
+                                id={"homepage.popular-specialties"}
+                            />
                         </span>
-                        <button className="btn-section">Xem thêm</button>
+                        <button className="btn-section">
+                            <FormattedMessage id="homepage.more-infor" />
+                        </button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
-                            <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div className="description">
-                                    Cơ xương khớp 1
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div className="description">
-                                    Cơ xương khớp 2
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div className="description">
-                                    Cơ xương khớp 3
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div className="description">
-                                    Cơ xương khớp 4
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div className="description">
-                                    Cơ xương khớp 5
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="bg-img specialty-img"></div>
-                                <div className="description">
-                                    Cơ xương khớp 6
-                                </div>
-                            </div>
+                            {listSpecialty &&
+                                listSpecialty.map((item) => {
+                                    return (
+                                        <div
+                                            className="section-customize"
+                                            key={item.id}
+                                        >
+                                            <div
+                                                className="bg-img specialty-img"
+                                                style={{
+                                                    backgroundImage: `url(${item.image})`,
+                                                }}
+                                            ></div>
+                                            <div className="description">
+                                                {item.nameVi}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                         </Slider>
                     </div>
                 </div>
@@ -61,4 +67,14 @@ class Specialty extends Component {
     }
 }
 
-export default connect()(Specialty);
+const mapStateToProps = (state) => {
+    return {
+        language: state.appReducer.language,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
