@@ -6,6 +6,7 @@ import UserReduxManage from "../../pages/System/Admin/UserReduxManage";
 import ManageDoctor from "../../pages/System/Admin/ManageDoctor";
 
 import Header from "./Header/Header";
+import ManageSpecialty from "../../pages/System/Specialty/ManageSpecialty";
 
 class System extends Component {
     render() {
@@ -29,6 +30,11 @@ class System extends Component {
                                 path="/system/user-manage-redux"
                                 component={UserReduxManage}
                             /> */}
+                            <Route
+                                path="/system/manage-specialty"
+                                component={ManageSpecialty}
+                            />
+
                             <Route
                                 component={() => {
                                     return <Redirect to={systemMenuPath} />;
