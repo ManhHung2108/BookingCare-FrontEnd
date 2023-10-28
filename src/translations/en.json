@@ -116,6 +116,9 @@
             "price": "Price",
             "payment": "Payment",
             "province": "Province",
+            "specialty": "Specialty",
+            "select-specialty": "Choose Specialty",
+            "select-clinic": "Choose Clinic",
             "name-clinic": "Clinic's name",
             "address-clinic": "Clinic's address",
             "note": "Note"

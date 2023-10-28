@@ -8,6 +8,7 @@ import {
     getTopDoctorHomeService,
     getAllDoctorService,
     saveDetailDoctorService,
+    getAllSpecialtyService,
 } from "../../services";
 import actionTypes from "../types/actionTypes";
 
@@ -352,19 +353,23 @@ export const getRequiredDoctorInfor = () => {
             let resPrice = await getAllCodeService("PRICE");
             let resPayment = await getAllCodeService("PAYMENT");
             let resProvince = await getAllCodeService("PROVINCE");
+            let resSpecialty = await getAllSpecialtyService();
 
             if (
                 resPrice &&
                 resPayment &&
                 resProvince &&
+                resSpecialty &&
                 resPrice.errCode === 0 &&
                 resPayment.errCode === 0 &&
-                resProvince.errCode === 0
+                resProvince.errCode === 0 &&
+                resSpecialty.errCode === 0
             ) {
                 let data = {
                     resPrice: resPrice.data,
                     resPayment: resPayment.data,
                     resProvince: resProvince.data,
+                    resSpecialty: resSpecialty.data,
                 };
                 dispatch(fecthRequiredDoctorInforSuccess(data));
             } else {
