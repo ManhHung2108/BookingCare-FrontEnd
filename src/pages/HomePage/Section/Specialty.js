@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { withRouter } from "react-router-dom";
 
 import { getAllSpecialtyService } from "../../../services";
 import { FormattedMessage } from "react-intl";
@@ -22,6 +23,12 @@ class Specialty extends Component {
             });
         }
     }
+
+    handleViewDetailSpecialty = (item) => {
+        if (this.props.history) {
+            this.props.history.push(`/detail-specialty/${item.id}`);
+        }
+    };
 
     render() {
         const { listSpecialty } = this.state;
@@ -46,6 +53,11 @@ class Specialty extends Component {
                                         <div
                                             className="section-customize"
                                             key={item.id}
+                                            onClick={() => {
+                                                this.handleViewDetailSpecialty(
+                                                    item
+                                                );
+                                            }}
                                         >
                                             <div
                                                 className="bg-img specialty-img"
@@ -77,4 +89,6 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(Specialty)
+);
