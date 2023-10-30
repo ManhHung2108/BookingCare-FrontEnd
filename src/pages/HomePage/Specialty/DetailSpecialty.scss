@@ -1,0 +1,111 @@
+.detail-specialty_container {
+    background-color: #eeeeee;
+
+    .description-specialty_background {
+        border             : 1px solid red;
+        background         : #fff;
+        background-repeat  : no-repeat;
+        background-position: center;
+        background-size    : cover;
+
+        .description-specialty {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
+            padding         : 10px 0;
+
+            .description-specialty_content {
+                margin: 0 100px;
+
+                .specialty_header {
+                    h1 {
+                        font-size  : 20px;
+                        font-weight: bold;
+                    }
+                }
+
+                .more {
+                    .specialty_content {
+                        color   : #333;
+                        padding : 0px 15px 0px 0px;
+                        overflow: hidden;
+                    }
+
+                    .specialty-btn {
+                        a {
+                            text-decoration: none;
+                        }
+                    }
+
+                    .btn_display {
+                        cursor     : pointer;
+                        font-size  : 14px;
+                        color      : #288ad6;
+                        padding-top: 5px;
+                        display    : block;
+                    }
+
+                    .btn_hiden {
+                        cursor     : pointer;
+                        font-size  : 14px;
+                        color      : #288ad6;
+                        padding-top: 5px;
+                        display    : block;
+                    }
+                }
+
+                .more-hiden {
+                    max-height: 90px;
+
+                    .btn_hiden {
+                        display: none;
+                    }
+                }
+
+                .more-display {
+                    .btn_display {
+                        display: none;
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    .detail-specialty_body {
+        margin: 0 100px;
+
+
+        .list-doctor {
+
+            .doctor-item {
+                display   : flex;
+                width     : 100%;
+                min-height: 300px;
+                margin    : 15px 0;
+                padding   : 10px;
+
+                background-color: #fff;
+                box-shadow      : 0 1px 6px rgb(32 33 36 / 28%);
+                border-radius   : 8px;
+
+                .doctor-item_left {
+                    width        : 50%;
+                    border-right : 1px solid #ddd;
+                    padding-right: 10px;
+                }
+
+                .doctor-item_right {
+                    width  : 50%;
+                    padding: 10px;
+
+                    .doctor-extraInfor_container {
+                        border     : 1px solid #ddd;
+                        margin-top : 10px;
+                        padding-top: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+}
