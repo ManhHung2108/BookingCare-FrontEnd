@@ -1,8 +1,9 @@
 .detail-specialty_container {
     background-color: #eeeeee;
+    min-height      : 100vh;
 
     .description-specialty_background {
-        border             : 1px solid red;
+        // border             : 1px solid red;
         background         : #fff;
         background-repeat  : no-repeat;
         background-position: center;
@@ -27,6 +28,25 @@
                         color   : #333;
                         padding : 0px 15px 0px 0px;
                         overflow: hidden;
+
+                        h3 {
+                            font-size: 18px;
+                        }
+
+                        ul {
+                            list-style-type: disc !important;
+
+                            li {
+                                list-style-type    : disc;
+                                /* Kiểu dấu chấm mặc định (disc) */
+                                list-style-position: outside;
+                                /* Vị trí của dấu chấm bên ngoài */
+                                list-style-image   : none;
+                                /* Không sử dụng hình ảnh làm dấu chấm */
+                                margin-left        : 40px;
+                                /* Khoảng cách bên trái giữa dấu chấm và nội dung */
+                            }
+                        }
                     }
 
                     .specialty-btn {
@@ -53,7 +73,9 @@
                 }
 
                 .more-hiden {
-                    max-height: 90px;
+                    .specialty_content {
+                        max-height: 150px;
+                    }
 
                     .btn_hiden {
                         display: none;
@@ -74,6 +96,31 @@
     .detail-specialty_body {
         margin: 0 100px;
 
+        .filter-doctor {
+            margin-top: 15px;
+
+            select {
+                appearance         : none;
+                -webkit-appearance : none;
+                /* Safari and Chrome */
+                -moz-appearance    : none;
+                /* Firefox */
+                display            : block;
+                padding            : 8px 80px 8px 8px;
+                font-size          : 18px;
+                font-weight        : 400;
+                line-height        : 1.5;
+                color              : #212529;
+                outline            : none;
+                border             : 1px solid #ced4da;
+                border-radius      : 0.25rem;
+                background-color   : #fff;
+                background-image   : url('../../../assets/images/icon-select/icon_select.svg');
+                background-repeat  : no-repeat;
+                background-position: right 0.75rem center;
+                background-size    : 16px 12px;
+            }
+        }
 
         .list-doctor {
 

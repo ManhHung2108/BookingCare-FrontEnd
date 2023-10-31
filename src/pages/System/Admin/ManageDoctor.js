@@ -26,7 +26,7 @@ class ManageDoctor extends Component {
             contentHTML: "",
             description: "",
             selectedDoctor: null,
-            action: "",
+            action: CRUD_ACTIONS.CREATE,
             listDoctor: [],
             hasOldData: false,
 
