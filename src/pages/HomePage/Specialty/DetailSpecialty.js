@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 
 import "./DetailSpecialty.scss";
 import HomeHeader from "../HomeHeader";
+import HomeFooter from "../HomeFooter";
 import DoctorSchedule from "../Doctor/DoctorSchedule";
 import DoctorExtraInfor from "../Doctor/DoctorExtraInfor";
 import ProfileDoctor from "../Doctor/ProfileDoctor";
@@ -39,7 +40,8 @@ class DetailSpecialty extends Component {
 
             let provinces = await getAllCodeService("PROVINCE");
 
-            console.log("check res from DetailSpecialty: ", provinces);
+            // console.log("check res from DetailSpecialty: ", provinces);
+
             if (
                 res &&
                 res.errCode === 0 &&
@@ -47,6 +49,7 @@ class DetailSpecialty extends Component {
                 provinces.errCode === 0
             ) {
                 let arrDoctorId = [];
+                let arrProvince = [];
                 if (res.data && !_.isEmpty(res.data)) {
                     let listDoctor = res.data.doctorSpecialty;
                     if (listDoctor && listDoctor.length > 0) {
@@ -55,10 +58,20 @@ class DetailSpecialty extends Component {
                         });
                     }
                 }
+                if (provinces && provinces.data.length > 0) {
+                    arrProvince = provinces.data;
+                    arrProvince.unshift({
+                        keyMap: "ALL",
+                        createdAt: null,
+                        type: "PROVINCE",
+                        valueVi: "Toàn quốc",
+                        valueEn: "ALL",
+                    });
+                }
                 this.setState({
                     dataDetailSpecialty: res.data,
                     arrDoctorId: arrDoctorId,
-                    listProvince: provinces.data,
+                    listProvince: arrProvince ? arrProvince : [],
                 });
             }
         }
@@ -66,126 +79,167 @@ class DetailSpecialty extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {}
 
-    handleOnChangeSelect = (event) => {
-        console.log("check onChange: ", event.target.value);
+    handleOnChangeSelect = async (event) => {
+        // console.log("check onChange: ", event.target.value);
+        if (
+            this.props.match &&
+            this.props.match.params &&
+            this.props.match.params.id
+        ) {
+            let id = this.props.match.params.id;
+            let location = event.target.value;
+
+            let res = await getDetailSpecialtyByIdService({
+                id: id,
+                location: location,
+            });
+
+            if (res && res.errCode === 0) {
+                let arrDoctorId = [];
+
+                if (res.data && !_.isEmpty(res.data)) {
+                    let listDoctor = res.data.doctorSpecialty;
+                    if (listDoctor && listDoctor.length > 0) {
+                        arrDoctorId = listDoctor.map((item, index) => {
+                            return item.doctorId;
+                        });
+                    }
+                }
+
+                this.setState({
+                    arrDoctorId: arrDoctorId,
+                });
+            }
+        }
     };
     render() {
         let { arrDoctorId, dataDetailSpecialty, readMoreDesc, listProvince } =
             this.state;
         let { language } = this.props;
         return (
-            <div className="detail-specialty_container">
-                <HomeHeader />
-                <div
-                    className="description-specialty_background"
-                    style={{
-                        backgroundImage: `url(${dataDetailSpecialty.image})`,
-                    }}
-                >
-                    <div className="description-specialty">
-                        <div className="description-specialty_content">
-                            {/* <div className="specialty_header">
-                                <h1 data-title="Cơ Xương Khớp">
-                                    {dataDetailSpecialty &&
-                                    language === LANGUAGE.VI
-                                        ? dataDetailSpecialty.nameVi
-                                        : dataDetailSpecialty.nameEn}
-                                </h1>
-                            </div> */}
-                            <div
-                                className={`more ${
-                                    readMoreDesc ? "more-display" : "more-hiden"
-                                }`}
-                            >
-                                <div className="specialty_content">
-                                    {dataDetailSpecialty &&
-                                        !_.isEmpty(dataDetailSpecialty) && (
-                                            <div
-                                                dangerouslySetInnerHTML={{
-                                                    __html: dataDetailSpecialty.descriptionHTML,
-                                                }}
-                                            ></div>
-                                        )}
-                                </div>
-                                <div className="specialty-btn">
-                                    <div
-                                        className="btn_display"
-                                        onClick={() => {
-                                            this.setState({
-                                                readMoreDesc: true,
-                                            });
-                                        }}
-                                    >
-                                        Đọc thêm
+            <>
+                <div className="detail-specialty_container">
+                    <HomeHeader />
+                    <div
+                        className="description-specialty_background"
+                        style={{
+                            backgroundImage: `url(${dataDetailSpecialty.image})`,
+                        }}
+                    >
+                        <div className="description-specialty">
+                            <div className="description-specialty_content">
+                                {/* <div className="specialty_header">
+                                    <h1 data-title="Cơ Xương Khớp">
+                                        {dataDetailSpecialty &&
+                                        language === LANGUAGE.VI
+                                            ? dataDetailSpecialty.nameVi
+                                            : dataDetailSpecialty.nameEn}
+                                    </h1>
+                                </div> */}
+                                <div
+                                    className={`more ${
+                                        readMoreDesc
+                                            ? "more-display"
+                                            : "more-hiden"
+                                    }`}
+                                >
+                                    <div className="specialty_content">
+                                        {dataDetailSpecialty &&
+                                            !_.isEmpty(dataDetailSpecialty) && (
+                                                <div
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: dataDetailSpecialty.descriptionHTML,
+                                                    }}
+                                                ></div>
+                                            )}
                                     </div>
+                                    <div className="specialty-btn">
+                                        <div
+                                            className="btn_display"
+                                            onClick={() => {
+                                                this.setState({
+                                                    readMoreDesc: true,
+                                                });
+                                            }}
+                                        >
+                                            Đọc thêm
+                                        </div>
 
-                                    <div
-                                        className="btn_hiden"
-                                        onClick={() => {
-                                            this.setState({
-                                                readMoreDesc: false,
-                                            });
-                                        }}
-                                    >
-                                        Ẩn
+                                        <div
+                                            className="btn_hiden"
+                                            onClick={() => {
+                                                this.setState({
+                                                    readMoreDesc: false,
+                                                });
+                                            }}
+                                        >
+                                            Ẩn
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="detail-specialty_body">
-                    <div className="filter-doctor">
-                        <select
-                            onChange={(event) => {
-                                this.handleOnChangeSelect(event);
-                            }}
-                        >
-                            <option value={"ALL"}>Toàn quốc</option>
-                            {listProvince &&
-                                listProvince.length > 0 &&
-                                listProvince.map((item) => {
+                    <div className="detail-specialty_body">
+                        <div className="filter-doctor">
+                            <select
+                                onChange={(event) => {
+                                    this.handleOnChangeSelect(event);
+                                }}
+                            >
+                                {listProvince &&
+                                    listProvince.length > 0 &&
+                                    listProvince.map((item, index) => {
+                                        return (
+                                            <option
+                                                key={index}
+                                                value={item.keyMap}
+                                            >
+                                                {language === LANGUAGE.VI
+                                                    ? item.valueVi
+                                                    : item.valueEn}
+                                            </option>
+                                        );
+                                    })}
+                            </select>
+                        </div>
+                        <div className="list-doctor">
+                            {arrDoctorId &&
+                                arrDoctorId.length > 0 &&
+                                arrDoctorId.map((item, index) => {
                                     return (
-                                        <option
-                                            key={item.id}
-                                            value={item.keyMap}
+                                        <div
+                                            className="doctor-item"
+                                            key={index}
                                         >
-                                            {language === LANGUAGE.VI
-                                                ? item.valueVi
-                                                : item.valueEn}
-                                        </option>
-                                    );
-                                })}
-                        </select>
-                    </div>
-                    <div className="list-doctor">
-                        {arrDoctorId &&
-                            arrDoctorId.length > 0 &&
-                            arrDoctorId.map((item, index) => {
-                                return (
-                                    <div className="doctor-item" key={index}>
-                                        <div className="doctor-item_left">
-                                            <div className="profile-doctor">
-                                                <ProfileDoctor
-                                                    doctorId={item}
-                                                    isShowDescription={true}
+                                            <div className="doctor-item_left">
+                                                <div className="profile-doctor">
+                                                    <ProfileDoctor
+                                                        doctorId={item}
+                                                        isShowDescription={true}
+                                                        isShowLinkDetail={true}
+                                                        isShowPrice={false}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="doctor-item_right">
+                                                <DoctorSchedule
+                                                    doctorIdFromParent={item}
+                                                />
+                                                <DoctorExtraInfor
+                                                    doctorIdFromParent={item}
                                                 />
                                             </div>
                                         </div>
-                                        <div className="doctor-item_right">
-                                            <DoctorSchedule
-                                                doctorIdFromParent={item}
-                                            />
-                                            <DoctorExtraInfor
-                                                doctorIdFromParent={item}
-                                            />
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div className="mt-3">
+                    <HomeFooter />
+                </div>
+            </>
         );
     }
 }

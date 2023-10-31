@@ -5,6 +5,7 @@ import { FormattedMessage } from "react-intl";
 import _ from "lodash";
 import moment from "moment";
 import localization from "moment/locale/vi";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 import "./ProfileDoctor.scss";
 import { getProfileDoctorByIdService } from "../../../services/userService";
@@ -91,7 +92,14 @@ class ProfileDoctor extends Component {
 
     render() {
         let { dataProfile } = this.state;
-        let { language, isShowDescription, dataTime } = this.props;
+        let {
+            language,
+            isShowDescription,
+            dataTime,
+            isShowLinkDetail,
+            isShowPrice,
+            doctorId,
+        } = this.props;
 
         let nameVi = "",
             nameEn = "";
@@ -137,35 +145,51 @@ class ProfileDoctor extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="price">
-                    <FormattedMessage id={"patient.booking-modal.text-price"} />
-                    {dataProfile.Doctor_Infor &&
-                        dataProfile.Doctor_Infor.priceData &&
-                        language === LANGUAGE.VI && (
-                            <NumberFormat
-                                className={"currency"}
-                                value={
-                                    dataProfile.Doctor_Infor.priceData.valueVi
-                                }
-                                displayType="text"
-                                thousandSeparator={true}
-                                suffix="VND"
-                            />
-                        )}
-                    {dataProfile.Doctor_Infor &&
-                        dataProfile.Doctor_Infor.priceData &&
-                        language === LANGUAGE.EN && (
-                            <NumberFormat
-                                className={"currency"}
-                                value={
-                                    dataProfile.Doctor_Infor.priceData.valueEn
-                                }
-                                displayType="text"
-                                thousandSeparator={true}
-                                suffix="$"
-                            />
-                        )}
-                </div>
+                {isShowLinkDetail === true && (
+                    <Link
+                        to={`/detail-doctor/${doctorId}`}
+                        className="view-detail_doctor"
+                    >
+                        <FormattedMessage
+                            id={"patient.booking-modal.text-more"}
+                        />
+                    </Link>
+                )}
+                {isShowPrice && (
+                    <div className="price">
+                        <FormattedMessage
+                            id={"patient.booking-modal.text-price"}
+                        />
+                        {dataProfile.Doctor_Infor &&
+                            dataProfile.Doctor_Infor.priceData &&
+                            language === LANGUAGE.VI && (
+                                <NumberFormat
+                                    className={"currency"}
+                                    value={
+                                        dataProfile.Doctor_Infor.priceData
+                                            .valueVi
+                                    }
+                                    displayType="text"
+                                    thousandSeparator={true}
+                                    suffix="VND"
+                                />
+                            )}
+                        {dataProfile.Doctor_Infor &&
+                            dataProfile.Doctor_Infor.priceData &&
+                            language === LANGUAGE.EN && (
+                                <NumberFormat
+                                    className={"currency"}
+                                    value={
+                                        dataProfile.Doctor_Infor.priceData
+                                            .valueEn
+                                    }
+                                    displayType="text"
+                                    thousandSeparator={true}
+                                    suffix="$"
+                                />
+                            )}
+                    </div>
+                )}
             </div>
         );
     }

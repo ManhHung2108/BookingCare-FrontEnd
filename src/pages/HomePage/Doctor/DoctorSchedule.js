@@ -25,6 +25,17 @@ class DoctorSchedule extends Component {
         this.setState({
             allDays: allDays,
         });
+
+        if (this.props.doctorIdFromParent) {
+            let allAvalableTime = await this.getTime(
+                this.props.doctorIdFromParent,
+                allDays[0].value
+            );
+
+            this.setState({
+                allAvalableTime: allAvalableTime ? allAvalableTime : [],
+            });
+        }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {

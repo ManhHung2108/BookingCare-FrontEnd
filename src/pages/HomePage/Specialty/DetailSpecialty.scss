@@ -29,6 +29,8 @@
                         padding : 0px 15px 0px 0px;
                         overflow: hidden;
 
+                        h1,
+                        h2,
                         h3 {
                             font-size: 18px;
                         }
@@ -123,13 +125,15 @@
         }
 
         .list-doctor {
+            padding-bottom: 10px;
 
             .doctor-item {
-                display   : flex;
-                width     : 100%;
-                min-height: 300px;
-                margin    : 15px 0;
-                padding   : 10px;
+                display      : flex;
+                width        : 100%;
+                min-height   : 300px;
+                // margin    : 15px 0;
+                margin-top   : 15px;
+                padding      : 10px;
 
                 background-color: #fff;
                 box-shadow      : 0 1px 6px rgb(32 33 36 / 28%);
