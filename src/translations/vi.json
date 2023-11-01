@@ -138,6 +138,23 @@
             "text-errdesc": "Giới thiệu không được để trống",
             "save": "Lưu chuyên khoa",
             "add": "Tạo mới chuyên khoa"
+        },
+        "manage-clinic": {
+            "title": "Quản lý phòng khám",
+            "text-nameVi": "Tên Tiếng Việt",
+            "text-nameEn": "Tên Tiếng Anh",
+            "text-address": "Địa chỉ",
+            "text-image": "Ảnh chuyên khoa",
+            "text-upload": "Tải ảnh ",
+            "text-desc": "Giới thiệu",
+            "text-province": "Tỉnh thành",
+            "text-errnameVi": "Tên tiếng Việt không được để trống",
+            "text-errnameEn": "Tên tiếng Anh không được để trống",
+            "text-errimage": "Ảnh phòng khám không được để trống",
+            "text-errdesc": "Giới thiệu không được để trống",
+            "text-erraddress": "Địa chỉ không được để trống",
+            "save": "Lưu phòng khám",
+            "add": "Tạo mới phòng khám"
         }
     }
 }

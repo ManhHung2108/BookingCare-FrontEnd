@@ -136,6 +136,22 @@
             "text-errdesc": "Description is empty",
             "save": "Save Specialty",
             "add": "Create Specialty"
+        },
+        "manage-clinic": {
+            "title": "Manage Clinic",
+            "text-nameVi": "Name's Vietnamese",
+            "text-nameEn": "Name's English",
+            "text-image": "Image Clinic",
+            "text-address": "Address",
+            "text-upload": "Upload image ",
+            "text-province": "Province",
+            "text-errnameVi": "Name's Vietnamese is empty",
+            "text-errnameEn": "Name's English is empty",
+            "text-errimage": "Image Clinic is empty",
+            "text-errdesc": "Description is empty",
+            "text-erraddress": "Address is empty",
+            "save": "Save Clinic",
+            "add": "Create Clinic"
         }
     }
 }
