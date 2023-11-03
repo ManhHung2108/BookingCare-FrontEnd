@@ -101,7 +101,7 @@ class DetailClinic extends Component {
             let res = await getDetailClinicByIdService({
                 id: id,
                 location: location,
-                search: "",
+                search: this.state.searchInput,
             });
 
             if (res && res.errCode === 0) {
