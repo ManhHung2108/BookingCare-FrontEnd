@@ -60,12 +60,12 @@ class MedicalFacility extends Component {
                                             }}
                                         >
                                             <div
-                                                className="bg-img specialty-img"
+                                                className="bg-img medical-facility-img"
                                                 style={{
                                                     backgroundImage: `url(${item.image})`,
                                                 }}
                                             ></div>
-                                            <div className="description">
+                                            <div className="description text-center">
                                                 {language === LANGUAGE.VI
                                                     ? item.nameVi
                                                     : item.nameEn}

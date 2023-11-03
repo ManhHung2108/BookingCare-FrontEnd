@@ -162,7 +162,11 @@ class DetailSpecialty extends Component {
                                                 });
                                             }}
                                         >
-                                            Đọc thêm
+                                            <FormattedMessage
+                                                id={
+                                                    "patient.detail-speciality.text-more"
+                                                }
+                                            />
                                         </div>
 
                                         <div
@@ -173,7 +177,11 @@ class DetailSpecialty extends Component {
                                                 });
                                             }}
                                         >
-                                            Ẩn
+                                            <FormattedMessage
+                                                id={
+                                                    "patient.detail-speciality.text-hiden"
+                                                }
+                                            />
                                         </div>
                                     </div>
                                 </div>

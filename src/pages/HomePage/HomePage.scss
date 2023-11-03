@@ -25,6 +25,11 @@
         margin-bottom: 20px;
         margin-right : 5px;
 
+        text-align : center;
+        font-size  : 18px;
+        font-weight: 600;
+        color      : rgb(26, 26, 26);
+
         .section-customize {
             margin : 5px;
             padding: 10px 5px;
@@ -32,6 +37,10 @@
 
             &:hover .description {
                 color: #49bce2;
+            }
+
+            .description {
+                padding-top: 20px;
             }
 
             .bg-img {
@@ -51,8 +60,8 @@
                     background-image   : url("../../assets/images/medical-facility/083122lo-go-viet-duc.jpg");
                     background-position: center center;
                     background-repeat  : no-repeat;
-                    background-size    : cover;
-                    background-color   : #eee;
+                    background-size    : contain;
+                    background-color   : #fff;
                 }
 
                 &.outstanding-doctor-img {

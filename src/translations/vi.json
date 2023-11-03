@@ -107,6 +107,14 @@
             "text-price": "Giá khám: ",
             "free-booking": "Miễn phí đặt lịch",
             "text-more": "Xem thêm"
+        },
+        "detail-clinic": {
+            "text-search": "Tìm kiếm",
+            "text-desc": "Giới thiệu"
+        },
+        "detail-speciality": {
+            "text-more": "Đọc thêm",
+            "text-hiden": "Ân"
         }
     },
     "admin": {

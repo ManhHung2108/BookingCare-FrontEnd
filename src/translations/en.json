@@ -107,6 +107,14 @@
             "text-price": "Price: ",
             "free-booking": "Free booking",
             "text-more": "View Detail"
+        },
+        "detail-clinic": {
+            "text-search": "Search",
+            "text-desc": "Description"
+        },
+        "detail-speciality": {
+            "text-more": "More",
+            "text-hiden": "Hiden"
         }
     },
     "admin": {

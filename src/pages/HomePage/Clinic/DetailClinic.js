@@ -187,7 +187,11 @@ class DetailClinic extends Component {
                                     />
                                 </div>
                                 <div className="detail-clinic_address">
-                                    <h1>{dataDetailClinic.nameVi}</h1>
+                                    <h1>
+                                        {language === LANGUAGE.VI
+                                            ? dataDetailClinic.nameVi
+                                            : dataDetailClinic.nameEn}
+                                    </h1>
                                     <div>{dataDetailClinic.address}</div>
                                 </div>
                             </div>
@@ -220,6 +224,7 @@ class DetailClinic extends Component {
                                     className="form-control"
                                     name="searchInput"
                                     value={searchInput}
+                                    placeholder="Search"
                                     onChange={(e) => {
                                         this.handleOnChangeInput(e);
                                     }}
@@ -228,7 +233,11 @@ class DetailClinic extends Component {
                                     }}
                                 />
                                 {/* <i className="fas fa-search"></i> */}
-                                <button>Tìm kiếm</button>
+                                <button>
+                                    <FormattedMessage
+                                        id={"patient.detail-clinic.text-search"}
+                                    />
+                                </button>
                             </div>
                         </div>
                         <div className="list-doctor">
@@ -263,7 +272,22 @@ class DetailClinic extends Component {
                                 })}
                         </div>
                     </div>
+                    <div className="clinic-description">
+                        <h2 className="text-desc">
+                            <FormattedMessage
+                                id={"patient.detail-clinic.text-desc"}
+                            />
+                        </h2>
+                        {dataDetailClinic && !_.isEmpty(dataDetailClinic) && (
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: dataDetailClinic.descriptionHTML,
+                                }}
+                            ></div>
+                        )}
+                    </div>
                 </div>
+
                 <div className="mt-3">
                     <HomeFooter />
                 </div>
