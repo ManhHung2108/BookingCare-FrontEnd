@@ -13,6 +13,7 @@ const initialState = {
     provinces: [],
     payments: [],
     specialties: [],
+    clinics: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -107,6 +108,7 @@ const adminReducer = (state = initialState, action) => {
             copyState.provinces = action.data.resProvince;
             copyState.payments = action.data.resPayment;
             copyState.specialties = action.data.resSpecialty;
+            copyState.clinics = action.data.resClinic;
             copyState.isLoadingGender = false;
 
             return copyState;

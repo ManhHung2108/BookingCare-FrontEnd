@@ -75,7 +75,9 @@
         "out-standing-doctor": "Bác sĩ nổi bật tuần qua",
         "more-infor": "Xem thêm",
         "popular-specialties": "Chuyên khoa phổ biến",
-        "hand-book": "Cẩm nang"
+        "hand-book": "Cẩm nang",
+        "text-search": "Tìm kiếm",
+        "outstanding-medical-facilities": "Cơ sở y tế nổi bật"
     },
     "patient": {
         "detail-doctor": {

@@ -91,6 +91,16 @@ const createNewClinic = (data) => {
     return axios.post(`/api/create-new-clinic`, data);
 };
 
+const getAllClinicService = () => {
+    return axios.get(`/api/get-clinic`);
+};
+
+const getDetailClinicByIdService = (data) => {
+    return axios.get(
+        `/api/get-detail-clinic-by-id?id=${data.id}&location=${data.location}`
+    );
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -112,4 +122,6 @@ export {
     getAllSpecialtyService,
     getDetailSpecialtyByIdService,
     createNewClinic,
+    getAllClinicService,
+    getDetailClinicByIdService,
 };

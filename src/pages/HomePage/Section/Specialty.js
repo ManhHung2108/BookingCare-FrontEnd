@@ -4,9 +4,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { withRouter } from "react-router-dom";
+import { FormattedMessage } from "react-intl";
 
 import { getAllSpecialtyService } from "../../../services";
-import { FormattedMessage } from "react-intl";
 
 class Specialty extends Component {
     constructor(props) {

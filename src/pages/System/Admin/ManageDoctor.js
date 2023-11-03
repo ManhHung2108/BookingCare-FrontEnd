@@ -78,6 +78,16 @@ class ManageDoctor extends Component {
                 listSpecialty: this.props.listSpecialtyRedux,
             });
         }
+        if (prevProps.listClinicRedux !== this.props.listClinicRedux) {
+            this.setState(
+                {
+                    listClinic: this.props.listClinicRedux,
+                },
+                () => {
+                    console.log(this.state.listClinic);
+                }
+            );
+        }
     }
 
     handleGetAllDoctor = () => {
@@ -174,9 +184,9 @@ class ManageDoctor extends Component {
                 paymentId = response.data.Doctor_Infor.paymentId;
                 provinceId = response.data.Doctor_Infor.provinceId;
                 specialtyId = response.data.Doctor_Infor.specialtyId.toString();
-                clinicId =
-                    response.data.Doctor_Infor.clinicId &&
-                    response.data.Doctor_Infor.clinicId.toString();
+                clinicId = response.data.Doctor_Infor.clinicId
+                    ? response.data.Doctor_Infor.clinicId.toString()
+                    : null;
             }
 
             this.setState({
@@ -532,8 +542,8 @@ class ManageDoctor extends Component {
                             {listClinic.map((item) => (
                                 <Option key={item.id} value={item.keyMap}>
                                     {language === LANGUAGE.VI
-                                        ? item.valueVi
-                                        : item.valueEn}
+                                        ? item.nameVi
+                                        : item.nameEn}
                                 </Option>
                             ))}
                         </Select>
@@ -577,6 +587,7 @@ const mapStateToProps = (state) => {
         listPaymentRedux: state.adminReducer.payments,
         listProvinceRedux: state.adminReducer.provinces,
         listSpecialtyRedux: state.adminReducer.specialties,
+        listClinicRedux: state.adminReducer.clinics,
     };
 };
 const mapDispatchToProps = (dispatch) => {
