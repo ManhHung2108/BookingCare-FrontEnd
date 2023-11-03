@@ -101,6 +101,14 @@ const getDetailClinicByIdService = (data) => {
     );
 };
 
+const getSearchByNameService = (query) => {
+    return axios.get(`http://localhost:8080/api/search-by-name?q=${query}`);
+};
+
+const getSearchService = () => {
+    return axios.get(`http://localhost:8080/api/search`);
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -124,4 +132,6 @@ export {
     createNewClinic,
     getAllClinicService,
     getDetailClinicByIdService,
+    getSearchByNameService,
+    getSearchService,
 };

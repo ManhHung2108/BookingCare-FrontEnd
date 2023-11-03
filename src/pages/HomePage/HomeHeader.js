@@ -9,6 +9,7 @@ import routes from "../../configs/routes";
 
 import "./HomeHeader.scss";
 import HamburgerMenu from "../../components/HamburgerMenu/HamburgerMenu";
+import { getSearchByNameService, getSearchService } from "../../services";
 
 class HomeHeader extends Component {
     constructor(props) {
@@ -16,7 +17,24 @@ class HomeHeader extends Component {
         this.state = {
             isOpen: false,
             isFocused: false,
+            searchQuery: "",
+            listSearchClinic: [],
+            listSearchDoctor: [],
+            listSearchSpecialty: [],
         };
+    }
+
+    async componentDidMount() {
+        let copyState = { ...this.state };
+        let res = await getSearchService();
+        if (res && res.errCode === 0) {
+            copyState.listSearchClinic = res.data.resClinic;
+            copyState.listSearchSpecialty = res.data.resSpecialty;
+            copyState.listSearchDoctor = res.data.resDoctor;
+        }
+        this.setState({
+            ...copyState,
+        });
     }
 
     handleOpenMenu = () => {
@@ -25,7 +43,7 @@ class HomeHeader extends Component {
         });
     };
 
-    handleFocusSearch = () => {
+    handleFocusSearch = async () => {
         this.setState({
             isFocused: true,
         });
@@ -37,10 +55,54 @@ class HomeHeader extends Component {
         });
     };
 
+    handleOnChangeSearch = async (e, key) => {
+        let copyState = { ...this.state };
+        copyState[key] = e.target.value;
+        this.setState({
+            ...copyState,
+        });
+        if (copyState.searchQuery === "") {
+            let res = await getSearchService();
+            if (res && res.errCode === 0) {
+                copyState.listSearchClinic = res.data.resClinic;
+                copyState.listSearchSpecialty = res.data.resSpecialty;
+                copyState.listSearchDoctor = res.data.resDoctor;
+                this.setState({
+                    ...copyState,
+                });
+            }
+        }
+    };
+
+    handleEnterSearch = async (e) => {
+        const { searchQuery } = this.state;
+        let copyState = { ...this.state };
+        if (searchQuery) {
+            if (e.key === "Enter") {
+                let res = await getSearchByNameService(searchQuery);
+                if (res && res.errCode === 0) {
+                    copyState.listSearchClinic = res.data.resClinic;
+                    copyState.listSearchSpecialty = res.data.resSpecialty;
+                    copyState.listSearchDoctor = res.data.resDoctor;
+                }
+
+                this.setState({
+                    ...copyState,
+                });
+            }
+        }
+    };
+
     render() {
         let language = this.props.lang;
         let { isShowBanner } = this.props;
-        let { isFocused } = this.state;
+        let {
+            isFocused,
+            searchQuery,
+            listSearchClinic,
+            listSearchDoctor,
+            listSearchSpecialty,
+        } = this.state;
         // console.log(language);
         return (
             <Fragment>
@@ -170,45 +232,116 @@ class HomeHeader extends Component {
                                 <div className="search-input">
                                     <i className="fas fa-search"></i>
                                     <input
+                                        value={searchQuery}
                                         type="text"
                                         placeholder="Tìm kiếm"
                                         onFocus={() => {
                                             this.handleFocusSearch();
                                         }}
                                         onBlur={() => {
-                                            this.handleBlurSearch();
+                                            // Sử dụng setTimeout để trì hoãn việc ẩn danh sách kết quả
+                                            setTimeout(() => {
+                                                this.handleBlurSearch();
+                                            }, 200); // Thời gian trễ 200ms (có thể điều chỉnh)
+                                        }}
+                                        onChange={(e) => {
+                                            this.handleOnChangeSearch(
+                                                e,
+                                                "searchQuery"
+                                            );
+                                        }}
+                                        onKeyPress={(e) => {
+                                            this.handleEnterSearch(e);
                                         }}
                                     />
                                 </div>
                                 <div className="search-result">
                                     <div className="search-result_specialties">
                                         <h3>Chuyên khoa</h3>
-                                        <a href="/#">
-                                            <div
-                                                className="image"
-                                                style={{
-                                                    backgroundImage: `url(${require("../../assets/images/specialty/112457-co-xuong-khop.jpg")})`,
-                                                }}
-                                            ></div>
-                                            <h4>Thần kinh</h4>
-                                            <div className="xoa"></div>
-                                        </a>
-                                        <a href="/#">
-                                            <div
-                                                className="image"
-                                                style={{
-                                                    backgroundImage: `url(${require("../../assets/images/specialty/112457-co-xuong-khop.jpg")})`,
-                                                }}
-                                            ></div>
-                                            <h4>Thần kinh</h4>
-                                            <div className="xoa"></div>
-                                        </a>
+                                        {listSearchSpecialty &&
+                                            listSearchSpecialty.length > 0 &&
+                                            listSearchSpecialty.map(
+                                                (item, index) => {
+                                                    return (
+                                                        <Link
+                                                            to={`/detail-specialty/${item.id}`}
+                                                            key={index}
+                                                        >
+                                                            <div
+                                                                className="image"
+                                                                style={{
+                                                                    backgroundImage: `url(${item.image})`,
+                                                                }}
+                                                            ></div>
+                                                            <h4>
+                                                                {language ===
+                                                                LANGUAGE.VI
+                                                                    ? item.nameVi
+                                                                    : item.nameEn}
+                                                            </h4>
+                                                            <div className="xoa"></div>
+                                                        </Link>
+                                                    );
+                                                }
+                                            )}
                                     </div>
                                     <div className="search-result_clinics">
                                         <h3>Phòng khám</h3>
+                                        {listSearchClinic &&
+                                            listSearchClinic.length > 0 &&
+                                            listSearchClinic.map(
+                                                (item, index) => {
+                                                    return (
+                                                        <Link
+                                                            to={`/detail-clinic/${item.id}`}
+                                                            key={index}
+                                                        >
+                                                            <div
+                                                                className="image"
+                                                                style={{
+                                                                    backgroundImage: `url(${item.image})`,
+                                                                }}
+                                                            ></div>
+                                                            <h4>
+                                                                {language ===
+                                                                LANGUAGE.VI
+                                                                    ? item.nameVi
+                                                                    : item.nameEn}
+                                                            </h4>
+                                                            <div className="xoa"></div>
+                                                        </Link>
+                                                    );
+                                                }
+                                            )}
                                     </div>
                                     <div className="search-result_doctors">
                                         <h3>Bác sĩ</h3>
+                                        {listSearchDoctor &&
+                                            listSearchDoctor.length > 0 &&
+                                            listSearchDoctor.map(
+                                                (item, index) => {
+                                                    return (
+                                                        <Link
+                                                            to={`/detail-doctor/${item.id}`}
+                                                            key={index}
+                                                        >
+                                                            <div
+                                                                className="image"
+                                                                style={{
+                                                                    backgroundImage: `url(${item.image})`,
+                                                                }}
+                                                            ></div>
+                                                            <h4>
+                                                                {language ===
+                                                                LANGUAGE.VI
+                                                                    ? `${item.positionData.valueVi} ${item.firstName} ${item.lastName}`
+                                                                    : `${item.positionData.valueEn} ${item.firstName} ${item.lastName}`}
+                                                            </h4>
+                                                            <div className="xoa"></div>
+                                                        </Link>
+                                                    );
+                                                }
+                                            )}
                                     </div>
                                 </div>
                             </div>
