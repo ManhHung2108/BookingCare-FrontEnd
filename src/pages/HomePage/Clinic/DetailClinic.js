@@ -23,6 +23,9 @@ class DetailClinic extends Component {
             dataDetailClinic: {},
             readMoreDesc: false,
             listProvince: [],
+            searchInput: "",
+            location: "ALL",
+            clinicId: "",
         };
     }
 
@@ -36,9 +39,11 @@ class DetailClinic extends Component {
             let res = await getDetailClinicByIdService({
                 id: id,
                 location: "ALL",
+                search: "",
             });
-
-            console.log(res);
+            this.setState({
+                clinicId: id,
+            });
 
             let provinces = await getAllCodeService("PROVINCE");
 
@@ -83,17 +88,20 @@ class DetailClinic extends Component {
 
     handleOnChangeSelect = async (event) => {
         // console.log("check onChange: ", event.target.value);
+        let location = event.target.value;
+        this.setState({ location: location });
+
         if (
             this.props.match &&
             this.props.match.params &&
             this.props.match.params.id
         ) {
             let id = this.props.match.params.id;
-            let location = event.target.value;
 
             let res = await getDetailClinicByIdService({
                 id: id,
                 location: location,
+                search: "",
             });
 
             if (res && res.errCode === 0) {
@@ -114,75 +122,78 @@ class DetailClinic extends Component {
             }
         }
     };
+
+    handleOnChangeInput = (e) => {
+        let key = e.target.name;
+        let value = e.target.value;
+
+        let copyState = { ...this.state };
+        copyState[key] = value;
+
+        this.setState({
+            ...copyState,
+        });
+    };
+
+    handleEnterKeyPress = async (event) => {
+        if (event.key === "Enter") {
+            let data = {
+                id: this.state.clinicId,
+                location: this.state.location,
+                search: this.state.searchInput,
+            };
+
+            let res = await getDetailClinicByIdService(data);
+
+            if (res && res.errCode === 0) {
+                let arrDoctorId = [];
+
+                if (res.data && !_.isEmpty(res.data)) {
+                    let listDoctor = res.data.doctorClinic;
+                    if (listDoctor && listDoctor.length > 0) {
+                        arrDoctorId = listDoctor.map((item, index) => {
+                            return item.doctorId;
+                        });
+                    }
+                }
+
+                this.setState({
+                    arrDoctorId: arrDoctorId,
+                });
+            }
+        }
+    };
+
     render() {
-        let { arrDoctorId, dataDetailClinic, readMoreDesc, listProvince } =
+        let { arrDoctorId, dataDetailClinic, listProvince, searchInput } =
             this.state;
         let { language } = this.props;
         return (
             <>
-                <div className="detail-specialty_container">
+                <div className="detail-clinic_container">
                     <HomeHeader />
                     <div
-                        className="description-specialty_background"
+                        className="detail-clinic_header"
                         style={{
-                            backgroundImage: `url(${dataDetailClinic.image})`,
+                            backgroundImage: `url(${require("../../../assets/images/detail_specialty/114348-bv-viet-duc.jpg")})`,
                         }}
                     >
-                        <div className="description-specialty">
-                            <div className="description-specialty_content">
-                                {/* <div className="specialty_header">
-                                    <h1 data-title="Cơ Xương Khớp">
-                                        {dataDetailSpecialty &&
-                                        language === LANGUAGE.VI
-                                            ? dataDetailClinic.nameVi
-                                            : dataDetailClinic.nameEn}
-                                    </h1>
-                                </div> */}
-                                <div
-                                    className={`more ${
-                                        readMoreDesc
-                                            ? "more-display"
-                                            : "more-hiden"
-                                    }`}
-                                >
-                                    <div className="specialty_content">
-                                        {dataDetailClinic &&
-                                            !_.isEmpty(dataDetailClinic) && (
-                                                <div
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: dataDetailClinic.descriptionHTML,
-                                                    }}
-                                                ></div>
-                                            )}
-                                    </div>
-                                    <div className="specialty-btn">
-                                        <div
-                                            className="btn_display"
-                                            onClick={() => {
-                                                this.setState({
-                                                    readMoreDesc: true,
-                                                });
-                                            }}
-                                        >
-                                            Đọc thêm
-                                        </div>
-
-                                        <div
-                                            className="btn_hiden"
-                                            onClick={() => {
-                                                this.setState({
-                                                    readMoreDesc: false,
-                                                });
-                                            }}
-                                        >
-                                            Ẩn
-                                        </div>
-                                    </div>
+                        <div className="detail-clinic_content">
+                            <div className="detail-clinic_description">
+                                <div className="detail-clinic_image">
+                                    <img
+                                        src={dataDetailClinic.image}
+                                        alt={dataDetailClinic.image}
+                                    />
+                                </div>
+                                <div className="detail-clinic_address">
+                                    <h1>{dataDetailClinic.nameVi}</h1>
+                                    <div>{dataDetailClinic.address}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="detail-specialty_body">
+                    <div className="detail-clinic_body">
                         <div className="filter-doctor">
                             <select
                                 onChange={(event) => {
@@ -204,6 +215,21 @@ class DetailClinic extends Component {
                                         );
                                     })}
                             </select>
+                            <div className="filter-doctor_search">
+                                <input
+                                    className="form-control"
+                                    name="searchInput"
+                                    value={searchInput}
+                                    onChange={(e) => {
+                                        this.handleOnChangeInput(e);
+                                    }}
+                                    onKeyPress={(e) => {
+                                        this.handleEnterKeyPress(e);
+                                    }}
+                                />
+                                {/* <i className="fas fa-search"></i> */}
+                                <button>Tìm kiếm</button>
+                            </div>
                         </div>
                         <div className="list-doctor">
                             {arrDoctorId &&

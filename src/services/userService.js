@@ -97,7 +97,7 @@ const getAllClinicService = () => {
 
 const getDetailClinicByIdService = (data) => {
     return axios.get(
-        `/api/get-detail-clinic-by-id?id=${data.id}&location=${data.location}`
+        `/api/get-detail-clinic-by-id?id=${data.id}&location=${data.location}&search=${data.search}`
     );
 };
 
