@@ -14,7 +14,10 @@ import {
     getAllScheduleTimeAction,
 } from "../../../redux/actions/adminAction";
 import { LANGUAGE, dateFormat } from "../../../utils/constants";
-import { saveBulkScheduleDoctorService } from "../../../services";
+import {
+    saveBulkScheduleDoctorService,
+    getScheduleDoctorByDateServicde,
+} from "../../../services";
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -24,6 +27,8 @@ class ManageSchedule extends Component {
             selectedDoctor: "",
             currentDate: "",
             rangeTime: [],
+
+            listSchedule: [],
         };
     }
     componentDidMount = () => {
@@ -55,7 +60,45 @@ class ManageSchedule extends Component {
                 rangeTime: data,
             });
         }
+
+        if (prevState.listSchedule !== this.state.listSchedule) {
+        }
     }
+
+    getAllScheduleDoctor = async (doctorId, date) => {
+        //Gửi lên dạng timeTamp
+        let formattedDate = new Date(date).getTime();
+
+        let res = await getScheduleDoctorByDateServicde(
+            doctorId,
+            formattedDate
+        );
+
+        this.setState(
+            {
+                listSchedule: res.data,
+                currentDate: date,
+            },
+            () => {
+                const { rangeTime, listSchedule } = this.state;
+
+                let newArr = rangeTime.map((time, index) => {
+                    time.isSelected = false;
+                    let updatedTime = { ...time }; // Tạo một bản sao của time để không ảnh hưởng đến mảng gốc
+                    for (const schedule of listSchedule) {
+                        if (updatedTime.keyMap === schedule.timeType) {
+                            updatedTime.isSelected = true;
+                        }
+                    }
+                    return updatedTime;
+                });
+
+                this.setState({
+                    rangeTime: newArr,
+                });
+            }
+        );
+    };
 
     handleGetAllDoctor = async () => {
         await this.props.getAllDoctor();
@@ -70,8 +113,22 @@ class ManageSchedule extends Component {
         });
     };
 
-    handleSelectDate = (date) => {
-        this.setState({ currentDate: date });
+    handleSelectDate = async (date) => {
+        const { selectedDoctor } = this.state;
+        const { language } = this.props;
+        // this.setState({ currentDate: date });
+
+        if (!selectedDoctor) {
+            toast.error(
+                `${
+                    LANGUAGE.VI === language
+                        ? "Yêu cầu chọn bác sĩ!"
+                        : "Isvalid selected Doctor!"
+                }`
+            );
+            return;
+        }
+        await this.getAllScheduleDoctor(selectedDoctor, date);
     };
 
     handleSelectTime = (data) => {
@@ -102,6 +159,7 @@ class ManageSchedule extends Component {
                         : "Isvalid selected Date!"
                 }`
             );
+            return;
         }
         if (!selectedDoctor) {
             toast.error(
@@ -111,6 +169,7 @@ class ManageSchedule extends Component {
                         : "Isvalid selected Doctor!"
                 }`
             );
+            return;
         }
 
         let data = []; //gửi lên server
@@ -136,8 +195,7 @@ class ManageSchedule extends Component {
                     object.doctorId = selectedDoctor;
                     object.date = formattedDate;
                     object.timeType = schedule.keyMap;
-                    // data.push(object);
-                    // return data;
+
                     return object;
                 });
             } else {
