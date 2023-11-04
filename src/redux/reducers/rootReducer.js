@@ -16,7 +16,7 @@ const persistCommonConfig = {
 const userPersistConfig = {
     ...persistCommonConfig,
     key: "user",
-    whitelist: ["isLoggedIn", "userInfo"],
+    whitelist: ["isLoggedIn", "userInfo", "token"],
 };
 
 //Lưu lại trạng thái language khi reload

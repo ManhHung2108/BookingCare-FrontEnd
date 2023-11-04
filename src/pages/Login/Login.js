@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import "./Login.scss";
-import { handleLoginApi } from "../../services/userService";
+import { handleLoginApi, handleLoginApi2 } from "../../services/userService";
 import * as actions from "../../redux/actions";
 
 class Login extends Component {
@@ -63,6 +63,36 @@ class Login extends Component {
         } catch (error) {
             if (error) {
                 // console.log(error.response); //la 1 thuoc tinh cua axios khi gap loi
+                this.setState({
+                    errMessage: error.response.data.message,
+                });
+            }
+        }
+    };
+
+    handleLogin2 = async (e) => {
+        this.setState({
+            errMessage: ``,
+        });
+        e.preventDefault();
+
+        try {
+            let res = await handleLoginApi2(
+                this.state.userName,
+                this.state.passWord
+            );
+            if (res && res.errCode !== 0) {
+                //Lấy kết quả trả về
+                this.setState({
+                    errMessage: res.message,
+                });
+            }
+
+            if (res && res.errCode === 0) {
+                this.props.userLoginSuccess2(res.token);
+            }
+        } catch (error) {
+            if (error) {
                 this.setState({
                     errMessage: error.response.data.message,
                 });
@@ -184,6 +214,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         userLoginSuccess: (userInfo) =>
             dispatch(actions.userLoginSuccess(userInfo)),
+        userLoginSuccess2: (token) => {
+            return dispatch(actions.userLoginSuccess2(token));
+        },
     };
 };
 

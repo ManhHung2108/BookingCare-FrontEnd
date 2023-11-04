@@ -11,6 +11,11 @@ export const userLoginSuccess = (userInfo) => ({
     userInfo: userInfo,
 });
 
+export const userLoginSuccess2 = (token) => ({
+    type: actionTypes.USER_LOGIN_SUCCESS2, //viết tắt return
+    token: token,
+});
+
 export const userLoginFail = () => ({
     type: actionTypes.USER_LOGIN_FAIL, //viết tắt return
 });

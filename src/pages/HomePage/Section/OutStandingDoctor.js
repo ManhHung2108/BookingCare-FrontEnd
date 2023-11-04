@@ -62,7 +62,7 @@ class OutStandingDoctor extends Component {
                 return (
                     <div
                         className="section-customize"
-                        key={doctor.id}
+                        key={index}
                         onClick={() => {
                             handleDetailDoctor(doctor);
                         }}

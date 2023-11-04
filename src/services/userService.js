@@ -3,6 +3,9 @@ import axios from "../utils/axios";
 const handleLoginApi = (email, passWord) => {
     return axios.post("/api/login", { email, passWord });
 };
+const handleLoginApi2 = (username, password) => {
+    return axios.post("/login2", { username, password });
+};
 
 const getAllUsersService = (inputId) => {
     //axios trả về promise
@@ -138,4 +141,5 @@ export {
     getSearchByNameService,
     getSearchService,
     getTopDoctorHome2Service,
+    handleLoginApi2,
 };

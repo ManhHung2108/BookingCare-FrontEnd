@@ -4,6 +4,7 @@ const initialState = {
     isLoggedIn: false,
     userInfo: null,
     doctorDetail: null,
+    token: null,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -14,6 +15,12 @@ const appReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: true,
                 userInfo: action.userInfo,
+            };
+        case actionTypes.USER_LOGIN_SUCCESS2:
+            return {
+                ...state,
+                isLoggedIn: true,
+                token: action.token,
             };
         case actionTypes.USER_LOGIN_FAIL:
             return {
