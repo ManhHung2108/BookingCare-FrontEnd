@@ -118,6 +118,11 @@
         "detail-speciality": {
             "text-more": "More",
             "text-hiden": "Hiden"
+        },
+        "list-speciality": {
+            "text-title": "List of medical specialties",
+            "text-examination": "Specialized examination",
+            "text-search": "Search"
         }
     },
     "admin": {

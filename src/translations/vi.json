@@ -118,6 +118,11 @@
         "detail-speciality": {
             "text-more": "Đọc thêm",
             "text-hiden": "Ân"
+        },
+        "list-speciality": {
+            "text-title": "Danh sách chuyên khoa khám bệnh",
+            "text-examination": "Khám chuyên khoa",
+            "text-search": "Tìm kiếm"
         }
     },
     "admin": {

@@ -95,7 +95,7 @@ class HomeHeader extends Component {
 
     render() {
         let language = this.props.lang;
-        let { isShowBanner } = this.props;
+        let { isShowBanner, bgColor } = this.props;
         let {
             isFocused,
             searchQuery,
@@ -106,7 +106,11 @@ class HomeHeader extends Component {
         // console.log(language);
         return (
             <Fragment>
-                <div className="home-header-container">
+                <div
+                    className={`home-header-container ${
+                        bgColor ? "bgColor" : ""
+                    }`}
+                >
                     <div className="home-header-content">
                         <div className="left-content">
                             <i
@@ -122,11 +126,11 @@ class HomeHeader extends Component {
                         </div>
                         <div className="center-content">
                             <div className="child-content">
-                                <div>
+                                <Link to={"/kham-chuyen-khoa"}>
                                     <b>
                                         <FormattedMessage id="homeHeader.speciality" />
                                     </b>
-                                </div>
+                                </Link>
                                 <div className="sub-title">
                                     <FormattedMessage id="homeHeader.search-doctor" />
                                 </div>
