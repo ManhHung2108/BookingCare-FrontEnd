@@ -125,16 +125,19 @@ class HomeHeader extends Component {
                             </Link>
                         </div>
                         <div className="center-content">
-                            <div className="child-content">
-                                <Link to={"/kham-chuyen-khoa"}>
+                            <Link
+                                to={"/kham-chuyen-khoa"}
+                                className="child-content"
+                            >
+                                <div to={"/kham-chuyen-khoa"}>
                                     <b>
                                         <FormattedMessage id="homeHeader.speciality" />
                                     </b>
-                                </Link>
+                                </div>
                                 <div className="sub-title">
                                     <FormattedMessage id="homeHeader.search-doctor" />
                                 </div>
-                            </div>
+                            </Link>
                             <div className="child-content">
                                 <div>
                                     <b>
@@ -145,7 +148,10 @@ class HomeHeader extends Component {
                                     <FormattedMessage id="homeHeader.select-room" />
                                 </div>
                             </div>
-                            <div className="child-content">
+                            <Link
+                                to={"/danh-sach/bac-si/danh-cho-ban"}
+                                className="child-content"
+                            >
                                 <div>
                                     <b>
                                         <FormattedMessage id="homeHeader.doctor" />
@@ -154,7 +160,7 @@ class HomeHeader extends Component {
                                 <div className="sub-title">
                                     <FormattedMessage id="homeHeader.select-doctor" />
                                 </div>
-                            </div>
+                            </Link>
                             <div className="child-content">
                                 <div>
                                     <b>
@@ -362,7 +368,10 @@ class HomeHeader extends Component {
                         </div>
                         <div className="options">
                             <div className="options-container">
-                                <div className="option-child">
+                                <Link
+                                    to={"/kham-chuyen-khoa"}
+                                    className="option-child"
+                                >
                                     <div
                                         className="icon-child"
                                         style={{
@@ -374,7 +383,7 @@ class HomeHeader extends Component {
                                         <br />
                                         <FormattedMessage id="banner.speciality" />
                                     </p>
-                                </div>
+                                </Link>
                                 <div className="option-child">
                                     <div
                                         className="icon-child"

@@ -23,6 +23,7 @@ import VerifyEmail from "./pages/HomePage/VerifyEmail";
 import DetailSpecialty from "./pages/HomePage/Specialty/DetailSpecialty";
 import DetailClinic from "./pages/HomePage/Clinic/DetailClinic";
 import ListSpecialty from "./pages/HomePage/Specialty/ListSpecialty";
+import ListDoctor from "./pages/HomePage/Doctor/ListDoctor";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -94,6 +95,10 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.LIST_SPECIALTY}
                                     component={ListSpecialty}
+                                />
+                                <Route
+                                    path={configs.routes.LIST_DOCTOR}
+                                    component={ListDoctor}
                                 />
 
                                 <Route

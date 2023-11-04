@@ -9,6 +9,7 @@ const routes = {
     DETAIL_CLINIC: "/detail-clinic/:id",
     VERIFY_EMAIL_BOOKING: "/verify-booking",
     LIST_SPECIALTY: "/kham-chuyen-khoa",
+    LIST_DOCTOR: "/danh-sach/bac-si/danh-cho-ban",
 };
 
 export default routes;
