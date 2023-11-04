@@ -9,6 +9,8 @@ import { withRouter } from "react-router-dom";
 
 import { LANGUAGE } from "../../../utils";
 import { getTopDoctorAction } from "../../../redux/actions";
+import { getTopDoctorHome2Service } from "../../../services/userService";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class OutStandingDoctor extends Component {
     constructor(props) {
@@ -19,36 +21,43 @@ class OutStandingDoctor extends Component {
     }
 
     async componentDidMount() {
-        this.props.loadTopDoctors();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
-            //Khi có thay đổi data thì gọi lại loadTopDoctors
-            this.setState({ arrDoctors: this.props.topDoctorsRedux });
-            // this.props.loadTopDoctors();
+        // this.props.loadTopDoctors();
+        let res = await getTopDoctorHome2Service(8);
+        if (res && res.errCode === 0) {
+            this.setState({
+                arrDoctors: res.data,
+            });
         }
     }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        // if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
+        //     //Khi có thay đổi data thì gọi lại loadTopDoctors
+        //     this.setState({ arrDoctors: this.props.topDoctorsRedux });
+        //     // this.props.loadTopDoctors();
+        // }
+    }
+
     render() {
-        const { topDoctorsRedux, language } = this.props;
+        const { language } = this.props;
         // console.log("Check props topDoctors from redux: ", topDoctorsRedux);
 
         const handleDetailDoctor = (doctor) => {
-            this.props.history.push(`detail-doctor/${doctor.id}`);
+            this.props.history.push(`detail-doctor/${doctor.doctorId}`);
         };
 
         const renderTopDoctor = () => {
             return this.state.arrDoctors.map((doctor, index) => {
                 let imageBase64 = "";
-                if (doctor.image) {
+                if (doctor.User.image) {
                     //decode từ base64 để lấy ra ảnh dạng binary
-                    imageBase64 = new Buffer(doctor.image, "base64").toString(
-                        "binary"
-                    );
+                    imageBase64 = new Buffer(
+                        doctor.User.image,
+                        "base64"
+                    ).toString("binary");
                 }
-                let nameVi = `${doctor.positionData.valueVi}, ${doctor.firstName} ${doctor.lastName}`;
-                let nameEn = `${doctor.positionData.valueEn}, ${doctor.firstName} ${doctor.lastName}`;
+                let nameVi = `${doctor.User.positionData.valueVi}, ${doctor.User.firstName} ${doctor.User.lastName}`;
+                let nameEn = `${doctor.User.positionData.valueEn}, ${doctor.User.firstName} ${doctor.User.lastName}`;
 
                 return (
                     <div
@@ -69,7 +78,13 @@ class OutStandingDoctor extends Component {
                                 <div>
                                     {language === LANGUAGE.VI ? nameVi : nameEn}
                                 </div>
-                                <span>Cơ xương khớp</span>
+                                <span>
+                                    {language === LANGUAGE.VI
+                                        ? doctor.User.Doctor_Infor.specialtyData
+                                              .nameVi
+                                        : doctor.User.Doctor_Infor.specialtyData
+                                              .nameEn}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -84,13 +99,17 @@ class OutStandingDoctor extends Component {
                         <span className="title-section">
                             <FormattedMessage id="homepage.out-standing-doctor" />
                         </span>
-                        <button className="btn-section">
+                        <Link
+                            to={`/danh-sach/bac-si/danh-cho-ban`}
+                            className="btn-section"
+                        >
                             <FormattedMessage id="homepage.more-infor" />
-                        </button>
+                        </Link>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
-                            {topDoctorsRedux && topDoctorsRedux.length > 0
+                            {this.state.arrDoctors &&
+                            this.state.arrDoctors.length > 0
                                 ? renderTopDoctor()
                                 : ""}
                         </Slider>

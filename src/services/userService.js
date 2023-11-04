@@ -34,6 +34,9 @@ const getAllCodeService = (inputType) => {
 const getTopDoctorHomeService = (limit) => {
     return axios.get(`/api/top-doctor-home?limit=${limit}`);
 };
+const getTopDoctorHome2Service = (limit) => {
+    return axios.get(`/api/get-top-doctor?limit=${limit}`);
+};
 
 const getAllDoctorService = () => {
     return axios.get(`/api/get-all-doctor`);
@@ -134,4 +137,5 @@ export {
     getDetailClinicByIdService,
     getSearchByNameService,
     getSearchService,
+    getTopDoctorHome2Service,
 };
