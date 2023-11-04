@@ -16,13 +16,16 @@
         "title2": "chăm sóc sức khỏe toàn diện",
         "examination": "Khám",
         "speciality": "Chuyên khoa",
+        "clinic": "Phòng khám",
+        "doctor": "Bác sĩ",
         "remote": "từ xa",
         "generality": "tổng quát",
         "test": "Xét nghiệm",
         "medical": "y học",
         "health": "Sức khỏe",
         "spirit": "tinh thần",
-        "dentistry": "nha khoa"
+        "dentistry": "nha khoa",
+        "text-search": "Tìm kiếm"
     },
     "menu": {
         "admin": {

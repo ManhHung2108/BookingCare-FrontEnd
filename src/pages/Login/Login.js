@@ -81,87 +81,94 @@ class Login extends Component {
         // console.log(`login: ${this.props.isLoggedIn}`);
         //JSX
         return (
-            <div className="login-background">
-                <div className="login-container">
-                    <form>
-                        <div className="login-content row">
-                            <div className="col-12 text-login">Login</div>
-                            <div className="col-12 form-group">
-                                <label>Username</label>
+            <div className="login-background d-flex">
+                <div className="login-container col-6">
+                    <div className="login-content row">
+                        <div className="Logo mb-5">
+                            <img
+                                src={require("../../assets/images/LogoWebsite.PNG")}
+                                alt="HealthBookings"
+                            />
+                        </div>
+                        <div className="col-12 text-login"></div>
+                        <div className="col-12 form-group">
+                            <label>Username</label>
+                            <input
+                                type="text"
+                                className="form-control login-input"
+                                placeholder="Enter your usename"
+                                name="userName"
+                                value={this.state.userName}
+                                onChange={(e) => {
+                                    this.handleChange(e);
+                                }}
+                            />
+                        </div>
+                        <div className="col-12 form-group login-input">
+                            <label>Password</label>
+                            <div className="custom-input-password">
                                 <input
-                                    type="text"
-                                    className="form-control login-input"
-                                    placeholder="Enter your usename"
-                                    name="userName"
-                                    value={this.state.userName}
+                                    type={
+                                        this.state.isShowPassWord
+                                            ? "text"
+                                            : "password"
+                                    }
+                                    className="form-control"
+                                    placeholder="Enter your password"
+                                    name="passWord"
+                                    value={this.state.passWord}
                                     onChange={(e) => {
                                         this.handleChange(e);
                                     }}
+                                    onKeyDown={(e) => {
+                                        this.handleKeyDown(e);
+                                    }}
+                                    autoComplete="off"
                                 />
-                            </div>
-                            <div className="col-12 form-group login-input">
-                                <label>Password</label>
-                                <div className="custom-input-password">
-                                    <input
-                                        type={
-                                            this.state.isShowPassWord
-                                                ? "text"
-                                                : "password"
-                                        }
-                                        className="form-control"
-                                        placeholder="Enter your password"
-                                        name="passWord"
-                                        value={this.state.passWord}
-                                        onChange={(e) => {
-                                            this.handleChange(e);
-                                        }}
-                                        onKeyDown={(e) => {
-                                            this.handleKeyDown(e);
-                                        }}
-                                        autoComplete="off"
-                                    />
-                                    <span
-                                        onClick={() => {
-                                            this.handleShowHidePassword();
-                                        }}
-                                    >
-                                        {this.state.isShowPassWord ? (
-                                            <i className="far fa-eye-slash"></i>
-                                        ) : (
-                                            <i className="far fa-eye"></i>
-                                        )}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="col-12" style={{ color: "red" }}>
-                                {this.state.errMessage}
-                            </div>
-                            <div className="col-12">
-                                <button
-                                    className="btn-login"
-                                    onClick={(e) => {
-                                        this.handleLogin(e);
+                                <span
+                                    onClick={() => {
+                                        this.handleShowHidePassword();
                                     }}
                                 >
-                                    Login
-                                </button>
-                            </div>
-                            <div className="col-12">
-                                <span className="forgot-password">
-                                    Forgot your password?
+                                    {this.state.isShowPassWord ? (
+                                        <i className="far fa-eye-slash"></i>
+                                    ) : (
+                                        <i className="far fa-eye"></i>
+                                    )}
                                 </span>
-                            </div>
-                            <div className="col-12 text-center mt-3">
-                                <span className="text-other-login ">
-                                    Or Login with:
-                                </span>
-                            </div>
-                            <div className="col-12 social-login">
-                                <i className="fab fa-google-plus-g google"></i>
-                                <i className="fab fa-facebook-f facebook"></i>
                             </div>
                         </div>
-                    </form>
+                        <div className="col-12" style={{ color: "red" }}>
+                            {this.state.errMessage}
+                        </div>
+                        <div className="col-12">
+                            <button
+                                className="btn-login"
+                                onClick={(e) => {
+                                    this.handleLogin(e);
+                                }}
+                            >
+                                Đăng Nhập
+                            </button>
+                        </div>
+                        <div className="col-12">
+                            <span className="forgot-password">
+                                Quên mật khẩu?
+                            </span>
+                        </div>
+                        <div className="col-12 text-center mt-3">
+                            <span className="text-other-login ">
+                                Or Login with:
+                            </span>
+                        </div>
+                        <div className="col-12 social-login">
+                            <i className="fab fa-google-plus-g google"></i>
+                            <i className="fab fa-facebook-f facebook"></i>
+                        </div>
+                    </div>
+                </div>
+                <div className="login-bg_img col-6">
+                    <div className="style_shape__1HA08"></div>
                 </div>
             </div>
         );

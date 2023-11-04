@@ -16,13 +16,16 @@
         "title2": "Comprehensive health care",
         "examination": "Examination",
         "speciality": "Specialty",
+        "clinic": "Clinic",
+        "doctor": "Doctor",
         "remote": "Telemedicine",
         "generality": "General",
         "test": "Testing",
         "medical": "Medical",
         "health": "Health",
         "spirit": "Mental",
-        "dentistry": "Dental"
+        "dentistry": "Dental",
+        "text-search": "Search"
     },
     "menu": {
         "admin": {
@@ -128,6 +131,7 @@
             "payment": "Payment",
             "province": "Province",
             "specialty": "Specialty",
+            "clinic": "Clinic",
             "select-specialty": "Choose Specialty",
             "select-clinic": "Choose Clinic",
             "name-clinic": "Clinic's name",

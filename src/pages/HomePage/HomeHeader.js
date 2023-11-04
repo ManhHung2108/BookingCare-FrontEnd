@@ -234,7 +234,11 @@ class HomeHeader extends Component {
                                     <input
                                         value={searchQuery}
                                         type="text"
-                                        placeholder="Tìm kiếm"
+                                        placeholder={
+                                            language === LANGUAGE.VI
+                                                ? "Tìm kiếm"
+                                                : "Search"
+                                        }
                                         onFocus={() => {
                                             this.handleFocusSearch();
                                         }}
@@ -257,7 +261,9 @@ class HomeHeader extends Component {
                                 </div>
                                 <div className="search-result">
                                     <div className="search-result_specialties">
-                                        <h3>Chuyên khoa</h3>
+                                        <h3>
+                                            <FormattedMessage id="banner.speciality" />
+                                        </h3>
                                         {listSearchSpecialty &&
                                             listSearchSpecialty.length > 0 &&
                                             listSearchSpecialty.map(
@@ -286,7 +292,9 @@ class HomeHeader extends Component {
                                             )}
                                     </div>
                                     <div className="search-result_clinics">
-                                        <h3>Phòng khám</h3>
+                                        <h3>
+                                            <FormattedMessage id="banner.clinic" />
+                                        </h3>
                                         {listSearchClinic &&
                                             listSearchClinic.length > 0 &&
                                             listSearchClinic.map(
@@ -315,7 +323,9 @@ class HomeHeader extends Component {
                                             )}
                                     </div>
                                     <div className="search-result_doctors">
-                                        <h3>Bác sĩ</h3>
+                                        <h3>
+                                            <FormattedMessage id="banner.doctor" />
+                                        </h3>
                                         {listSearchDoctor &&
                                             listSearchDoctor.length > 0 &&
                                             listSearchDoctor.map(
