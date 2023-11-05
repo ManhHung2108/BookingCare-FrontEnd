@@ -327,7 +327,11 @@
 
                 &:hover {
                     cursor: pointer;
-                    color : #49bce2 !important;
+
+                    p {
+
+                        color: #49bce2 !important;
+                    }
                 }
             }
         }

@@ -197,7 +197,7 @@ class ManageClinic extends Component {
         const { listProvince, selectedProvince } = this.state;
         const { language } = this.props;
         return (
-            <div className="manage-clinic_container">
+            <div className="manage-clinic_container container">
                 <div className="ms-title">
                     <FormattedMessage id={"admin.manage-clinic.title"} />
                 </div>

@@ -34,6 +34,8 @@ class Header extends Component {
             }
 
             userInfor = res.userInfor;
+            //Lưu lại thông tin người dùng lên redux
+            this.props.userLoginSuccess(userInfor);
         }
 
         // let menu = [];
@@ -47,15 +49,10 @@ class Header extends Component {
         //     }
         // }
 
-        this.setState(
-            {
-                menuSystem: menu,
-                userInfo: userInfor,
-            },
-            () => {
-                console.log(this.state);
-            }
-        );
+        this.setState({
+            menuSystem: menu,
+            userInfo: userInfor,
+        });
 
         // console.log("check thông tin người dùng từ redux: ", userInfo);
     }
@@ -130,6 +127,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         processLogout: () => dispatch(actions.processLogout()),
+        userLoginSuccess: (userInfo) =>
+            dispatch(actions.userLoginSuccess(userInfo)),
         changeLanguage: (language) =>
             dispatch(actions.changeLanguageAppAction(language)),
     };

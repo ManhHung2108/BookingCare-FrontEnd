@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
-
-import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import Header from "./Header/Header";
+import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
+import ManagePatient from "../../pages/System/Doctor/ManagePatient";
 
 class Doctor extends Component {
     render() {
@@ -19,6 +19,15 @@ class Doctor extends Component {
                             <Route
                                 path="/doctor/manage-schedule"
                                 component={ManageSchedule}
+                            />
+                            <Route
+                                path="/doctor/manage-patient"
+                                component={ManagePatient}
+                            />
+                            <Route
+                                component={() => {
+                                    return <Redirect to={systemMenuPath} />;
+                                }}
                             />
                         </Switch>
                     </div>

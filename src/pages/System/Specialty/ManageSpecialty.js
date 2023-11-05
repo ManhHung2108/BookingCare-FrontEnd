@@ -157,7 +157,7 @@ class ManageSpecialty extends Component {
 
     render() {
         return (
-            <div className="manage-specialty_container">
+            <div className="manage-specialty_container container">
                 <div className="ms-title">
                     <FormattedMessage id={"admin.manage-specialty.title"} />
                 </div>

@@ -4,8 +4,6 @@ import { FormattedMessage } from "react-intl";
 import { Select } from "antd";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-import FormattedDate from "../../../components/Formating/FormattedDate";
 import { toast } from "react-toastify";
 
 import "./ManageSchedule.scss";
@@ -13,7 +11,7 @@ import {
     getAllDoctorAction,
     getAllScheduleTimeAction,
 } from "../../../redux/actions/adminAction";
-import { LANGUAGE, dateFormat } from "../../../utils/constants";
+import { LANGUAGE } from "../../../utils/constants";
 import {
     saveBulkScheduleDoctorService,
     getScheduleDoctorByDateServicde,
