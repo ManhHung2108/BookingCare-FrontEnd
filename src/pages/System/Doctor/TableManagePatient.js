@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { Table, Space, Input } from "antd";
 import { LANGUAGE } from "../../../utils";
+import moment from "moment";
 
 export default class TableManagePatient extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class TableManagePatient extends Component {
         };
     }
 
-    handleEditUser = (user) => {
+    handleConfirm = (user) => {
         //Gửi data sang parent để lưu data vào form
         this.props.handleEditUserFromParent(user);
     };
@@ -24,7 +25,23 @@ export default class TableManagePatient extends Component {
         const dataSource =
             data &&
             data.length > 0 &&
-            data.map((item) => ({ ...item, key: item.id }));
+            data.map((item) => {
+                return {
+                    key: item.id,
+                    email: item.patientData.email,
+                    fullName: item.patientData.lastName,
+                    address: item.patientData.address,
+                    phoneNumber: item.patientData.phoneNumber,
+                    birthday: moment
+                        .unix(+item.patientData.birthday / 1000)
+                        .format("DD/MM/YYYY"),
+                    genderValueVi: item.patientData.genderData.valueVi,
+                    genderValueEn: item.patientData.genderData.valueEn,
+                    timeTypeValueVi: item.timeTypeDataPatient.valueVi,
+                    timeTypeValueEn: item.timeTypeDataPatient.valueEn,
+                    reason: item.reason,
+                };
+            });
 
         //Tạo columns
         const columns = [
@@ -34,10 +51,15 @@ export default class TableManagePatient extends Component {
                 key: "email",
                 defaultSortOrder: "descend",
                 sorter: (a, b) => a.id - b.id,
+            },
+            {
+                title: language === LANGUAGE.EN ? "FullName" : "Họ và tên",
+                dataIndex: "fullName",
+                key: "fullName",
                 filterDropdown: () => (
                     <div style={{ padding: 8 }}>
                         <Input
-                            placeholder="Search email"
+                            placeholder="Search name"
                             value={nameFilter}
                             onChange={(e) =>
                                 this.setState({
@@ -48,16 +70,6 @@ export default class TableManagePatient extends Component {
                         />
                     </div>
                 ),
-            },
-            {
-                title: language === LANGUAGE.EN ? "First Name" : "Họ",
-                dataIndex: "firstName",
-                key: "firstName",
-            },
-            {
-                title: language === LANGUAGE.EN ? "Last Name" : "Tên",
-                dataIndex: "lastName",
-                key: "lastName",
             },
             {
                 title:
@@ -71,6 +83,38 @@ export default class TableManagePatient extends Component {
                 key: "address",
             },
             {
+                title: language === LANGUAGE.EN ? "BirthDay" : "Ngày sinh",
+                dataIndex: "birthday",
+                key: "birthday",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Gender" : "Giới tính",
+                dataIndex:
+                    language === LANGUAGE.EN
+                        ? "genderValueEn"
+                        : "genderValueVi",
+                key: "gender",
+            },
+            {
+                title:
+                    language === LANGUAGE.EN
+                        ? "Appointment time"
+                        : "Thời gian lịch hẹn khám",
+                dataIndex:
+                    language === LANGUAGE.EN
+                        ? "timeTypeValueEn"
+                        : "timeTypeValueVi",
+                key: "gender",
+            },
+            {
+                title:
+                    language === LANGUAGE.EN
+                        ? "Reason for examination"
+                        : "Lý do",
+                dataIndex: "reason",
+                key: "reason",
+            },
+            {
                 title: "Action",
                 key: "action",
                 render: (_, record) => (
@@ -78,19 +122,20 @@ export default class TableManagePatient extends Component {
                         <button
                             className="btn btn-primary"
                             onClick={() => {
-                                this.handleEditUser(record);
+                                this.handleConfirm(record);
                             }}
                         >
-                            <FormattedMessage id={"actions.edit"} />
+                            {/* <FormattedMessage id={"actions.edit"} /> */}
+                            Xác nhận
                         </button>
                         <button
-                            className="btn btn-danger"
+                            className="btn btn-success"
                             onClick={() => {
-                                // console.log(record.id);
-                                this.props.deleteUser(record.id);
+                                // this.props.deleteUser(record.id);
                             }}
                         >
-                            <FormattedMessage id={"actions.delete"} />
+                            {/* <FormattedMessage id={"actions.delete"} /> */}
+                            Gửi kết quả
                         </button>
                     </Space>
                 ),
@@ -102,12 +147,15 @@ export default class TableManagePatient extends Component {
             let filteredData = dataSource;
             if (nameFilter) {
                 filteredData = filteredData.filter((record) => {
-                    return record.email
+                    return record.lastName
                         .toLowerCase()
                         .includes(nameFilter.toLowerCase());
                 });
             }
-            this.setState({ filteredData });
+
+            this.setState({ filteredData }, () => {
+                console.log(this.state.filteredData);
+            });
         };
 
         return (

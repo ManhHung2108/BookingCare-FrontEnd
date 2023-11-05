@@ -2,31 +2,73 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
+import moment from "moment";
 
 import "./ManagePatient.scss";
 import TableManagePatient from "./TableManagePatient";
-import { toast } from "react-toastify";
-import { LANGUAGE } from "../../../utils";
+import { getListPatientForDoctorService } from "../../../services";
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 class ManagePatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDate: new Date(),
+            currentDate: moment(new Date()).startOf("day").valueOf(), //lấy ngày hôm nay, không lấy thời gian
+            listPatient: [],
         };
     }
 
-    componentDidMount() {}
+    async componentDidMount() {
+        let { userInfor } = this.props;
+        let { currentDate } = this.state;
+
+        if (userInfor) {
+            if (this.userInfor && this.userInfor.userType !== "doctor") {
+                this.props.history.push(`/system/home`);
+            }
+            this.getDataPatient(userInfor.id, currentDate);
+        }
+    }
+
+    componentDidUpdate(prevState, prevProps, snapshot) {
+        if (prevProps.userInfor !== this.props.userInfor) {
+            if (
+                this.props.userInfor &&
+                this.props.userInfor.userType !== "doctor"
+            ) {
+                this.props.history.push(`/system/home`);
+                console.log(this.props.history);
+            }
+        }
+    }
+
+    getDataPatient = async (doctorId, date) => {
+        let res = await getListPatientForDoctorService(doctorId, date);
+        if (res && res.errCode === 0) {
+            this.setState({
+                listPatient: res.data,
+            });
+        }
+    };
 
     handleSelectDate = async (date) => {
-        this.setState({
-            currentDate: date,
-        });
+        let { userInfor } = this.props;
+
+        this.setState(
+            {
+                currentDate: date,
+            },
+            async () => {
+                //Gửi lên dạng timeTamp
+                let formattedDate = new Date(date).getTime();
+                this.getDataPatient(userInfor.id, formattedDate);
+            }
+        );
     };
 
     render() {
         const { currentDate } = this.state;
-        const { userInfor } = this.props;
 
         return (
             <div className="manage-patient_container container">
@@ -49,7 +91,10 @@ class ManagePatient extends Component {
                         />
                     </div>
                 </div>
-                <TableManagePatient />
+                <TableManagePatient
+                    data={this.state.listPatient}
+                    language={this.props.language}
+                />
             </div>
         );
     }
@@ -67,4 +112,6 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(ManagePatient)
+);

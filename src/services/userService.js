@@ -133,6 +133,12 @@ const getSearchService = () => {
     return axios.get(`http://localhost:8080/api/search`);
 };
 
+const getListPatientForDoctorService = (doctorId, date) => {
+    return axios.get(
+        `http://localhost:8080/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}`
+    );
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -162,4 +168,5 @@ export {
     handleLoginApi2,
     getUserInforSystem,
     getAdminSystem,
+    getListPatientForDoctorService,
 };

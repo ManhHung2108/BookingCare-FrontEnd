@@ -38,7 +38,7 @@ class UserReduxManage extends Component {
             role: "",
             avatar: "",
 
-            action: "",
+            action: CRUD_ACTIONS.CREATE,
         };
     }
 
@@ -100,7 +100,7 @@ class UserReduxManage extends Component {
                         : "",
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : "",
                 previewImgUrl: "",
-                action: "",
+                action: CRUD_ACTIONS.CREATE,
             });
         }
     }

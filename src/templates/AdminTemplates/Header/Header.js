@@ -7,7 +7,7 @@ import * as actions from "../../../redux/actions";
 import "./Header.scss";
 import { adminMenu, doctorMenu } from "./menuApp";
 import Navigator from "../../../components/System/Navigator";
-import { LANGUAGE, USER_ROLE } from "../../../utils";
+import { LANGUAGE } from "../../../utils";
 
 import { getUserInforSystem } from "../../../services";
 
