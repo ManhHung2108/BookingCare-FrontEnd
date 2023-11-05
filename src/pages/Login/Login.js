@@ -175,7 +175,7 @@ class Login extends Component {
                             <button
                                 className="btn-login"
                                 onClick={(e) => {
-                                    this.handleLogin(e);
+                                    this.handleLogin2(e);
                                 }}
                             >
                                 Đăng Nhập

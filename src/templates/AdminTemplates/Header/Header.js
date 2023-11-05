@@ -1,46 +1,71 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import _ from "lodash";
 
 import * as actions from "../../../redux/actions";
 import "./Header.scss";
 import { adminMenu, doctorMenu } from "./menuApp";
 import Navigator from "../../../components/System/Navigator";
 import { LANGUAGE, USER_ROLE } from "../../../utils";
-import _ from "lodash";
+
+import { getUserInforSystem } from "../../../services";
 
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
             menuSystem: [],
+            userInfo: {},
         };
     }
-    componentDidMount = () => {
-        let { userInfo } = this.props;
+
+    async componentDidMount() {
+        let { token } = this.props;
         let menu = [];
-        if (userInfo && !_.isEmpty(userInfo)) {
-            let role = userInfo.roleId;
-            if (role === USER_ROLE.ADMIN) {
+        let userInfor = {};
+
+        let res = await getUserInforSystem(token);
+        if (res && res.errCode === 0) {
+            if (res.userInfor && res.userInfor.userType === "admin") {
                 menu = adminMenu;
-            }
-            if (role === USER_ROLE.DOCTOR) {
+            } else if (res.userInfor && res.userInfor.userType === "doctor") {
                 menu = doctorMenu;
             }
+
+            userInfor = res.userInfor;
         }
 
-        this.setState({
-            menuSystem: menu,
-        });
+        // let menu = [];
+        // if (userInfo && !_.isEmpty(userInfo)) {
+        //     let role = userInfo.roleId;
+        //     if (role === USER_ROLE.ADMIN) {
+        //         menu = adminMenu;
+        //     }
+        //     if (role === USER_ROLE.DOCTOR) {
+        //         menu = doctorMenu;
+        //     }
+        // }
+
+        this.setState(
+            {
+                menuSystem: menu,
+                userInfo: userInfor,
+            },
+            () => {
+                console.log(this.state);
+            }
+        );
 
         // console.log("check thông tin người dùng từ redux: ", userInfo);
-    };
+    }
 
     handleChangeLanguage = (language) => {
         this.props.changeLanguage(language);
     };
     render() {
-        const { processLogout, userInfo } = this.props;
+        const { processLogout } = this.props;
+        const { userInfo } = this.state;
         return (
             <div className="header-container">
                 {/**Thanh navigation */}
@@ -97,6 +122,7 @@ const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         userInfo: state.user.userInfo,
+        token: state.user.token,
         language: state.appReducer.language,
     };
 };

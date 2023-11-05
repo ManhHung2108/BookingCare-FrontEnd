@@ -1,5 +1,6 @@
 import axios from "../utils/axios";
 
+//Đăng nhập và xác thực người dùng
 const handleLoginApi = (email, passWord) => {
     return axios.post("/api/login", { email, passWord });
 };
@@ -7,6 +8,23 @@ const handleLoginApi2 = (username, password) => {
     return axios.post("/login2", { username, password });
 };
 
+const getUserInforSystem = (token) => {
+    return axios.get("/system-user-infor", {
+        headers: {
+            Authorization: `Bearer ${token}`, // Thay thế 'Bearer' bằng phần tiêu đề thích hợp nếu yêu cầu của bạn yêu cầu
+        },
+    });
+};
+
+const getAdminSystem = (token) => {
+    return axios.get("/admin-dashboard", {
+        headers: {
+            Authorization: `Bearer ${token}`, // Thay thế 'Bearer' bằng phần tiêu đề thích hợp nếu yêu cầu của bạn yêu cầu
+        },
+    });
+};
+
+//
 const getAllUsersService = (inputId) => {
     //axios trả về promise
     return axios.get(`/api/get-all-users`, {
@@ -142,4 +160,6 @@ export {
     getSearchService,
     getTopDoctorHome2Service,
     handleLoginApi2,
+    getUserInforSystem,
+    getAdminSystem,
 };
