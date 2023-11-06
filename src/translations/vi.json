@@ -73,7 +73,8 @@
     "actions": {
         "add": "Thêm",
         "edit": "Sửa",
-        "delete": "Xóa"
+        "delete": "Xóa",
+        "confirm": "Xác nhận"
     },
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật tuần qua",

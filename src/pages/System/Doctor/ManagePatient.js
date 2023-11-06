@@ -21,13 +21,11 @@ class ManagePatient extends Component {
 
     async componentDidMount() {
         let { userInfor } = this.props;
-        let { currentDate } = this.state;
-
         if (userInfor) {
             if (this.userInfor && this.userInfor.userType !== "doctor") {
                 this.props.history.push(`/system/home`);
             }
-            this.getDataPatient(userInfor.id, currentDate);
+            this.getDataPatient();
         }
     }
 
@@ -38,13 +36,20 @@ class ManagePatient extends Component {
                 this.props.userInfor.userType !== "doctor"
             ) {
                 this.props.history.push(`/system/home`);
-                console.log(this.props.history);
             }
         }
     }
 
-    getDataPatient = async (doctorId, date) => {
-        let res = await getListPatientForDoctorService(doctorId, date);
+    getDataPatient = async () => {
+        let { userInfor } = this.props;
+        let { currentDate } = this.state;
+        //Gửi lên dạng timeTamp
+        let formattedDate = new Date(currentDate).getTime();
+
+        let res = await getListPatientForDoctorService(
+            userInfor.id,
+            formattedDate
+        );
         if (res && res.errCode === 0) {
             this.setState({
                 listPatient: res.data,
@@ -53,16 +58,12 @@ class ManagePatient extends Component {
     };
 
     handleSelectDate = async (date) => {
-        let { userInfor } = this.props;
-
         this.setState(
             {
                 currentDate: date,
             },
             async () => {
-                //Gửi lên dạng timeTamp
-                let formattedDate = new Date(date).getTime();
-                this.getDataPatient(userInfor.id, formattedDate);
+                this.getDataPatient();
             }
         );
     };
@@ -94,6 +95,7 @@ class ManagePatient extends Component {
                 <TableManagePatient
                     data={this.state.listPatient}
                     language={this.props.language}
+                    getDataPatient={this.getDataPatient}
                 />
             </div>
         );

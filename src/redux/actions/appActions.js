@@ -6,4 +6,11 @@ const changeLanguageAppAction = (language) => {
     };
 };
 
-export { changeLanguageAppAction };
+const isLoadingAction = (isLoading) => {
+    return {
+        type: actionTypes.IS_SHOW_LOADING,
+        isLoading: isLoading,
+    };
+};
+
+export { changeLanguageAppAction, isLoadingAction };

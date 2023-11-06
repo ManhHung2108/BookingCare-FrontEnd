@@ -33,7 +33,7 @@ class ListSpecialty extends Component {
                 <HomeHeader bgColor={true} />
                 <div className="list-specialty_container">
                     <div className="list-specialty-header">
-                        <Link href="/home">
+                        <Link to="/home">
                             <i className="fas fa-home"></i>
                             <span>/</span>
                         </Link>

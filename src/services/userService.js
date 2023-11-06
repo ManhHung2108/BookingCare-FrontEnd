@@ -126,17 +126,20 @@ const getDetailClinicByIdService = (data) => {
 };
 
 const getSearchByNameService = (query) => {
-    return axios.get(`http://localhost:8080/api/search-by-name?q=${query}`);
+    return axios.get(`/api/search-by-name?q=${query}`);
 };
 
 const getSearchService = () => {
-    return axios.get(`http://localhost:8080/api/search`);
+    return axios.get(`/api/search`);
 };
 
 const getListPatientForDoctorService = (doctorId, date) => {
     return axios.get(
-        `http://localhost:8080/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}`
+        `/api/get-list-patient-for-doctor?doctorId=${doctorId}&date=${date}`
     );
+};
+const sendRemedyService = (data) => {
+    return axios.post(`/api/send-remedy`, data);
 };
 
 export {
@@ -169,4 +172,5 @@ export {
     getUserInforSystem,
     getAdminSystem,
     getListPatientForDoctorService,
+    sendRemedyService,
 };

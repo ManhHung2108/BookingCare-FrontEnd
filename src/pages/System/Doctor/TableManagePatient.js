@@ -3,6 +3,8 @@ import { FormattedMessage } from "react-intl";
 import { Table, Space, Input } from "antd";
 import { LANGUAGE } from "../../../utils";
 import moment from "moment";
+import RemedyModal from "./RemedyModal";
+import _ from "lodash";
 
 export default class TableManagePatient extends Component {
     constructor(props) {
@@ -10,24 +12,100 @@ export default class TableManagePatient extends Component {
         this.state = {
             nameFilter: "",
             filteredData: [],
+            isOpenRemedyModal: false,
+            dataModal: {},
+
+            dataPatients: [],
         };
     }
 
-    handleConfirm = (user) => {
-        //Gửi data sang parent để lưu data vào form
-        this.props.handleEditUserFromParent(user);
+    componentDidMount() {
+        this.setState({
+            // dataPatients: this.props.getDataPatient(),
+            dataPatients: this.props.data,
+        });
+    }
+
+    componentDidUpdate(prevProps) {
+        // Kiểm tra xem props.dataPatients đã thay đổi
+        if (prevProps.data !== this.props.data) {
+            // Cập nhật danh sách dữ liệu khi props.dataPatients thay đổi
+            this.setState({
+                dataPatients: this.props.data,
+            });
+        }
+    }
+
+    buildTimeRemedy = (dataTime) => {
+        let { language } = this.props;
+
+        if (dataTime && !_.isEmpty(dataTime)) {
+            let time =
+                language === LANGUAGE.VI
+                    ? dataTime.timeData.valueVi
+                    : dataTime.timeData.valueEn;
+
+            let date =
+                language === LANGUAGE.VI
+                    ? this.capitalizeFirstLetter(
+                          moment
+                              .unix(+dataTime.date / 1000)
+                              .format("dddd - DD/MM/YYYY")
+                      )
+                    : moment
+                          .unix(+dataTime.date / 1000)
+                          .locale("en")
+                          .format("ddd - MM/DD/YYYY");
+
+            return `${time} - ${date}`;
+        }
+        return ``;
     };
+
+    handleConfirm = (patient) => {
+        let data = {
+            bookingId: patient.bookingId,
+            doctorId: patient.doctorId,
+            patientId: patient.patientId,
+            email: patient.email,
+            date: patient.date,
+            timeType: patient.timeType,
+            fullName: patient.fullName,
+        };
+        this.setState({
+            isOpenRemedyModal: true,
+            dataModal: data,
+        });
+    };
+
+    handleCloseRemedyModal = () => {
+        this.setState({
+            isOpenRemedyModal: false,
+        });
+    };
+
+    handleUpdateData = (bookingId) => {
+        // Xử lý xóa dữ liệu và sau đó cập nhật dataPatients
+        const updatedDataPatients = this.state.dataPatients.filter(
+            (item) => item.id !== bookingId
+        );
+        this.setState({ dataPatients: updatedDataPatients });
+    };
+
     render() {
-        let { data, language } = this.props;
-        let { nameFilter, filteredData } = this.state;
+        let { language } = this.props;
+        let { nameFilter, filteredData, dataPatients } = this.state;
 
         //Tạo key props khi render
         const dataSource =
-            data &&
-            data.length > 0 &&
-            data.map((item) => {
+            dataPatients &&
+            dataPatients.length > 0 &&
+            dataPatients.map((item) => {
                 return {
                     key: item.id,
+                    bookingId: item.id,
+                    doctorId: item.doctorId,
+                    patientId: item.patientId,
                     email: item.patientData.email,
                     fullName: item.patientData.lastName,
                     address: item.patientData.address,
@@ -40,6 +118,8 @@ export default class TableManagePatient extends Component {
                     timeTypeValueVi: item.timeTypeDataPatient.valueVi,
                     timeTypeValueEn: item.timeTypeDataPatient.valueEn,
                     reason: item.reason,
+                    date: item.date,
+                    timeType: item.timeType,
                 };
             });
 
@@ -125,8 +205,7 @@ export default class TableManagePatient extends Component {
                                 this.handleConfirm(record);
                             }}
                         >
-                            {/* <FormattedMessage id={"actions.edit"} /> */}
-                            Xác nhận
+                            <FormattedMessage id={"actions.confirm"} />
                         </button>
                         <button
                             className="btn btn-success"
@@ -147,7 +226,7 @@ export default class TableManagePatient extends Component {
             let filteredData = dataSource;
             if (nameFilter) {
                 filteredData = filteredData.filter((record) => {
-                    return record.lastName
+                    return record.fullName
                         .toLowerCase()
                         .includes(nameFilter.toLowerCase());
                 });
@@ -159,25 +238,33 @@ export default class TableManagePatient extends Component {
         };
 
         return (
-            <div className="mt-5">
-                <Table
-                    dataSource={
-                        filteredData &&
-                        filteredData.length > 0 &&
-                        nameFilter !== ""
-                            ? filteredData
-                            : dataSource
-                    }
-                    columns={columns}
-                    bordered
-                    title={() => (
-                        <h3>
-                            {/* <FormattedMessage id={"manage-user.listUser"} /> */}
-                            Danh sách lịch hẹn
-                        </h3>
-                    )}
+            <>
+                <div className="mt-5">
+                    <Table
+                        dataSource={
+                            filteredData &&
+                            filteredData.length > 0 &&
+                            nameFilter !== ""
+                                ? filteredData
+                                : dataSource
+                        }
+                        columns={columns}
+                        bordered
+                        title={() => (
+                            <h3>
+                                {/* <FormattedMessage id={"manage-user.listUser"} /> */}
+                                Danh sách lịch hẹn
+                            </h3>
+                        )}
+                    />
+                </div>
+                <RemedyModal
+                    isOpenRemedyModal={this.state.isOpenRemedyModal}
+                    handleCloseRemedyModal={this.handleCloseRemedyModal}
+                    dataModal={this.state.dataModal}
+                    handleUpdateData={this.handleUpdateData}
                 />
-            </div>
+            </>
         );
     }
 }

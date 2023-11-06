@@ -48,6 +48,11 @@ const appReducer = (state = initialState, action) => {
             state.isLoading = false;
             return { ...state };
         }
+        case actionTypes.IS_SHOW_LOADING: {
+            console.log(action.isLoading);
+            state.isLoading = action.isLoading;
+            return { ...state };
+        }
         default:
             return state;
     }

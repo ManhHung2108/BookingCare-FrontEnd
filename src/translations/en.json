@@ -73,7 +73,8 @@
     "actions": {
         "add": "Add",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "confirm": "Confirm"
     },
     "homepage": {
         "out-standing-doctor": "Last Week's featured doctor",
