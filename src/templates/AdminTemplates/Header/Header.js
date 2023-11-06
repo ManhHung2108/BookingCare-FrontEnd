@@ -10,8 +10,10 @@ import Navigator from "../../../components/System/Navigator";
 import { LANGUAGE } from "../../../utils";
 
 import { getUserInforSystem } from "../../../services";
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 class Header extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -21,40 +23,45 @@ class Header extends Component {
     }
 
     async componentDidMount() {
-        let { token } = this.props;
-        let menu = [];
-        let userInfor = {};
+        try {
+            this._isMounted = true;
+            let { token } = this.props;
+            let menu = [];
+            let userInfor = {};
 
-        let res = await getUserInforSystem(token);
-        if (res && res.errCode === 0) {
-            if (res.userInfor && res.userInfor.userType === "admin") {
-                menu = adminMenu;
-            } else if (res.userInfor && res.userInfor.userType === "doctor") {
-                menu = doctorMenu;
+            const res = await getUserInforSystem(token);
+
+            if (this._isMounted) {
+                if (res && res.errCode === 0) {
+                    userInfor = res.userInfor;
+                    //Lưu lại thông tin người dùng lên redux
+                    await this.props.userLoginSuccess(userInfor);
+
+                    if (userInfor.userType === "admin") {
+                        menu = adminMenu;
+                    } else if (userInfor.userType === "doctor") {
+                        menu = doctorMenu;
+                    } else {
+                        this.props.history.push("/home");
+                        this._isMounted = false;
+                    }
+
+                    //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
+                    if (this._isMounted) {
+                        this.setState({
+                            menuSystem: menu,
+                            userInfo: userInfor,
+                        });
+                    }
+                }
             }
-
-            userInfor = res.userInfor;
-            //Lưu lại thông tin người dùng lên redux
-            this.props.userLoginSuccess(userInfor);
+        } catch (error) {
+            // Xử lý lỗi ở đây nếu có
         }
+    }
 
-        // let menu = [];
-        // if (userInfo && !_.isEmpty(userInfo)) {
-        //     let role = userInfo.roleId;
-        //     if (role === USER_ROLE.ADMIN) {
-        //         menu = adminMenu;
-        //     }
-        //     if (role === USER_ROLE.DOCTOR) {
-        //         menu = doctorMenu;
-        //     }
-        // }
-
-        this.setState({
-            menuSystem: menu,
-            userInfo: userInfor,
-        });
-
-        // console.log("check thông tin người dùng từ redux: ", userInfo);
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     handleChangeLanguage = (language) => {
@@ -134,4 +141,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

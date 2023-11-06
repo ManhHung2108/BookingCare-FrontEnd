@@ -3,8 +3,10 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 
 import configs from "../../configs";
 import "./HamburgerMenu.scss";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions";
 
-export default class HamburgerMenu extends Component {
+class HamburgerMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,6 +26,8 @@ export default class HamburgerMenu extends Component {
         this.props.handleOpenMenuFromHeader();
     };
     render() {
+        const { userInfo, language, isLoggedIn } = this.props;
+
         const menus = [
             {
                 link: configs.routes.HOMEPAGE,
@@ -40,10 +44,6 @@ export default class HamburgerMenu extends Component {
             {
                 link: "/article",
                 nameVi: "Điều khoản sử dụng",
-            },
-            {
-                link: configs.routes.LOGIN,
-                nameVi: "Đăng nhập",
             },
         ];
 
@@ -71,9 +71,42 @@ export default class HamburgerMenu extends Component {
                                 </li>
                             );
                         })}
+                        {isLoggedIn === false ? (
+                            <li>
+                                <Link to={configs.routes.LOGIN}>Đăng Nhập</Link>
+                            </li>
+                        ) : (
+                            <li>
+                                <a
+                                    href="/logout"
+                                    onClick={(event) => {
+                                        event.preventDefault();
+                                        this.props.processLogout();
+                                    }}
+                                >
+                                    Đăng Xuất
+                                </a>
+                            </li>
+                        )}
                     </ul>
                 </nav>
             </>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.user.userInfo,
+        language: state.appReducer.language,
+        isLoggedIn: state.user.isLoggedIn,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        processLogout: () => dispatch(actions.processLogout()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HamburgerMenu);
