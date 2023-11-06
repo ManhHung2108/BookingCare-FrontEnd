@@ -5,12 +5,19 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import Lightbox from "react-image-lightbox";
 import { FormattedMessage } from "react-intl";
+import { Select } from "antd";
+import { toast } from "react-toastify";
 
 import "./ManageClinic.scss";
-import { CommonUtils, LANGUAGE } from "../../../utils";
-import { createNewClinic, getAllCodeService } from "../../../services";
-import { toast } from "react-toastify";
-import { Select } from "antd";
+import { CRUD_ACTIONS, CommonUtils, LANGUAGE } from "../../../utils";
+import {
+    createNewClinic,
+    getAllCodeService,
+    getAllClinicService,
+    editClinicService,
+    deleteClinicService,
+} from "../../../services";
+import TableManageClinic from "./TableManageClinic";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 class ManageClinic extends Component {
@@ -19,6 +26,7 @@ class ManageClinic extends Component {
         this.state = {
             previewImgUrl: "",
 
+            id: "",
             name: "",
             nameEn: "",
             address: "",
@@ -37,15 +45,23 @@ class ManageClinic extends Component {
             },
 
             listProvince: [],
+            listClinic: [],
+            action: CRUD_ACTIONS.CREATE,
         };
     }
 
     async componentDidMount() {
         let resProvince = await getAllCodeService("PROVINCE");
+        let resClinic = await getAllClinicService();
 
         if (resProvince && resProvince.errCode === 0) {
             this.setState({
                 listProvince: resProvince.data ? resProvince.data : [],
+            });
+        }
+        if (resClinic && resClinic.errCode === 0) {
+            this.setState({
+                listClinic: resClinic.data ? resClinic.data : [],
             });
         }
     }
@@ -60,14 +76,9 @@ class ManageClinic extends Component {
             copyState.error[key] = false;
         }
 
-        this.setState(
-            {
-                ...copyState,
-            },
-            () => {
-                console.log(this.state);
-            }
-        );
+        this.setState({
+            ...copyState,
+        });
     };
 
     handleEditorChange = ({ html, text }) => {
@@ -121,7 +132,6 @@ class ManageClinic extends Component {
         if (
             copyState.name === "" ||
             copyState.nameEn === "" ||
-            copyState.imageBase64 === "" ||
             copyState.descriptionMarkdown === "" ||
             copyState.address === "" ||
             !copyState.selectedProvince
@@ -132,45 +142,74 @@ class ManageClinic extends Component {
         return false;
     };
 
+    getAllClinic = async () => {
+        let resClinic = await getAllClinicService();
+        if (resClinic && resClinic.errCode === 0) {
+            this.setState({
+                listClinic: resClinic.data ? resClinic.data : [],
+            });
+        }
+    };
+
+    resetData = () => {
+        this.setState({
+            name: "",
+            nameEn: "",
+            imageBase64: "",
+            descriptionHTML: "",
+            descriptionMarkdown: "",
+            previewImgUrl: "",
+            address: "",
+            selectedProvince: null,
+
+            error: {
+                name: false,
+                nameEn: false,
+                imageBase64: false,
+                descriptionMarkdown: false,
+                address: false,
+                selectedProvince: false,
+            },
+        });
+    };
+
     handleSaveNewClinic = async () => {
+        let data = {
+            id: this.state.id,
+            name: this.state.name,
+            nameEn: this.state.nameEn,
+            address: this.state.address,
+            provinceId: this.state.selectedProvince,
+            imageBase64: this.state.imageBase64,
+            descriptionHTML: this.state.descriptionHTML,
+            descriptionMarkdown: this.state.descriptionMarkdown,
+        };
+
         if (this.isEmpty()) {
             toast.error("Yêu nhập đầy đủ thông tin!");
             return;
         } else {
-            let data = {
-                name: this.state.name,
-                nameEn: this.state.nameEn,
-                address: this.state.address,
-                provinceId: this.state.selectedProvince,
-                imageBase64: this.state.imageBase64,
-                descriptionHTML: this.state.descriptionHTML,
-                descriptionMarkdown: this.state.descriptionMarkdown,
-            };
+            if (this.state.action === CRUD_ACTIONS.CREATE) {
+                let res = await createNewClinic(data);
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm phòng khám thành công!");
+                    this.resetData();
+                    this.getAllClinic();
+                } else {
+                    toast.error(res.errMessage);
+                }
+            }
 
-            let res = await createNewClinic(data);
-            if (res && res.errCode === 0) {
-                toast.success("Thêm chyên khoa thành công!");
-                this.setState({
-                    name: "",
-                    nameEn: "",
-                    imageBase64: "",
-                    descriptionHTML: "",
-                    descriptionMarkdown: "",
-                    previewImgUrl: "",
-                    address: "",
-                    selectedProvince: null,
-
-                    error: {
-                        name: false,
-                        nameEn: false,
-                        imageBase64: false,
-                        descriptionMarkdown: false,
-                        address: false,
-                        selectedProvince: false,
-                    },
-                });
-            } else {
-                toast.error(res.errMessage);
+            if (this.state.action === CRUD_ACTIONS.EDIT) {
+                //dispatch action edit user lên reducer
+                let res = await editClinicService(data);
+                if (res && res.errCode === 0) {
+                    toast.success(res.message);
+                    this.resetData();
+                    this.getAllClinic();
+                } else {
+                    toast.error(res.errMessage);
+                }
             }
         }
     };
@@ -190,6 +229,38 @@ class ManageClinic extends Component {
         });
 
         this.setState(copyState);
+    };
+
+    handleEditClinic = (clinic) => {
+        this.setState({
+            id: clinic.id,
+            name: clinic.nameVi,
+            nameEn: clinic.nameEn,
+            address: clinic.address,
+            descriptionHTML: clinic.descriptionHTML,
+            descriptionMarkdown: clinic.descriptionMarkdown,
+            selectedProvince: clinic.provinceId,
+            previewImgUrl: clinic.image,
+            action: CRUD_ACTIONS.EDIT, //chỉnh lại action là edit
+        });
+    };
+
+    deleteClinic = async (id) => {
+        if (id) {
+            const isConfirmed = window.confirm(
+                "Bạn có chắc chắn muốn xóa mục này?"
+            );
+            if (isConfirmed) {
+                // Xử lý xóa mục ở đây
+                let res = await deleteClinicService(id);
+                if (res && res.errCode === 0) {
+                    toast.success(res.message);
+                    this.getAllClinic();
+                }
+            } else {
+                // Người dùng đã hủy việc xóa
+            }
+        }
     };
 
     render() {
@@ -379,12 +450,24 @@ class ManageClinic extends Component {
 
                     <div className="col-12">
                         <button
-                            className="btn-save_specialty"
+                            className={
+                                this.state.action === CRUD_ACTIONS.EDIT
+                                    ? "btn btn-warning text-light"
+                                    : "btn btn-primary"
+                            }
                             onClick={() => {
                                 this.handleSaveNewClinic();
                             }}
                         >
-                            <FormattedMessage id={"admin.manage-clinic.save"} />
+                            {this.state.action === CRUD_ACTIONS.EDIT ? (
+                                <FormattedMessage
+                                    id={"admin.manage-clinic.edit"}
+                                />
+                            ) : (
+                                <FormattedMessage
+                                    id={"admin.manage-clinic.save"}
+                                />
+                            )}
                         </button>
                     </div>
                 </div>
@@ -396,6 +479,12 @@ class ManageClinic extends Component {
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 )}
+                <TableManageClinic
+                    data={this.state.listClinic}
+                    language={this.props.language}
+                    handleEditClinicFromParent={this.handleEditClinic}
+                    deleteClinic={this.deleteClinic}
+                />
             </div>
         );
     }

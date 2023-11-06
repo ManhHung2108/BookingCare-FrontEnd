@@ -174,7 +174,7 @@
             "text-errdesc": "Giới thiệu không được để trống",
             "text-erraddress": "Địa chỉ không được để trống",
             "save": "Lưu phòng khám",
-            "add": "Tạo mới phòng khám"
+            "edit": "Lưu thay đổi"
         }
     }
 }

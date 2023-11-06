@@ -114,6 +114,12 @@ const getDetailSpecialtyByIdService = (data) => {
 const createNewClinic = (data) => {
     return axios.post(`/api/create-new-clinic`, data);
 };
+const editClinicService = (inputData) => {
+    return axios.put(`/api/edit-clinic/${inputData.id}`, inputData);
+};
+const deleteClinicService = (id) => {
+    return axios.delete(`/api/delete-clinic/${id}`);
+};
 
 const getAllClinicService = () => {
     return axios.get(`/api/get-clinic`);
@@ -163,6 +169,8 @@ export {
     getAllSpecialtyService,
     getDetailSpecialtyByIdService,
     createNewClinic,
+    editClinicService,
+    deleteClinicService,
     getAllClinicService,
     getDetailClinicByIdService,
     getSearchByNameService,

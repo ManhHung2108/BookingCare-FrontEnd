@@ -172,7 +172,7 @@
             "text-errdesc": "Description is empty",
             "text-erraddress": "Address is empty",
             "save": "Save Clinic",
-            "add": "Create Clinic"
+            "edit": "Edit Clinic"
         }
     }
 }
