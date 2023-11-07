@@ -5,7 +5,7 @@ class About extends Component {
         return (
             <div className="section-share section-about">
                 <div className="section-about-container">
-                    <div className="container">
+                    <div>
                         <div className="section-about-header">
                             <h2>Truyền thông về HealthBookings</h2>
                         </div>

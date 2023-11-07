@@ -16,9 +16,22 @@ $fa-font-path: "~@fortawesome/fontawesome-free-webfonts/webfonts";
     box-sizing: border-box;
 }
 
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+@font-face {
+    font-family: 'TikTokFont-Bold';
+    src        : url('../assets/fronts/TikTokFont-Semibold.woff2') format('woff2');
 }
+
+@font-face {
+    font-family: 'TikTokFont-Regular';
+    src        : url('../assets/fronts/TikTokFont-Regular.woff2') format('woff2');
+}
+
+
+body {
+    font-family: 'TikTokFont-Regular', Arial, Tahoma, sans-serif;
+    font-size  : 16px;
+}
+
 
 // .main-container {
 //     // overflow-y: scroll;

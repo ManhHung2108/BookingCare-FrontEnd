@@ -92,11 +92,18 @@ class ListDoctor extends Component {
                                                         : item.lastName
                                                 }
                                             />
-                                            <h3>
-                                                {language === LANGUAGE.VI
-                                                    ? `${item.firstName} ${item.lastName}`
-                                                    : `${item.lastName} ${item.firstName}`}
-                                            </h3>
+                                            <div className="description">
+                                                <h3>
+                                                    {language === LANGUAGE.VI
+                                                        ? `${item.positionData.valueVi} ${item.firstName} ${item.lastName}`
+                                                        : `${item.positionData.valueEn} ${item.lastName} ${item.firstName}`}
+                                                </h3>
+                                                <div>
+                                                    {language === LANGUAGE.VI
+                                                        ? `${item.Doctor_Infor.specialtyData.nameVi}`
+                                                        : `${item.Doctor_Infor.specialtyData.nameEn}`}
+                                                </div>
+                                            </div>
                                         </Link>
                                     </li>
                                 );

@@ -40,6 +40,7 @@
             font-size  : 18px !important;
             font-weight: 550 !important;
             color      : #333 !important;
+            font-family: 'TikTokFont-Bold';
         }
 
         .filter_search {
@@ -71,30 +72,39 @@
         margin         : 0;
 
         li {
-            display      : block;
-            overflow     : hidden;
-            padding      : 15px;
-            border-bottom: 1px solid #eee;
-            position     : relative;
+            display : block;
+            overflow: hidden;
+            padding : 15px;
+            position: relative;
 
             a {
                 text-decoration: none;
                 display        : flex;
                 align-items    : center;
+                border-bottom  : 1px solid #eee;
+                padding-bottom : 10px;
+
 
                 img {
                     float       : left;
                     margin-right: 10px;
-                    width       : 200px;
                     height      : 105px;
                     object-fit  : contain;
                 }
 
-                h3 {
-                    display    : block;
-                    line-height: 1.3em;
-                    font-size  : 18px;
-                    color      : rgba(0, 0, 0, 1.00);
+                .description {
+                    h3 {
+                        display    : block;
+                        line-height: 1.3em;
+                        font-size  : 16px;
+                        color      : rgb(58, 58, 58);
+                    }
+
+                    div {
+                        color      : rgb(58, 58, 58);
+                        font-weight: lighter;
+                        font-size  : 14px;
+                    }
                 }
             }
         }
