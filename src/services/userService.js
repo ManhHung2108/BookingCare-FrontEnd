@@ -1,6 +1,6 @@
 import axios from "../utils/axios";
 
-//Đăng nhập và xác thực người dùng
+//Api đăng nhập và xác thực người dùng
 const handleLoginApi = (email, passWord) => {
     return axios.post("/api/login", { email, passWord });
 };
@@ -24,7 +24,7 @@ const getAdminSystem = (token) => {
     });
 };
 
-//
+//Api quản lý User
 const getAllUsersService = (inputId) => {
     //axios trả về promise
     return axios.get(`/api/get-all-users`, {
@@ -48,10 +48,12 @@ const editUserService = (inputData) => {
     return axios.put(`/api/edit-user/${inputData.id}`, inputData);
 };
 
+//Api bảng Allcode
 const getAllCodeService = (inputType) => {
     return axios.get(`/api/allcode?type=${inputType}`);
 };
 
+//Api bác sĩ nổi bật
 const getTopDoctorHomeService = (limit) => {
     return axios.get(`/api/top-doctor-home?limit=${limit}`);
 };
@@ -59,22 +61,25 @@ const getTopDoctorHome2Service = (limit) => {
     return axios.get(`/api/get-top-doctor?limit=${limit}`);
 };
 
+//Api danh sách Doctor
 const getAllDoctorService = () => {
     return axios.get(`/api/get-all-doctor`);
 };
 
+//Api tạo thông tin Docotor
 const saveDetailDoctorService = (data) => {
     return axios.post(`/api/save-infor-doctor`, data);
 };
 
-const getDetailDoctor = (id) => {
-    return axios.get(`/api/get-detail-doctor-by-id?id=${id}`);
-};
-
+//Api quản lý kế hoạch
 const saveBulkScheduleDoctorService = (data) => {
     return axios.post(`/api/bulk-create-schedule`, data);
 };
 
+//Api detail Doctor
+const getDetailDoctor = (id) => {
+    return axios.get(`/api/get-detail-doctor-by-id?id=${id}`);
+};
 const getScheduleDoctorByDateServicde = (doctorId, date) => {
     return axios.get(
         `/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`
@@ -97,8 +102,15 @@ const postVerifyBookAppointmentService = (data) => {
     return axios.post(`/api/verify-book-appointment`, data);
 };
 
+//Api phòng khám
 const createNewSpecialty = (data) => {
     return axios.post(`/api/create-new-specialty`, data);
+};
+const editSpecialtyService = (inputData) => {
+    return axios.put(`/api/edit-specialty/${inputData.id}`, inputData);
+};
+const deleteSpecialtyService = (id) => {
+    return axios.delete(`/api/delete-specialty/${id}`);
 };
 
 const getAllSpecialtyService = () => {
@@ -111,6 +123,7 @@ const getDetailSpecialtyByIdService = (data) => {
     );
 };
 
+//Api phòng khám
 const createNewClinic = (data) => {
     return axios.post(`/api/create-new-clinic`, data);
 };
@@ -131,6 +144,7 @@ const getDetailClinicByIdService = (data) => {
     );
 };
 
+//Api search
 const getSearchByNameService = (query) => {
     return axios.get(`/api/search-by-name?q=${query}`);
 };
@@ -166,6 +180,8 @@ export {
     postPatientBookAppointmentService,
     postVerifyBookAppointmentService,
     createNewSpecialty,
+    editSpecialtyService,
+    deleteSpecialtyService,
     getAllSpecialtyService,
     getDetailSpecialtyByIdService,
     createNewClinic,

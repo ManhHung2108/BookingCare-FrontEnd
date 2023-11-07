@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { Table, Space, Input } from "antd";
 import { LANGUAGE } from "../../../utils";
 
-export default class TableManageClinic extends Component {
+export default class TableManageSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,9 +12,9 @@ export default class TableManageClinic extends Component {
         };
     }
 
-    handleEditClinic = (clinic) => {
+    handleEditSpecialty = (item) => {
         //Gửi data sang parent để lưu data vào form
-        this.props.handleEditClinicFromParent(clinic);
+        this.props.handleEditSpecialtyFromParent(item);
     };
     render() {
         let { data, language } = this.props;
@@ -28,6 +28,8 @@ export default class TableManageClinic extends Component {
                 if (item.descriptionMarkdown.length > 100) {
                     item.description =
                         item.descriptionMarkdown.slice(0, 100) + "...";
+                } else {
+                    item.description = item.descriptionMarkdown;
                 }
                 item.key = item.id;
                 return { ...item };
@@ -37,9 +39,11 @@ export default class TableManageClinic extends Component {
         const columns = [
             {
                 title:
-                    language === LANGUAGE.VI ? "Tên phòng khám" : "Name Clinic",
+                    language === LANGUAGE.VI
+                        ? "Tên chuyên khoa"
+                        : "Name Specialty",
                 dataIndex: language === LANGUAGE.VI ? "nameVi" : "nameEn",
-                key: "nameClinic",
+                key: "nameSpecialty",
                 defaultSortOrder: "descend",
                 sorter: (a, b) => a.id - b.id,
                 filterDropdown: () => (
@@ -63,9 +67,16 @@ export default class TableManageClinic extends Component {
                 key: "description",
             },
             {
-                title: language === LANGUAGE.EN ? "Address" : "Địa chỉ",
-                dataIndex: "address",
-                key: "address",
+                title: language === LANGUAGE.EN ? "Image" : "Ảnh",
+                dataIndex: "image",
+                key: "image",
+                render: (text, record) => (
+                    <img
+                        src={record.image}
+                        alt={record.nameEn}
+                        style={{ width: "70px", height: "50px" }}
+                    />
+                ),
             },
             {
                 title: "Action",
@@ -75,7 +86,7 @@ export default class TableManageClinic extends Component {
                         <button
                             className="btn btn-primary"
                             onClick={() => {
-                                this.handleEditClinic(record);
+                                this.handleEditSpecialty(record);
                             }}
                         >
                             <FormattedMessage id={"actions.edit"} />
@@ -84,7 +95,7 @@ export default class TableManageClinic extends Component {
                             className="btn btn-danger"
                             onClick={() => {
                                 // console.log(record.id);
-                                this.props.deleteClinic(record.id);
+                                this.props.deleteSpecialtyFromParent(record.id);
                             }}
                         >
                             <FormattedMessage id={"actions.delete"} />
@@ -128,7 +139,7 @@ export default class TableManageClinic extends Component {
                     title={() => (
                         <h3>
                             {/* <FormattedMessage id={"manage-user.listUser"} /> */}
-                            Danh sách phòng khám
+                            Danh sách chuyên khoa
                         </h3>
                     )}
                     pagination={{ pageSize: 5 }} // Set the pageSize to limit the number of rows per page

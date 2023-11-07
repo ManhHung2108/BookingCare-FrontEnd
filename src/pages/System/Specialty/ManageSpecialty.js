@@ -7,9 +7,15 @@ import Lightbox from "react-image-lightbox";
 import { FormattedMessage } from "react-intl";
 
 import "./ManageSpecialty.scss";
-import { CommonUtils } from "../../../utils";
-import { createNewSpecialty } from "../../../services";
+import { CRUD_ACTIONS, CommonUtils } from "../../../utils";
+import {
+    createNewSpecialty,
+    deleteSpecialtyService,
+    editSpecialtyService,
+} from "../../../services";
 import { toast } from "react-toastify";
+import TableManageSpecialty from "./TableManageSpecialty";
+import { getAllSpecialtyService } from "../../../services";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 class ManageSpecialty extends Component {
@@ -30,10 +36,25 @@ class ManageSpecialty extends Component {
                 imageBase64: false,
                 descriptionMarkdown: false,
             },
+
+            listSpecialty: [],
+            action: CRUD_ACTIONS.CREATE,
         };
     }
 
-    componentDidMount() {}
+    async componentDidMount() {
+        this.getAllSpecialty();
+    }
+
+    getAllSpecialty = async () => {
+        let res = await getAllSpecialtyService();
+
+        if (res && res.errCode === 0) {
+            this.setState({
+                listSpecialty: res.data ? res.data : [],
+            });
+        }
+    };
 
     handleOnchangeInput = (event, key) => {
         let copyState = { ...this.state };
@@ -45,14 +66,9 @@ class ManageSpecialty extends Component {
             copyState.error[key] = false;
         }
 
-        this.setState(
-            {
-                ...copyState,
-            },
-            () => {
-                console.log(this.state);
-            }
-        );
+        this.setState({
+            ...copyState,
+        });
     };
 
     handleEditorChange = ({ html, text }) => {
@@ -107,7 +123,6 @@ class ManageSpecialty extends Component {
         if (
             copyState.name === "" ||
             copyState.nameEn === "" ||
-            copyState.imageBase64 === "" ||
             copyState.descriptionMarkdown === ""
         ) {
             return true;
@@ -116,43 +131,98 @@ class ManageSpecialty extends Component {
         return false;
     };
 
+    resetDataInput = () => {
+        this.setState({
+            name: "",
+            nameEn: "",
+            imageBase64: "",
+            descriptionHTML: "",
+            descriptionMarkdown: "",
+            previewImgUrl: "",
+
+            error: {
+                name: false,
+                nameEn: false,
+                imageBase64: false,
+                descriptionMarkdown: false,
+            },
+
+            action: CRUD_ACTIONS.CREATE,
+        });
+    };
+
     handleSaveNewSpecialty = async () => {
+        let data = {
+            id: this.state.id,
+            name: this.state.name,
+            nameEn: this.state.nameEn,
+            imageBase64: this.state.imageBase64,
+            descriptionHTML: this.state.descriptionHTML,
+            descriptionMarkdown: this.state.descriptionMarkdown,
+        };
+
         if (this.isEmpty()) {
             toast.error("Yêu nhập đầy đủ thông tin!");
             return;
         } else {
-            let data = {
-                name: this.state.name,
-                nameEn: this.state.nameEn,
-                imageBase64: this.state.imageBase64,
-                descriptionHTML: this.state.descriptionHTML,
-                descriptionMarkdown: this.state.descriptionMarkdown,
-            };
+            if (this.state.action === CRUD_ACTIONS.CREATE) {
+                let res = await createNewSpecialty(data);
 
-            let res = await createNewSpecialty(data);
-            if (res && res.errCode === 0) {
-                toast.success("Thêm chyên khoa thành công!");
-                this.setState({
-                    name: "",
-                    nameEn: "",
-                    imageBase64: "",
-                    descriptionHTML: "",
-                    descriptionMarkdown: "",
-                    previewImgUrl: "",
+                if (res && res.errCode === 0) {
+                    toast.success("Thêm chyên khoa thành công!");
+                    this.resetDataInput();
+                    this.getAllSpecialty(); //load lại data
+                } else {
+                    toast.error(res.errMessage);
+                }
+            }
 
-                    error: {
-                        name: false,
-                        nameEn: false,
-                        imageBase64: false,
-                        descriptionMarkdown: false,
-                    },
-                });
-            } else {
-                toast.error(res.errMessage);
+            if (this.state.action === CRUD_ACTIONS.EDIT) {
+                let res = await editSpecialtyService(data);
+                this.resetDataInput();
+                this.getAllSpecialty(); //load lại data
+
+                if (res && res.errCode === 0) {
+                    toast.success("Sửa chuyên khoa thành công!");
+                    this.resetDataInput();
+                    this.getAllSpecialty(); //load lại data
+                } else {
+                    toast.error(res.errMessage);
+                }
             }
         }
+    };
 
-        // console.log("check result from handleSaveNewSpecialty: ", res);
+    handleEditSpecialty = (specialty) => {
+        this.setState({
+            id: specialty.id,
+            name: specialty.nameVi,
+            nameEn: specialty.nameEn,
+            descriptionHTML: specialty.descriptionHTML,
+            descriptionMarkdown: specialty.descriptionMarkdown,
+            previewImgUrl: specialty.image,
+            action: CRUD_ACTIONS.EDIT, //chỉnh lại action là edit
+        });
+    };
+
+    deleteSpecialty = async (id) => {
+        if (id) {
+            const isConfirmed = window.confirm(
+                "Bạn có chắc chắn muốn xóa mục này?"
+            );
+            if (isConfirmed) {
+                // Xử lý xóa mục ở đây
+                let res = await deleteSpecialtyService(id);
+                if (res && res.errCode === 0) {
+                    toast.success(res.message);
+                    this.getAllSpecialty();
+                } else {
+                    toast.success(res.errMessage);
+                }
+            } else {
+                // Người dùng đã hủy việc xóa
+            }
+        }
     };
 
     render() {
@@ -271,17 +341,37 @@ class ManageSpecialty extends Component {
 
                     <div className="col-12">
                         <button
-                            className="btn-save_specialty"
+                            className={
+                                this.state.action === CRUD_ACTIONS.EDIT
+                                    ? "btn btn-warning text-light"
+                                    : "btn btn-primary"
+                            }
                             onClick={() => {
                                 this.handleSaveNewSpecialty();
                             }}
                         >
-                            <FormattedMessage
+                            {/* <FormattedMessage
                                 id={"admin.manage-specialty.save"}
-                            />
+                            /> */}
+                            {this.state.action === CRUD_ACTIONS.EDIT ? (
+                                <FormattedMessage
+                                    id={"admin.manage-specialty.edit"}
+                                />
+                            ) : (
+                                <FormattedMessage
+                                    id={"admin.manage-specialty.save"}
+                                />
+                            )}
                         </button>
                     </div>
                 </div>
+
+                <TableManageSpecialty
+                    language={this.props.language}
+                    data={this.state.listSpecialty}
+                    handleEditSpecialtyFromParent={this.handleEditSpecialty}
+                    deleteSpecialtyFromParent={this.deleteSpecialty}
+                />
 
                 {/**Xử lý mở to người dùng click preview Image sẽ được phóng to */}
                 {this.state.isOpen && (

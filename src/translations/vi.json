@@ -157,7 +157,7 @@
             "text-errimage": "Ảnh chuyên khoa không được để trống",
             "text-errdesc": "Giới thiệu không được để trống",
             "save": "Lưu chuyên khoa",
-            "add": "Tạo mới chuyên khoa"
+            "edit": "Lưu thay đổi"
         },
         "manage-clinic": {
             "title": "Quản lý phòng khám",
