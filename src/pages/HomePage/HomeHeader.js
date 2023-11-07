@@ -126,7 +126,7 @@ class HomeHeader extends Component {
                         </div>
                         <div className="center-content">
                             <Link
-                                to={"/kham-chuyen-khoa"}
+                                to={routes.LIST_SPECIALTY}
                                 className="child-content"
                             >
                                 <div to={"/kham-chuyen-khoa"}>
@@ -138,7 +138,10 @@ class HomeHeader extends Component {
                                     <FormattedMessage id="homeHeader.search-doctor" />
                                 </div>
                             </Link>
-                            <div className="child-content">
+                            <Link
+                                to={routes.LIST_CLINIC}
+                                className="child-content"
+                            >
                                 <div>
                                     <b>
                                         <FormattedMessage id="homeHeader.health-facility" />
@@ -147,9 +150,9 @@ class HomeHeader extends Component {
                                 <div className="sub-title">
                                     <FormattedMessage id="homeHeader.select-room" />
                                 </div>
-                            </div>
+                            </Link>
                             <Link
-                                to={"/danh-sach/bac-si/danh-cho-ban"}
+                                to={routes.LIST_DOCTOR}
                                 className="child-content"
                             >
                                 <div>

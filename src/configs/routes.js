@@ -10,6 +10,7 @@ const routes = {
     VERIFY_EMAIL_BOOKING: "/verify-booking",
     LIST_SPECIALTY: "/kham-chuyen-khoa",
     LIST_DOCTOR: "/danh-sach/bac-si/danh-cho-ban",
+    LIST_CLINIC: "/danh-sach/co-so-y-te/danh-cho-ban",
 };
 
 export default routes;

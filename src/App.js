@@ -24,6 +24,7 @@ import DetailSpecialty from "./pages/HomePage/Specialty/DetailSpecialty";
 import DetailClinic from "./pages/HomePage/Clinic/DetailClinic";
 import ListSpecialty from "./pages/HomePage/Specialty/ListSpecialty";
 import ListDoctor from "./pages/HomePage/Doctor/ListDoctor";
+import ListClinic from "./pages/HomePage/Clinic/ListClinic";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -99,6 +100,10 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.LIST_DOCTOR}
                                     component={ListDoctor}
+                                />
+                                <Route
+                                    path={configs.routes.LIST_CLINIC}
+                                    component={ListClinic}
                                 />
 
                                 <Route

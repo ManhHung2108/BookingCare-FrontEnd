@@ -3,54 +3,54 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
 import HomeHeader from "../HomeHeader";
-import "./ListSpecialty.scss";
-import { getAllSpecialtyService } from "../../../services";
+import "./ListClinic.scss";
+import { getAllClinicService } from "../../../services";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { LANGUAGE } from "../../../utils";
 import HomeFooter from "../HomeFooter";
 import * as actions from "../../../redux/actions";
 
-class ListSpecialty extends Component {
+class ListClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
             searchInput: "",
-            listSpecialty: [],
+            listClinic: [],
         };
     }
 
     async componentDidMount() {
         this.props.isShowLoading(true);
-        let res = await getAllSpecialtyService();
+        let res = await getAllClinicService();
         if (res && res.errCode === 0) {
             this.props.isShowLoading(false);
             this.setState({
-                listSpecialty: res.data ? res.data : [],
+                listClinic: res.data ? res.data : [],
             });
         }
     }
     render() {
         const { language } = this.props;
-        const { searchInput, listSpecialty } = this.state;
+        const { searchInput, listClinic } = this.state;
         return (
             <>
                 <HomeHeader bgColor={true} />
-                <div className="list-specialty_container">
-                    <div className="list-specialty-header">
+                <div className="list-clinic_container">
+                    <div className="list-clinic-header">
                         <Link to="/home">
                             <i className="fas fa-home"></i>
                             <span>/</span>
                         </Link>
                         <div>
                             <FormattedMessage
-                                id={"patient.list-speciality.text-title"}
+                                id={"patient.list-clinic.text-title"}
                             />
                         </div>
                     </div>
-                    <div className="list-specialty_search">
+                    <div className="list-clinic_search">
                         <h3 className="text-title">
                             <FormattedMessage
-                                id={"patient.list-speciality.text-examination"}
+                                id={"patient.list-clinic.text-examination"}
                             />
                         </h3>
                         <div className="filter_search">
@@ -69,21 +69,19 @@ class ListSpecialty extends Component {
                             {/* <i className="fas fa-search"></i> */}
                             <button>
                                 <FormattedMessage
-                                    id={"patient.list-speciality.text-search"}
+                                    id={"patient.list-clinic.text-search"}
                                 />
                             </button>
                         </div>
                     </div>
 
                     <ul>
-                        {listSpecialty &&
-                            listSpecialty.length > 0 &&
-                            listSpecialty.map((item, index) => {
+                        {ListClinic &&
+                            listClinic.length > 0 &&
+                            listClinic.map((item, index) => {
                                 return (
                                     <li key={index}>
-                                        <Link
-                                            to={`/detail-specialty/${item.id}`}
-                                        >
+                                        <Link to={`/detail-clinic/${item.id}`}>
                                             <img
                                                 src={item.image}
                                                 width={100}
@@ -126,4 +124,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListSpecialty);
+export default connect(mapStateToProps, mapDispatchToProps)(ListClinic);

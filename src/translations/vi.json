@@ -125,6 +125,16 @@
             "text-title": "Danh sách chuyên khoa khám bệnh",
             "text-examination": "Khám chuyên khoa",
             "text-search": "Tìm kiếm"
+        },
+        "list-clinic": {
+            "text-title": "Danh sách cơ sở y tế dành cho bạn",
+            "text-examination": "Danh sách cơ sở y tế dành cho bạn",
+            "text-search": "Tìm kiếm"
+        },
+        "list-doctor": {
+            "text-title": "Danh sách bác sĩ dành cho bạn",
+            "text-examination": "Danh sách bác sĩ dành cho bạn",
+            "text-search": "Tìm kiếm"
         }
     },
     "admin": {

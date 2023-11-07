@@ -7,6 +7,8 @@ import "./ListDoctor.scss";
 import { getAllDoctorService } from "../../../services";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { LANGUAGE } from "../../../utils";
+import HomeFooter from "../HomeFooter";
+import * as actions from "../../../redux/actions";
 
 class ListDoctor extends Component {
     constructor(props) {
@@ -18,8 +20,10 @@ class ListDoctor extends Component {
     }
 
     async componentDidMount() {
+        this.props.isShowLoading(true);
         let res = await getAllDoctorService();
         if (res && res.errCode === 0) {
+            this.props.isShowLoading(false);
             this.setState({
                 ListDoctor: res.data ? res.data : [],
             });
@@ -38,18 +42,16 @@ class ListDoctor extends Component {
                             <span>/</span>
                         </Link>
                         <div>
-                            {/* <FormattedMessage
-                                id={"patient.list-speciality.text-title"}
-                            /> */}
-                            Danh sách bác sĩ dành cho bạn
+                            <FormattedMessage
+                                id={"patient.list-doctor.text-title"}
+                            />
                         </div>
                     </div>
                     <div className="list-doctor_search">
                         <h3 className="text-title">
-                            {/* <FormattedMessage
-                                id={"patient.list-speciality.text-examination"}
-                            /> */}
-                            Danh sách bác sĩ dành cho bạn
+                            <FormattedMessage
+                                id={"patient.list-doctor.text-examination"}
+                            />
                         </h3>
                         <div className="filter_search">
                             <input
@@ -101,6 +103,7 @@ class ListDoctor extends Component {
                             })}
                     </ul>
                 </div>
+                <HomeFooter />
             </>
         );
     }
@@ -109,11 +112,16 @@ class ListDoctor extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.appReducer.language,
+        userInfor: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListDoctor);

@@ -125,6 +125,16 @@
             "text-title": "List of medical specialties",
             "text-examination": "Specialized examination",
             "text-search": "Search"
+        },
+        "list-clinic": {
+            "text-title": "List of medical facilities for you",
+            "text-examination": "List of medical facilities for you",
+            "text-search": "Search"
+        },
+        "list-doctor": {
+            "text-title": "List of doctors for you",
+            "text-examination": "List of doctors for you",
+            "text-search": "Search"
         }
     },
     "admin": {
