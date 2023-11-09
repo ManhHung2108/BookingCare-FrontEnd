@@ -162,6 +162,11 @@ const sendRemedyService = (data) => {
     return axios.post(`/api/send-remedy`, data);
 };
 
+//Api thống kê
+const getBookingCountsByMonthService = () => {
+    return axios.get(`/api/get-booking-count-by-month`);
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -197,4 +202,5 @@ export {
     getAdminSystem,
     getListPatientForDoctorService,
     sendRemedyService,
+    getBookingCountsByMonthService,
 };
