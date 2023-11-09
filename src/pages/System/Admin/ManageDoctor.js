@@ -79,14 +79,9 @@ class ManageDoctor extends Component {
             });
         }
         if (prevProps.listClinicRedux !== this.props.listClinicRedux) {
-            this.setState(
-                {
-                    listClinic: this.props.listClinicRedux,
-                },
-                () => {
-                    console.log(this.state.listClinic);
-                }
-            );
+            this.setState({
+                listClinic: this.props.listClinicRedux,
+            });
         }
     }
 

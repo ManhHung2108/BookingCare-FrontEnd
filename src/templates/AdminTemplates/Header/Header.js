@@ -10,7 +10,7 @@ import Navigator from "../../../components/System/Navigator";
 import { LANGUAGE } from "../../../utils";
 
 import { getUserInforSystem } from "../../../services";
-import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 class Header extends Component {
     _isMounted = false;
@@ -74,7 +74,11 @@ class Header extends Component {
             <div className="header-container">
                 {/**Thanh navigation */}
                 <div className="header-tab-container">
-                    <Navigator menus={this.state.menuSystem} />
+                    {/* <Navigator menus={this.state.menuSystem} /> */}
+                    <Link className="navigate_home" to={"/system/home"}>
+                        <i className="fas fa-arrow-left"></i>
+                        <span>Trang chủ</span>
+                    </Link>
                 </div>
 
                 <div className="languages">

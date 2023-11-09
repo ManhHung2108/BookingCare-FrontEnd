@@ -33,6 +33,7 @@ const appReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: false,
                 userInfo: null,
+                token: null,
             };
         case actionTypes.GET_DETAIL_DOCTOR_SUCCESS:
             state.doctorDetail = action.data;
