@@ -138,6 +138,9 @@
         }
     },
     "admin": {
+        "header": {
+            "text-home": "Trang chủ"
+        },
         "manage-doctor": {
             "title": "Tạo thêm thông tin bác sĩ",
             "select-doctor": "Chọn bác sĩ",
@@ -185,6 +188,9 @@
             "text-erraddress": "Địa chỉ không được để trống",
             "save": "Lưu phòng khám",
             "edit": "Lưu thay đổi"
+        },
+        "dashboard": {
+            "title": "Chào mừng đến trang quản trị"
         }
     }
 }

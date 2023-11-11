@@ -2,7 +2,6 @@
     background-color: #f0f0f0;
     padding-left    : 40px;
     padding-top     : 30px;
-    height          : calc(100vh - 40px);
 
     .admin-home_title {
         text-align: center;
@@ -12,6 +11,14 @@
             font-weight: bold;
             color      : #333;
         }
+    }
 
+    .admin-home_chart {
+        .chart-item {
+            background-color: #fff;
+            width           : 85%;
+            border-radius   : 5px;
+            padding         : 10px;
+        }
     }
 }

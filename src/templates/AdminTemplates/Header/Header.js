@@ -77,7 +77,9 @@ class Header extends Component {
                     {/* <Navigator menus={this.state.menuSystem} /> */}
                     <Link className="navigate_home" to={"/system/home"}>
                         <i className="fas fa-arrow-left"></i>
-                        <span>Trang chủ</span>
+                        <span>
+                            <FormattedMessage id={"admin.header.text-home"} />
+                        </span>
                     </Link>
                 </div>
 

@@ -10,8 +10,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-import { getBookingCountsByMonthService } from "../../services";
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -21,74 +19,50 @@ ChartJS.register(
     Legend
 );
 
-const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: "bottom",
-        },
-        title: {
-            display: true,
-            text: "Thống kê đặt lịch theo tháng",
-        },
-    },
-};
-
 export default class DashboardChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
             chartData: null,
-            chartDataBookingCancle: null,
         };
     }
 
     async componentDidMount() {
-        let res = await getBookingCountsByMonthService();
-
-        if (res && res.errCode === 0) {
-            if (res && res.data && res.data.resultsBooking.length > 0) {
-                this.builData(res.data);
-            }
+        if (this.props.chartData) {
+            this.setState({
+                chartData: this.props.chartData,
+            });
         }
     }
 
-    builData = (inputData) => {
-        console.log(inputData);
-        // Xử lý dữ liệu để đưa vào biểu đồ
-        let labels = inputData.resultsBooking.map((entry) => entry.month);
-        let counts = inputData.resultsBooking.map((entry) => entry.quantity);
-        let countsCancle = inputData.resultsBookingCancle.map(
-            (entry) => entry.quantity
-        );
-
-        // console.log("check labels", labels);
-
-        const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: "Số lượng lịch hủy",
-                    data: countsCancle,
-                    backgroundColor: "rgba(255, 99, 132, 0.5)",
-                },
-                {
-                    label: "Số lượng lịch đặt khám",
-                    data: counts,
-                    backgroundColor: "rgba(53, 162, 235, 0.5)",
-                },
-            ],
-        };
-
-        this.setState({
-            chartData: data,
-        });
-    };
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.chartData !== this.props.chartData) {
+            this.setState({
+                chartData: this.props.chartData,
+            });
+        }
+    }
 
     render() {
         const { chartData } = this.state;
+        const { titleChart } = this.props;
+
+        const options = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                },
+                title: {
+                    display: true,
+                    text: titleChart,
+                },
+            },
+        };
+
+        console.log("check props: ", this.props.chartData);
         return (
-            <>
+            <div className="chart-item mt-5">
                 {chartData &&
                 chartData.labels &&
                 chartData.labels.length > 0 ? (
@@ -96,7 +70,7 @@ export default class DashboardChart extends Component {
                 ) : (
                     <p>No data available</p>
                 )}
-            </>
+            </div>
         );
     }
 }

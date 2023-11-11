@@ -138,6 +138,9 @@
         }
     },
     "admin": {
+        "header": {
+            "text-home": "Home Page"
+        },
         "manage-doctor": {
             "title": "Generate more information for doctors",
             "select-doctor": "Choose Doctor",
@@ -183,6 +186,9 @@
             "text-erraddress": "Address is empty",
             "save": "Save Clinic",
             "edit": "Edit Clinic"
+        },
+        "dashboard": {
+            "title": "Welcome to the admin page"
         }
     }
 }

@@ -166,6 +166,9 @@ const sendRemedyService = (data) => {
 const getBookingCountsByMonthService = () => {
     return axios.get(`/api/get-booking-count-by-month`);
 };
+const getClinicMonthlyBookingStatsService = () => {
+    return axios.get(`/api/clinics/monthly-booking-stats`);
+};
 
 export {
     handleLoginApi,
@@ -203,4 +206,5 @@ export {
     getListPatientForDoctorService,
     sendRemedyService,
     getBookingCountsByMonthService,
+    getClinicMonthlyBookingStatsService,
 };
