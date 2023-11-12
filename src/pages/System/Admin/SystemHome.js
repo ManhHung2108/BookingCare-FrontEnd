@@ -11,6 +11,7 @@ import "./SystemHome.scss";
 import DashboardCard from "../../../components/System/DashboardCard";
 import DashboardChart from "../../../components/System/DashboardChart";
 import {
+    countStatsForAdminService,
     getBookingCountsByMonthService,
     getClinicMonthlyBookingStatsService,
 } from "../../../services";
@@ -24,6 +25,9 @@ class SystemHome extends Component {
         this.state = {
             chartBooking: null,
             chartClinicBooking: null,
+            userCountStats: 0,
+            doctorCountStats: 0,
+            clinicCountStats: 0,
         };
     }
 
@@ -31,6 +35,7 @@ class SystemHome extends Component {
         const { language } = this.props;
         let res = await getBookingCountsByMonthService();
         let resClinicBooking = await getClinicMonthlyBookingStatsService();
+        let resCountStats = await countStatsForAdminService();
 
         if (res && res.errCode === 0) {
             if (res && res.data && res.data.resultsBooking.length > 0) {
@@ -91,6 +96,14 @@ class SystemHome extends Component {
             };
             this.setState({
                 chartClinicBooking: data,
+            });
+        }
+
+        if (resCountStats && resCountStats.errCode === 0) {
+            this.setState({
+                userCountStats: resCountStats.data.userCountStats,
+                doctorCountStats: resCountStats.data.doctorCountStats,
+                clinicCountStats: resCountStats.data.clinicCountStats,
             });
         }
     }
@@ -178,6 +191,8 @@ class SystemHome extends Component {
 
     render() {
         const { language } = this.props;
+        const { userCountStats, doctorCountStats, clinicCountStats } =
+            this.state;
 
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cần cộng thêm 1 để lấy tháng thực tế
@@ -203,8 +218,8 @@ class SystemHome extends Component {
                                 }}
                             />
                         }
-                        title={"User"}
-                        value={1000}
+                        title={language === LANGUAGE.EN ? "User" : "Người dùng"}
+                        value={userCountStats}
                     />
                     <DashboardCard
                         icon={
@@ -219,8 +234,10 @@ class SystemHome extends Component {
                                 }}
                             />
                         }
-                        title={"Clinic"}
-                        value={1500}
+                        title={
+                            language === LANGUAGE.EN ? "Clinic" : "Phòng khám"
+                        }
+                        value={clinicCountStats}
                     />
                     <DashboardCard
                         icon={
@@ -235,8 +252,8 @@ class SystemHome extends Component {
                                 }}
                             />
                         }
-                        title={"Doctor"}
-                        value={2000}
+                        title={language === LANGUAGE.EN ? "Doctor" : "Bác sĩ"}
+                        value={doctorCountStats}
                     />
                 </Space>
 

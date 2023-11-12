@@ -169,6 +169,9 @@ const getBookingCountsByMonthService = () => {
 const getClinicMonthlyBookingStatsService = () => {
     return axios.get(`/api/clinics/monthly-booking-stats`);
 };
+const countStatsForAdminService = () => {
+    return axios.get(`/api/count-stats-for-admin`);
+};
 
 export {
     handleLoginApi,
@@ -207,4 +210,5 @@ export {
     sendRemedyService,
     getBookingCountsByMonthService,
     getClinicMonthlyBookingStatsService,
+    countStatsForAdminService,
 };
