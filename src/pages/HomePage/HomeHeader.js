@@ -2,14 +2,22 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom/cjs/react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear, faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 import { LANGUAGE } from "../../utils";
 import { changeLanguageAppAction } from "../../redux/actions";
 import routes from "../../configs/routes";
+import * as actions from "../../redux/actions";
 
 import "./HomeHeader.scss";
 import HamburgerMenu from "../../components/HamburgerMenu/HamburgerMenu";
-import { getSearchByNameService, getSearchService } from "../../services";
+import {
+    getSearchByNameService,
+    getSearchService,
+    getUserInforSystem,
+    getUserInforPatient,
+} from "../../services";
 
 class HomeHeader extends Component {
     constructor(props) {
@@ -21,11 +29,13 @@ class HomeHeader extends Component {
             listSearchClinic: [],
             listSearchDoctor: [],
             listSearchSpecialty: [],
+            userInfor: {},
         };
     }
 
     async componentDidMount() {
         let copyState = { ...this.state };
+        let { token } = this.props;
         let res = await getSearchService();
         if (res && res.errCode === 0) {
             copyState.listSearchClinic = res.data.resClinic;
@@ -35,6 +45,42 @@ class HomeHeader extends Component {
         this.setState({
             ...copyState,
         });
+
+        if (token) {
+            let userInfor = {};
+            const res = await getUserInforSystem(token);
+            if (res && res.errCode === 0) {
+                userInfor = res.userInfor;
+                let resUser = await getUserInforPatient(userInfor.id);
+                if (resUser && resUser.errCode === 0) {
+                    this.setState({
+                        userInfor: resUser.data,
+                    });
+                }
+            }
+        }
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps.token !== this.props.token) {
+            // console.log("check token componentDidUpdate: ", this.props.token);
+            if (this.props.isLoggedIn) {
+                let { token } = this.props;
+                let userInfor = {};
+
+                const res = await getUserInforSystem(token);
+
+                if (res && res.errCode === 0) {
+                    userInfor = res.userInfor;
+                    let resUser = await getUserInforPatient(userInfor.id);
+                    if (resUser && resUser.errCode === 0) {
+                        this.setState({
+                            userInfor: resUser.data,
+                        });
+                    }
+                }
+            }
+        }
     }
 
     handleOpenMenu = () => {
@@ -102,8 +148,9 @@ class HomeHeader extends Component {
             listSearchClinic,
             listSearchDoctor,
             listSearchSpecialty,
+            userInfor,
         } = this.state;
-        // console.log(language);
+
         return (
             <Fragment>
                 <div
@@ -220,6 +267,70 @@ class HomeHeader extends Component {
                                         EN
                                     </span>
                                 </div>
+                                {this.props.isLoggedIn && (
+                                    <div
+                                        className="header-username"
+                                        style={{
+                                            backgroundImage: `url(${
+                                                userInfor && userInfor.image
+                                                    ? userInfor.image
+                                                    : ""
+                                            })`,
+                                            position: "relative",
+                                        }}
+                                    >
+                                        <div className="header-setting-poup-list">
+                                            <ul>
+                                                <li className="setting-item">
+                                                    <a>
+                                                        <span className="setting-icon">
+                                                            <i
+                                                                className="far fa-user"
+                                                                style={{
+                                                                    fontSize:
+                                                                        "20px",
+                                                                }}
+                                                            ></i>
+                                                        </span>
+                                                        <span>Xem hồ sơ</span>
+                                                    </a>
+                                                </li>
+                                                <li className="setting-item">
+                                                    <a>
+                                                        <FontAwesomeIcon
+                                                            icon={faGear}
+                                                            style={{
+                                                                fontSize:
+                                                                    "20px",
+                                                            }}
+                                                            className="setting-icon"
+                                                        />
+                                                        <span>Cài đặt</span>
+                                                    </a>
+                                                </li>
+                                                <li className="setting-item">
+                                                    <a
+                                                        href="/logout"
+                                                        onClick={(event) => {
+                                                            event.preventDefault();
+                                                            this.props.processLogout();
+                                                        }}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faSignOut}
+                                                            style={{
+                                                                fontSize:
+                                                                    "20px",
+                                                            }}
+                                                            className="setting-icon"
+                                                        />
+                                                        <span>Đăng xuất</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -471,6 +582,8 @@ const mapStateFromToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         lang: state.appReducer.language,
+        userInfo: state.user.userInfo,
+        token: state.user.token,
     };
 };
 
@@ -480,6 +593,9 @@ const mapDispatchToProps = (dispatch) => {
         changeLanguage: (language) => {
             dispatch(changeLanguageAppAction(language));
         },
+        processLogout: () => dispatch(actions.processLogout()),
+        userLoginSuccess: (userInfo) =>
+            dispatch(actions.userLoginSuccess(userInfo)),
     };
 };
 

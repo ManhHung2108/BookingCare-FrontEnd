@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faHospital,
-    faStethoscope,
-    faUserDoctor,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHospital, faUserDoctor } from "@fortawesome/free-solid-svg-icons";
 import { Space } from "antd";
+import { FormattedMessage } from "react-intl";
+
 import "./SystemHome.scss";
 import DashboardCard from "../../../components/System/DashboardCard";
 import DashboardChart from "../../../components/System/DashboardChart";
@@ -17,7 +15,6 @@ import {
 } from "../../../services";
 import { connect } from "react-redux";
 import { LANGUAGE } from "../../../utils/constants";
-import { FormattedMessage } from "react-intl";
 
 class SystemHome extends Component {
     constructor(props) {
@@ -283,6 +280,7 @@ class SystemHome extends Component {
 const mapStateToProps = (state) => {
     return {
         language: state.appReducer.language,
+        token: state.user.token,
     };
 };
 

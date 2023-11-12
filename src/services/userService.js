@@ -8,6 +8,10 @@ const handleLoginApi2 = (username, password) => {
     return axios.post("/login2", { username, password });
 };
 
+const getUserInforPatient = (id) => {
+    return axios.get(`/api/get-infor-user?id=${id}`);
+};
+
 const getUserInforSystem = (token) => {
     return axios.get("/system-user-infor", {
         headers: {
@@ -211,4 +215,5 @@ export {
     getBookingCountsByMonthService,
     getClinicMonthlyBookingStatsService,
     countStatsForAdminService,
+    getUserInforPatient,
 };

@@ -60,7 +60,7 @@ export default class DashboardChart extends Component {
             },
         };
 
-        console.log("check props: ", this.props.chartData);
+        // console.log("check props: ", this.props.chartData);
         return (
             <div className="chart-item mt-5">
                 {chartData &&
