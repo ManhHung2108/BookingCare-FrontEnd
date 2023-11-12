@@ -34,8 +34,10 @@ class HamburgerMenu extends Component {
                 nameVi: "Trang chủ",
             },
             {
-                link: "/histories",
-                nameVi: "Xem lịch sử khám bệnh",
+                link: configs.routes.HISTORY_BOOKING,
+                nameVi: isLoggedIn
+                    ? "Xem lịch sử khám bệnh"
+                    : "Tra cứu lịch hẹn",
             },
             {
                 link: "/contact",
@@ -77,15 +79,15 @@ class HamburgerMenu extends Component {
                             </li>
                         ) : (
                             <li>
-                                <a
-                                    href="/logout"
+                                <Link
+                                    to={configs.routes.LOG_OUT}
                                     onClick={(event) => {
                                         event.preventDefault();
                                         this.props.processLogout();
                                     }}
                                 >
                                     Đăng Xuất
-                                </a>
+                                </Link>
                             </li>
                         )}
                     </ul>

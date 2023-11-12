@@ -25,6 +25,7 @@ import DetailClinic from "./pages/HomePage/Clinic/DetailClinic";
 import ListSpecialty from "./pages/HomePage/Specialty/ListSpecialty";
 import ListDoctor from "./pages/HomePage/Doctor/ListDoctor";
 import ListClinic from "./pages/HomePage/Clinic/ListClinic";
+import HistoryBooking from "./pages/HomePage/Booking/HistoryBooking";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -109,6 +110,11 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.VERIFY_EMAIL_BOOKING}
                                     component={VerifyEmail}
+                                />
+
+                                <Route
+                                    path={configs.routes.HISTORY_BOOKING}
+                                    component={HistoryBooking}
                                 />
                             </Switch>
                         </div>

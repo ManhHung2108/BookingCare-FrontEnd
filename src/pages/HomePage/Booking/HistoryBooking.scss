@@ -1,0 +1,66 @@
+.booking-history-container {
+    padding-right: 15px;
+    padding-left : 15px;
+    margin-right : auto;
+    margin-left  : auto;
+    width        : 1200px;
+    margin-bottom: 30px;
+
+    .booking-history-header {
+        display       : flex;
+        align-items   : center;
+        color         : #49bce2;
+        padding-bottom: 10px;
+        border-bottom : 1px solid #eee;
+        margin-top    : 20px;
+        margin-bottom : 30px;
+
+
+        a {
+            text-decoration: none;
+
+            i {
+                color    : #49bce2;
+                font-size: 20px;
+            }
+
+            span {
+                margin: 0 5px;
+            }
+        }
+    }
+
+    .booking-search {
+        .filter_search {
+            display        : flex;
+            justify-content: flex-end;
+            align-items    : center;
+            position       : relative;
+            width          : 100%;
+            margin         : 20px 0;
+
+            input {
+                width: 25%;
+            }
+
+            button {
+                position                  : absolute;
+                right                     : 0px;
+                color                     : #fff;
+                outline                   : none;
+                background                : #49bce2;
+                border                    : none;
+                border-bottom-right-radius: 4px;
+                padding                   : 5px;
+            }
+        }
+    }
+
+    .booking-history-content {
+        h2 {
+            font-size    : 25px;
+            font-weight  : 600;
+            margin-bottom: 30px;
+        }
+    }
+}

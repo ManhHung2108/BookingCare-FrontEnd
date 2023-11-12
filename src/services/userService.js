@@ -177,6 +177,15 @@ const countStatsForAdminService = () => {
     return axios.get(`/api/count-stats-for-admin`);
 };
 
+//Api booking history
+const getBookingHistoryForPatient = (token) => {
+    return axios.get("/api/get-booking-history-for-patient", {
+        headers: {
+            Authorization: `Bearer ${token}`, // Thay thế 'Bearer' bằng phần tiêu đề thích hợp nếu yêu cầu của bạn yêu cầu
+        },
+    });
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -216,4 +225,5 @@ export {
     getClinicMonthlyBookingStatsService,
     countStatsForAdminService,
     getUserInforPatient,
+    getBookingHistoryForPatient,
 };
