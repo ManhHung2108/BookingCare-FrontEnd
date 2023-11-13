@@ -12,6 +12,7 @@ import {
     countStatsForAdminService,
     getBookingCountsByMonthService,
     getClinicMonthlyBookingStatsService,
+    fetchDashboardData,
 } from "../../../services";
 import { connect } from "react-redux";
 import { LANGUAGE } from "../../../utils/constants";
@@ -29,79 +30,85 @@ class SystemHome extends Component {
     }
 
     async componentDidMount() {
-        const { language } = this.props;
-        let res = await getBookingCountsByMonthService();
-        let resClinicBooking = await getClinicMonthlyBookingStatsService();
-        let resCountStats = await countStatsForAdminService();
+        const { language, token } = this.props;
+        let authorizeUser = await this.authorizeUser(token);
 
-        if (res && res.errCode === 0) {
-            if (res && res.data && res.data.resultsBooking.length > 0) {
-                // Xử lý dữ liệu để đưa vào biểu đồ
-                let labels = res.data.resultsBooking.map(
-                    (entry) => entry.month
-                );
+        if (authorizeUser && authorizeUser.errCode === 0) {
+            let res = await getBookingCountsByMonthService();
+            let resClinicBooking = await getClinicMonthlyBookingStatsService();
+            let resCountStats = await countStatsForAdminService();
 
-                let countsBooking = this.builData(res.data.resultsBooking);
-                let countsCancle = this.builData(res.data.resultsBookingCancle);
+            if (res && res.errCode === 0) {
+                if (res && res.data && res.data.resultsBooking.length > 0) {
+                    // Xử lý dữ liệu để đưa vào biểu đồ
+                    let labels = res.data.resultsBooking.map(
+                        (entry) => entry.month
+                    );
 
+                    let countsBooking = this.builData(res.data.resultsBooking);
+                    let countsCancle = this.builData(
+                        res.data.resultsBookingCancle
+                    );
+
+                    const data = {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: `${
+                                    language === LANGUAGE.VI
+                                        ? "Số lịch hủy"
+                                        : "Cancellation schedule number"
+                                }`,
+                                data: countsCancle,
+                                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                            },
+                            {
+                                label: `${
+                                    language === LANGUAGE.VI
+                                        ? "Số lịch đặt khám"
+                                        : "Appointment appointment number"
+                                }`,
+                                data: countsBooking,
+                                backgroundColor: "rgba(53, 162, 235, 0.5)",
+                            },
+                        ],
+                    };
+
+                    this.setState({
+                        chartBooking: data,
+                    });
+                }
+            }
+
+            if (resClinicBooking && resClinicBooking.errCode === 0) {
+                let labels = resClinicBooking.data.map((item) => {
+                    return this.props.language === LANGUAGE.VI
+                        ? item.nameVi
+                        : item.nameEn;
+                });
+                let countsBooking = this.builData(resClinicBooking.data);
                 const data = {
                     labels: labels,
                     datasets: [
                         {
-                            label: `${
-                                language === LANGUAGE.VI
-                                    ? "Số lịch hủy"
-                                    : "Cancellation schedule number"
-                            }`,
-                            data: countsCancle,
-                            backgroundColor: "rgba(255, 99, 132, 0.5)",
-                        },
-                        {
-                            label: `${
-                                language === LANGUAGE.VI
-                                    ? "Số lịch đặt khám"
-                                    : "Appointment appointment number"
-                            }`,
+                            label: "Số lượng lịch đặt khám",
                             data: countsBooking,
                             backgroundColor: "rgba(53, 162, 235, 0.5)",
                         },
                     ],
                 };
-
                 this.setState({
-                    chartBooking: data,
+                    chartClinicBooking: data,
                 });
             }
-        }
 
-        if (resClinicBooking && resClinicBooking.errCode === 0) {
-            let labels = resClinicBooking.data.map((item) => {
-                return this.props.language === LANGUAGE.VI
-                    ? item.nameVi
-                    : item.nameEn;
-            });
-            let countsBooking = this.builData(resClinicBooking.data);
-            const data = {
-                labels: labels,
-                datasets: [
-                    {
-                        label: "Số lượng lịch đặt khám",
-                        data: countsBooking,
-                        backgroundColor: "rgba(53, 162, 235, 0.5)",
-                    },
-                ],
-            };
-            this.setState({
-                chartClinicBooking: data,
-            });
-        }
-
-        if (resCountStats && resCountStats.errCode === 0) {
-            this.setState({
-                userCountStats: resCountStats.data.userCountStats,
-                doctorCountStats: resCountStats.data.doctorCountStats,
-                clinicCountStats: resCountStats.data.clinicCountStats,
-            });
+            if (resCountStats && resCountStats.errCode === 0) {
+                this.setState({
+                    userCountStats: resCountStats.data.userCountStats,
+                    doctorCountStats: resCountStats.data.doctorCountStats,
+                    clinicCountStats: resCountStats.data.clinicCountStats,
+                });
+            }
         }
     }
 
@@ -180,6 +187,26 @@ class SystemHome extends Component {
             }
         }
     }
+
+    authorizeUser = async (token) => {
+        try {
+            let res = await fetchDashboardData(token);
+            // Xử lý dữ liệu nếu cần
+
+            return res;
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                // Xử lý lỗi 403 ở đây
+                console.log(
+                    "Access forbidden. You are not authorized to view this page."
+                );
+                // Redirect hoặc thực hiện hành động khác tương ứng với lỗi 403
+            } else {
+                // Xử lý các lỗi khác
+                console.error("Error:", error);
+            }
+        }
+    };
 
     builData = (inputData) => {
         let counts = inputData.map((entry) => entry.quantity);

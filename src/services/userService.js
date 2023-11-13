@@ -8,6 +8,7 @@ const handleLoginApi2 = (username, password) => {
     return axios.post("/login2", { username, password });
 };
 
+//Xác thực đăng nhập
 const getUserInforPatient = (id) => {
     return axios.get(`/api/get-infor-user?id=${id}`);
 };
@@ -20,12 +21,37 @@ const getUserInforSystem = (token) => {
     });
 };
 
+//Ủy quyền người dùng
 const getAdminSystem = (token) => {
     return axios.get("/admin-dashboard", {
         headers: {
-            Authorization: `Bearer ${token}`, // Thay thế 'Bearer' bằng phần tiêu đề thích hợp nếu yêu cầu của bạn yêu cầu
+            Authorization: `Bearer ${token}`,
         },
     });
+};
+const fetchDashboardData = (token) => {
+    return axios
+        .get("/home-dashboard", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            // Xử lý dữ liệu thành công
+            return response;
+        })
+        .catch((error) => {
+            if (error.response && error.response.status === 403) {
+                // Xử lý lỗi 403 ở đây
+                // console.error("Error:", error);
+                return Promise.reject(error);
+            } else {
+                // Xử lý các lỗi khác
+                console.error("Error:", error);
+                // Trả về một promise bị reject với lỗi gốc
+                return Promise.reject(error);
+            }
+        });
 };
 
 //Api quản lý User
@@ -226,4 +252,5 @@ export {
     countStatsForAdminService,
     getUserInforPatient,
     getBookingHistoryForPatient,
+    fetchDashboardData,
 };
