@@ -68,63 +68,69 @@ class Header extends Component {
         this.props.changeLanguage(language);
     };
     render() {
-        const { processLogout } = this.props;
+        const { processLogout, authorized } = this.props;
         const { userInfo } = this.state;
         return (
-            <div className="header-container">
-                {/**Thanh navigation */}
-                <div className="header-tab-container">
-                    {/* <Navigator menus={this.state.menuSystem} /> */}
-                    <Link className="navigate_home" to={"/system/home"}>
-                        <i className="fas fa-arrow-left"></i>
-                        <span>
-                            <FormattedMessage id={"admin.header.text-home"} />
-                        </span>
-                    </Link>
-                </div>
+            <>
+                {authorized && (
+                    <div className="header-container">
+                        {/**Thanh navigation */}
+                        <div className="header-tab-container">
+                            {/* <Navigator menus={this.state.menuSystem} /> */}
+                            <Link className="navigate_home" to={"/system/home"}>
+                                <i className="fas fa-arrow-left"></i>
+                                <span>
+                                    <FormattedMessage
+                                        id={"admin.header.text-home"}
+                                    />
+                                </span>
+                            </Link>
+                        </div>
 
-                <div className="languages">
-                    <span className="welcome">
-                        <FormattedMessage id={"homeHeader.welcome"} />
-                        {userInfo && userInfo.lastName
-                            ? `${userInfo.firstName} ${userInfo.lastName}!`
-                            : ""}
-                    </span>
-                    <span
-                        className={
-                            this.props.language === LANGUAGE.VI
-                                ? "language-vi active"
-                                : "language-vi"
-                        }
-                        onClick={() => {
-                            this.handleChangeLanguage(LANGUAGE.VI);
-                        }}
-                    >
-                        VN
-                    </span>
-                    <span
-                        className={
-                            this.props.language === LANGUAGE.EN
-                                ? "language-en active"
-                                : "language-en"
-                        }
-                        onClick={() => {
-                            this.handleChangeLanguage(LANGUAGE.EN);
-                        }}
-                    >
-                        EN
-                    </span>
+                        <div className="languages">
+                            <span className="welcome">
+                                <FormattedMessage id={"homeHeader.welcome"} />
+                                {userInfo && userInfo.lastName
+                                    ? `${userInfo.firstName} ${userInfo.lastName}!`
+                                    : ""}
+                            </span>
+                            <span
+                                className={
+                                    this.props.language === LANGUAGE.VI
+                                        ? "language-vi active"
+                                        : "language-vi"
+                                }
+                                onClick={() => {
+                                    this.handleChangeLanguage(LANGUAGE.VI);
+                                }}
+                            >
+                                VN
+                            </span>
+                            <span
+                                className={
+                                    this.props.language === LANGUAGE.EN
+                                        ? "language-en active"
+                                        : "language-en"
+                                }
+                                onClick={() => {
+                                    this.handleChangeLanguage(LANGUAGE.EN);
+                                }}
+                            >
+                                EN
+                            </span>
 
-                    {/* nút logout */}
-                    <div
-                        className="btn btn-logout"
-                        onClick={processLogout}
-                        title="Logout"
-                    >
-                        <i className="fas fa-sign-out-alt"></i>
+                            {/* nút logout */}
+                            <div
+                                className="btn btn-logout"
+                                onClick={processLogout}
+                                title="Logout"
+                            >
+                                <i className="fas fa-sign-out-alt"></i>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                )}
+            </>
         );
     }
 }

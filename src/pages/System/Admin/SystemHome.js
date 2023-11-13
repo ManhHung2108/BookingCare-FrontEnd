@@ -26,6 +26,7 @@ class SystemHome extends Component {
             userCountStats: 0,
             doctorCountStats: 0,
             clinicCountStats: 0,
+            authorized: false,
         };
     }
 
@@ -192,7 +193,9 @@ class SystemHome extends Component {
         try {
             let res = await fetchDashboardData(token);
             // Xử lý dữ liệu nếu cần
-
+            this.setState({
+                authorized: true,
+            });
             return res;
         } catch (error) {
             if (error.response && error.response.status === 403) {
@@ -201,6 +204,7 @@ class SystemHome extends Component {
                     "Access forbidden. You are not authorized to view this page."
                 );
                 // Redirect hoặc thực hiện hành động khác tương ứng với lỗi 403
+                this.props.history.push("/home");
             } else {
                 // Xử lý các lỗi khác
                 console.error("Error:", error);
@@ -215,91 +219,114 @@ class SystemHome extends Component {
 
     render() {
         const { language } = this.props;
-        const { userCountStats, doctorCountStats, clinicCountStats } =
-            this.state;
+        const {
+            userCountStats,
+            doctorCountStats,
+            clinicCountStats,
+            authorized,
+        } = this.state;
 
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cần cộng thêm 1 để lấy tháng thực tế
 
         return (
-            <div className="admin-home">
-                <div className="admin-home_title">
-                    <h1>
-                        <FormattedMessage id={"admin.dashboard.title"} />
-                    </h1>
-                </div>
+            <>
+                {authorized && (
+                    <div className="admin-home">
+                        <div className="admin-home_title">
+                            <h1>
+                                <FormattedMessage
+                                    id={"admin.dashboard.title"}
+                                />
+                            </h1>
+                        </div>
 
-                <Space direction="horizontal">
-                    <DashboardCard
-                        icon={
-                            <UserOutlined
-                                style={{
-                                    fontSize: "20px",
-                                    color: "green",
-                                    backgroundColor: "rgba(0, 255, 0, 0.25)",
-                                    borderRadius: "50%",
-                                    padding: "8px",
-                                }}
+                        <Space direction="horizontal">
+                            <DashboardCard
+                                icon={
+                                    <UserOutlined
+                                        style={{
+                                            fontSize: "20px",
+                                            color: "green",
+                                            backgroundColor:
+                                                "rgba(0, 255, 0, 0.25)",
+                                            borderRadius: "50%",
+                                            padding: "8px",
+                                        }}
+                                    />
+                                }
+                                title={
+                                    language === LANGUAGE.EN
+                                        ? "User"
+                                        : "Người dùng"
+                                }
+                                value={userCountStats}
                             />
-                        }
-                        title={language === LANGUAGE.EN ? "User" : "Người dùng"}
-                        value={userCountStats}
-                    />
-                    <DashboardCard
-                        icon={
-                            <FontAwesomeIcon
-                                icon={faHospital}
-                                style={{
-                                    fontSize: "20px",
-                                    color: "rgba(22, 119, 255, 0.75)",
-                                    backgroundColor: "rgba(22, 119, 255, 0.25)",
-                                    borderRadius: "50%",
-                                    padding: "8px",
-                                }}
+                            <DashboardCard
+                                icon={
+                                    <FontAwesomeIcon
+                                        icon={faHospital}
+                                        style={{
+                                            fontSize: "20px",
+                                            color: "rgba(22, 119, 255, 0.75)",
+                                            backgroundColor:
+                                                "rgba(22, 119, 255, 0.25)",
+                                            borderRadius: "50%",
+                                            padding: "8px",
+                                        }}
+                                    />
+                                }
+                                title={
+                                    language === LANGUAGE.EN
+                                        ? "Clinic"
+                                        : "Phòng khám"
+                                }
+                                value={clinicCountStats}
                             />
-                        }
-                        title={
-                            language === LANGUAGE.EN ? "Clinic" : "Phòng khám"
-                        }
-                        value={clinicCountStats}
-                    />
-                    <DashboardCard
-                        icon={
-                            <FontAwesomeIcon
-                                icon={faUserDoctor}
-                                style={{
-                                    fontSize: "20px",
-                                    color: "red",
-                                    backgroundColor: "rgba(255, 0, 0, 0.25)",
-                                    borderRadius: "50%",
-                                    padding: "8px",
-                                }}
+                            <DashboardCard
+                                icon={
+                                    <FontAwesomeIcon
+                                        icon={faUserDoctor}
+                                        style={{
+                                            fontSize: "20px",
+                                            color: "red",
+                                            backgroundColor:
+                                                "rgba(255, 0, 0, 0.25)",
+                                            borderRadius: "50%",
+                                            padding: "8px",
+                                        }}
+                                    />
+                                }
+                                title={
+                                    language === LANGUAGE.EN
+                                        ? "Doctor"
+                                        : "Bác sĩ"
+                                }
+                                value={doctorCountStats}
                             />
-                        }
-                        title={language === LANGUAGE.EN ? "Doctor" : "Bác sĩ"}
-                        value={doctorCountStats}
-                    />
-                </Space>
+                        </Space>
 
-                <div className="admin-home_chart">
-                    <DashboardChart
-                        chartData={this.state.chartBooking}
-                        titleChart={
-                            language === LANGUAGE.VI
-                                ? "Thống kê đặt lịch theo tháng"
-                                : "Scheduling statistics by month"
-                        }
-                    />
-                    <DashboardChart
-                        chartData={this.state.chartClinicBooking}
-                        titleChart={
-                            language === LANGUAGE.VI
-                                ? `Thống kê đặt lịch của phòng khám tháng ${currentMonth}`
-                                : `Monthly clinic scheduling statistics ${currentMonth}`
-                        }
-                    />
-                </div>
-            </div>
+                        <div className="admin-home_chart">
+                            <DashboardChart
+                                chartData={this.state.chartBooking}
+                                titleChart={
+                                    language === LANGUAGE.VI
+                                        ? "Thống kê đặt lịch theo tháng"
+                                        : "Scheduling statistics by month"
+                                }
+                            />
+                            <DashboardChart
+                                chartData={this.state.chartClinicBooking}
+                                titleChart={
+                                    language === LANGUAGE.VI
+                                        ? `Thống kê đặt lịch của phòng khám tháng ${currentMonth}`
+                                        : `Monthly clinic scheduling statistics ${currentMonth}`
+                                }
+                            />
+                        </div>
+                    </div>
+                )}
+            </>
         );
     }
 }

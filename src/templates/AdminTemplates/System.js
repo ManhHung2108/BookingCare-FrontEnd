@@ -11,7 +11,7 @@ import SystemHome from "../../pages/System/Admin/SystemHome";
 import { Menu } from "antd";
 import { adminMenu, doctorMenu } from "./Header/menuApp";
 import { FormattedMessage } from "react-intl";
-import { getUserInforSystem } from "../../services";
+import { getUserInforSystem, fetchDashboardData } from "../../services";
 import * as actions from "../../redux/actions";
 import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
 
@@ -21,6 +21,7 @@ class System extends Component {
         this.state = {
             menuSystem: [],
             userInfo: {},
+            authorized: false, // Thay đổi trạng thái quyền truy cập dựa trên xác minh
         };
     }
     async componentDidMount() {
@@ -29,30 +30,32 @@ class System extends Component {
             let { token } = this.props;
             let menu = [];
             let userInfor = {};
+            let authorizeUser = await this.authorizeUser(token);
+            if (authorizeUser && authorizeUser.errCode === 0) {
+                const res = await getUserInforSystem(token);
 
-            const res = await getUserInforSystem(token);
+                if (this._isMounted) {
+                    if (res && res.errCode === 0) {
+                        userInfor = res.userInfor;
+                        //Lưu lại thông tin người dùng lên redux
+                        await this.props.userLoginSuccess(userInfor);
 
-            if (this._isMounted) {
-                if (res && res.errCode === 0) {
-                    userInfor = res.userInfor;
-                    //Lưu lại thông tin người dùng lên redux
-                    await this.props.userLoginSuccess(userInfor);
+                        if (userInfor.userType === "admin") {
+                            menu = adminMenu;
+                        } else if (userInfor.userType === "doctor") {
+                            menu = doctorMenu;
+                        } else {
+                            this.props.history.push("/home");
+                            this._isMounted = false;
+                        }
 
-                    if (userInfor.userType === "admin") {
-                        menu = adminMenu;
-                    } else if (userInfor.userType === "doctor") {
-                        menu = doctorMenu;
-                    } else {
-                        this.props.history.push("/home");
-                        this._isMounted = false;
-                    }
-
-                    //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
-                    if (this._isMounted) {
-                        this.setState({
-                            menuSystem: this.renderMenuItems(menu),
-                            userInfo: userInfor,
-                        });
+                        //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
+                        if (this._isMounted) {
+                            this.setState({
+                                menuSystem: this.renderMenuItems(menu),
+                                userInfo: userInfor,
+                            });
+                        }
                     }
                 }
             }
@@ -60,6 +63,29 @@ class System extends Component {
             // Xử lý lỗi ở đây nếu có
         }
     }
+
+    authorizeUser = async (token) => {
+        try {
+            let res = await fetchDashboardData(token);
+            // Xử lý dữ liệu nếu cần
+            this.setState({
+                authorized: true,
+            });
+            return res;
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                // Xử lý lỗi 403 ở đây
+                console.log(
+                    "Access forbidden. You are not authorized to view this page."
+                );
+                // Redirect hoặc thực hiện hành động khác tương ứng với lỗi 403
+                this.props.history.push("/home");
+            } else {
+                // Xử lý các lỗi khác
+                console.error("Error:", error);
+            }
+        }
+    };
 
     renderMenuItems = (items) => {
         if (items && items.length > 0) {
@@ -85,10 +111,11 @@ class System extends Component {
 
     render() {
         const { systemMenuPath } = this.props;
+        const { authorized } = this.state;
 
         return (
             <Fragment>
-                {this.props.isLoggedIn && <Header />}
+                {this.props.isLoggedIn && <Header authorized={authorized} />}
                 <div
                     className="system-container"
                     style={{
@@ -97,23 +124,28 @@ class System extends Component {
                         alignItems: "flex-start",
                     }}
                 >
-                    <Menu
-                        style={{
-                            height: "calc(100vh - 40px)",
-                            width: "20%",
-                        }}
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[
-                            this.props.history.location.pathname,
-                        ]}
-                        items={this.state.menuSystem}
-                        onClick={(item) => {
-                            this.props.history.push(item.key);
-                        }}
-                    >
-                        {/* {renderMenuItems(adminMenu)} */}
-                    </Menu>
+                    <>
+                        {authorized && (
+                            <Menu
+                                style={{
+                                    height: "calc(100vh - 40px)",
+                                    width: "20%",
+                                }}
+                                theme="dark"
+                                mode="inline"
+                                defaultSelectedKeys={[
+                                    this.props.history.location.pathname,
+                                ]}
+                                items={this.state.menuSystem}
+                                onClick={(item) => {
+                                    this.props.history.push(item.key);
+                                }}
+                            >
+                                {/* {renderMenuItems(adminMenu)} */}
+                            </Menu>
+                        )}
+                    </>
+
                     <div
                         className="system-list"
                         style={{
