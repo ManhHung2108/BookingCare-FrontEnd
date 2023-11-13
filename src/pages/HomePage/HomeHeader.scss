@@ -167,10 +167,9 @@
                         top             : calc(100% + 12px);
                         box-shadow      : rgba(0, 0, 0, 0.12) 0px 4px 16px;
                         transition      : opacity 300ms ease 0s;
-                        opacity         : 1;
                         background-color: rgb(255, 255, 255);
                         right           : -12px;
-                        opacity         : 0;
+                        display         : none;
 
                         ul {
                             font-family: TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
@@ -181,6 +180,7 @@
                             min-width  : 223px;
                             list-style : none;
                             transition : 3s;
+                            position   : relative;
 
                             .setting-item {
                                 color           : rgb(22, 24, 35);
@@ -214,11 +214,23 @@
                                         flex        : 0 0 20px;
                                     }
                                 }
-
-
                             }
 
                         }
+
+                        &::before {
+                            content      : '';
+                            width        : 0;
+                            height       : 0;
+                            position     : absolute;
+                            border-left  : 20px solid transparent;
+                            border-right : 20px solid transparent;
+                            border-bottom: 20px solid rgb(255, 255, 255);
+                            right        : 14px;
+                            top          : -13px;
+                            /* Thay đổi màu sắc tại đây */
+                        }
+
                     }
 
                     &.show {
@@ -229,7 +241,7 @@
 
                     &:hover {
                         .header-setting-poup-list {
-                            opacity: 1;
+                            display: block;
                         }
                     }
                 }
