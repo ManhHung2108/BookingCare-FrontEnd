@@ -5,6 +5,7 @@ import configs from "../../configs";
 import "./HamburgerMenu.scss";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
+import { FormattedMessage } from "react-intl";
 
 class HamburgerMenu extends Component {
     constructor(props) {
@@ -31,21 +32,31 @@ class HamburgerMenu extends Component {
         const menus = [
             {
                 link: configs.routes.HOMEPAGE,
-                nameVi: "Trang chủ",
+                nameVi: (
+                    <FormattedMessage id={"homeHeader.hambergerMenu.home"} />
+                ),
             },
             {
                 link: configs.routes.HISTORY_BOOKING,
-                nameVi: isLoggedIn
-                    ? "Xem lịch sử khám bệnh"
-                    : "Tra cứu lịch hẹn",
+                nameVi: isLoggedIn ? (
+                    <FormattedMessage
+                        id={"homeHeader.hambergerMenu.examination-history"}
+                    />
+                ) : (
+                    <FormattedMessage id={"homeHeader.hambergerMenu.look-up"} />
+                ),
             },
             {
                 link: "/contact",
-                nameVi: "Liên hệ",
+                nameVi: (
+                    <FormattedMessage id={"homeHeader.hambergerMenu.contact"} />
+                ),
             },
             {
                 link: "/article",
-                nameVi: "Điều khoản sử dụng",
+                nameVi: (
+                    <FormattedMessage id={"homeHeader.hambergerMenu.terms"} />
+                ),
             },
         ];
 
@@ -75,7 +86,11 @@ class HamburgerMenu extends Component {
                         })}
                         {isLoggedIn === false ? (
                             <li>
-                                <Link to={configs.routes.LOGIN}>Đăng Nhập</Link>
+                                <Link to={configs.routes.LOGIN}>
+                                    <FormattedMessage
+                                        id={"homeHeader.hambergerMenu.login"}
+                                    />
+                                </Link>
                             </li>
                         ) : (
                             <li>
@@ -86,7 +101,9 @@ class HamburgerMenu extends Component {
                                         this.props.processLogout();
                                     }}
                                 >
-                                    Đăng Xuất
+                                    <FormattedMessage
+                                        id={"homeHeader.hambergerMenu.logout"}
+                                    />
                                 </Link>
                             </li>
                         )}

@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 
 import { getAllSpecialtyService } from "../../../services";
+import { LANGUAGE } from "../../../utils";
 
 class Specialty extends Component {
     constructor(props) {
@@ -66,7 +67,10 @@ class Specialty extends Component {
                                                 }}
                                             ></div>
                                             <div className="description">
-                                                {item.nameVi}
+                                                {this.props.language ===
+                                                LANGUAGE.VI
+                                                    ? item.nameVi
+                                                    : item.nameEn}
                                             </div>
                                         </div>
                                     );

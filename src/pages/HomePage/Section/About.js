@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { FormattedMessage } from "react-intl";
 
 class About extends Component {
     render() {
@@ -7,7 +8,11 @@ class About extends Component {
                 <div className="section-about-container">
                     <div>
                         <div className="section-about-header">
-                            <h2>Truyền thông về HealthBookings</h2>
+                            <h2>
+                                <FormattedMessage
+                                    id={"homepage.text-about-media"}
+                                />
+                            </h2>
                         </div>
                         <div className="section-about-content">
                             <div className="content-left">

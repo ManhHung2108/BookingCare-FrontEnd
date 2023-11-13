@@ -9,7 +9,17 @@
         "fee": "Check up package",
         "check-health": "General health check",
         "support": "Support",
-        "welcome": "Welcome, "
+        "welcome": "Welcome, ",
+
+        "hambergerMenu": {
+            "home": "Home",
+            "examination-history": "Appointment schedule",
+            "look-up": "Look up appointment schedules",
+            "contact": "Contact",
+            "terms": "Terms of use",
+            "logout": "Logout",
+            "login": "Login"
+        }
     },
     "banner": {
         "title1": "MEDICAL FOUNDATION",
@@ -82,7 +92,15 @@
         "popular-specialties": "Popular specialties",
         "hand-book": "Handbook",
         "text-search": "Search",
-        "outstanding-medical-facilities": "Outstanding medical facilities"
+        "outstanding-medical-facilities": "Outstanding medical facilities",
+        "text-about-media": "Communication about HealthBookings",
+
+        "footer": {
+            "company": "Ha Noi Open University",
+            "address": "96 Dinh Cong Street, Thanh Xuan District, Hanoi City, Vietnam",
+            "headquarters": "Hanoi headquarters",
+            "support": "Customer support"
+        }
     },
     "patient": {
         "detail-doctor": {
