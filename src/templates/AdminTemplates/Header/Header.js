@@ -9,7 +9,7 @@ import { adminMenu, doctorMenu } from "./menuApp";
 import Navigator from "../../../components/System/Navigator";
 import { LANGUAGE } from "../../../utils";
 
-import { getUserInforSystem } from "../../../services";
+import { getUserInforSystem, fetchDashboardData } from "../../../services";
 import { Link, withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 class Header extends Component {
@@ -19,6 +19,7 @@ class Header extends Component {
         this.state = {
             menuSystem: [],
             userInfo: {},
+            authorized: false, // Thay đổi trạng thái quyền truy cập dựa trên xác minh
         };
     }
 
@@ -29,29 +30,31 @@ class Header extends Component {
             let menu = [];
             let userInfor = {};
 
-            const res = await getUserInforSystem(token);
-
             if (this._isMounted) {
-                if (res && res.errCode === 0) {
-                    userInfor = res.userInfor;
-                    //Lưu lại thông tin người dùng lên redux
-                    await this.props.userLoginSuccess(userInfor);
+                const res = await getUserInforSystem(token);
+                let authorizeUser = await this.authorizeUser(token);
+                if (authorizeUser && authorizeUser.errCode === 0) {
+                    if (res && res.errCode === 0) {
+                        userInfor = res.userInfor;
+                        //Lưu lại thông tin người dùng lên redux
+                        await this.props.userLoginSuccess(userInfor);
 
-                    if (userInfor.userType === "admin") {
-                        menu = adminMenu;
-                    } else if (userInfor.userType === "doctor") {
-                        menu = doctorMenu;
-                    } else {
-                        this.props.history.push("/home");
-                        this._isMounted = false;
-                    }
+                        if (userInfor.userType === "admin") {
+                            menu = adminMenu;
+                        } else if (userInfor.userType === "doctor") {
+                            menu = doctorMenu;
+                        } else {
+                            this.props.history.push("/home");
+                            this._isMounted = false;
+                        }
 
-                    //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
-                    if (this._isMounted) {
-                        this.setState({
-                            menuSystem: menu,
-                            userInfo: userInfor,
-                        });
+                        //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
+                        if (this._isMounted) {
+                            this.setState({
+                                menuSystem: menu,
+                                userInfo: userInfor,
+                            });
+                        }
                     }
                 }
             }
@@ -64,12 +67,35 @@ class Header extends Component {
         this._isMounted = false;
     }
 
+    authorizeUser = async (token) => {
+        try {
+            let res = await fetchDashboardData(token);
+            // Xử lý dữ liệu nếu cần
+            this.setState({
+                authorized: true,
+            });
+            return res;
+        } catch (error) {
+            if (error.response && error.response.status === 403) {
+                // Xử lý lỗi 403 ở đây
+                console.log(
+                    "Access forbidden. You are not authorized to view this page."
+                );
+                // Redirect hoặc thực hiện hành động khác tương ứng với lỗi 403
+                this.props.history.push("/home");
+            } else {
+                // Xử lý các lỗi khác
+                console.error("Error:", error);
+            }
+        }
+    };
+
     handleChangeLanguage = (language) => {
         this.props.changeLanguage(language);
     };
     render() {
-        const { processLogout, authorized } = this.props;
-        const { userInfo } = this.state;
+        const { processLogout } = this.props;
+        const { userInfo, authorized } = this.state;
         return (
             <>
                 {authorized && (

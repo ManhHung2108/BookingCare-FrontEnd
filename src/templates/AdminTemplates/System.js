@@ -31,6 +31,7 @@ class System extends Component {
             let menu = [];
             let userInfor = {};
             let authorizeUser = await this.authorizeUser(token);
+
             if (authorizeUser && authorizeUser.errCode === 0) {
                 const res = await getUserInforSystem(token);
 

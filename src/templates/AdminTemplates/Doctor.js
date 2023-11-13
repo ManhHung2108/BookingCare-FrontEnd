@@ -28,8 +28,6 @@ class Doctor extends Component {
 
             const res = await getUserInforSystem(token);
 
-            console.log(res);
-
             if (this._isMounted) {
                 if (res && res.errCode === 0) {
                     userInfor = res.userInfor;

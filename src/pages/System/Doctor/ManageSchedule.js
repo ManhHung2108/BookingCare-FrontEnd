@@ -27,11 +27,23 @@ class ManageSchedule extends Component {
             rangeTime: [],
 
             listSchedule: [],
+            userType: "admin",
         };
     }
     componentDidMount = () => {
         this.handleGetAllDoctor();
         this.props.getAllSchedule();
+
+        //Nếu là doctor không cho chọn bác sĩ
+        const { userInfo } = this.props;
+        if (userInfo) {
+            if (userInfo && userInfo.userType === "doctor") {
+                this.setState({
+                    selectedDoctor: userInfo.id,
+                    userType: userInfo.userType,
+                });
+            }
+        }
     };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -60,6 +72,18 @@ class ManageSchedule extends Component {
         }
 
         if (prevState.listSchedule !== this.state.listSchedule) {
+        }
+
+        if (prevProps.userInfo !== this.props.userInfo) {
+            if (
+                this.props.userInfo &&
+                this.props.userInfo.userType === "doctor"
+            ) {
+                this.setState({
+                    selectedDoctor: this.props.userInfo.id,
+                    userType: this.props.userInfo.userType,
+                });
+            }
         }
     }
 
@@ -251,7 +275,7 @@ class ManageSchedule extends Component {
         const { Option } = Select;
         const { selectedDoctor, listDoctor, currentDate, rangeTime } =
             this.state;
-        const { language } = this.props;
+        const { language, userInfo } = this.props;
 
         // Tạo một đối tượng Date đại diện cho ngày hiện tại
         var today = new Date();
@@ -282,6 +306,11 @@ class ManageSchedule extends Component {
                                     option.children
                                         .toLowerCase()
                                         .indexOf(input.toLowerCase()) >= 0
+                                }
+                                disabled={
+                                    userInfo && userInfo.userType === "doctor"
+                                        ? true
+                                        : false
                                 }
                             >
                                 {/* Render các Option từ dữ liệu API */}
@@ -355,6 +384,7 @@ const mapStateToProps = (state) => {
         language: state.appReducer.language,
         listDoctorRedux: state.adminReducer.listDoctor,
         allScheduleTimeRedux: state.adminReducer.allScheduleTime,
+        userInfo: state.user.userInfo,
     };
 };
 
