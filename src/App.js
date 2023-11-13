@@ -26,6 +26,7 @@ import ListSpecialty from "./pages/HomePage/Specialty/ListSpecialty";
 import ListDoctor from "./pages/HomePage/Doctor/ListDoctor";
 import ListClinic from "./pages/HomePage/Clinic/ListClinic";
 import HistoryBooking from "./pages/HomePage/Booking/HistoryBooking";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -115,6 +116,11 @@ class App extends Component {
                                 <Route
                                     path={configs.routes.HISTORY_BOOKING}
                                     component={HistoryBooking}
+                                />
+                                <Route
+                                    component={() => {
+                                        return <Redirect to={"/home"} />;
+                                    }}
                                 />
                             </Switch>
                         </div>
