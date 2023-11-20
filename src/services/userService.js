@@ -95,6 +95,9 @@ const getTopDoctorHome2Service = (limit) => {
 const getAllDoctorService = () => {
     return axios.get(`/api/get-all-doctor`);
 };
+const searchDoctorByNameService = (search) => {
+    return axios.get(`/api/search-doctor-by-name?search=${search}`);
+};
 
 //Api tạo thông tin Docotor
 const saveDetailDoctorService = (data) => {
@@ -211,7 +214,6 @@ const getBookingHistoryForPatient = (token) => {
         },
     });
 };
-
 const lookUpBookingHistoryForPatient = (email) => {
     return axios.get(`/api/look-up-booking-history-for-patient?email=${email}`);
 };
@@ -258,4 +260,5 @@ export {
     getBookingHistoryForPatient,
     fetchDashboardData,
     lookUpBookingHistoryForPatient,
+    searchDoctorByNameService,
 };

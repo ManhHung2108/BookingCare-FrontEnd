@@ -4,7 +4,10 @@ import { FormattedMessage } from "react-intl";
 
 import HomeHeader from "../HomeHeader";
 import "./ListDoctor.scss";
-import { getAllDoctorService } from "../../../services";
+import {
+    getAllDoctorService,
+    searchDoctorByNameService,
+} from "../../../services";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { LANGUAGE } from "../../../utils";
 import HomeFooter from "../HomeFooter";
@@ -23,12 +26,48 @@ class ListDoctor extends Component {
         this.props.isShowLoading(true);
         let res = await getAllDoctorService();
         if (res && res.errCode === 0) {
-            this.props.isShowLoading(false);
-            this.setState({
-                ListDoctor: res.data ? res.data : [],
-            });
+            this.renderListDoctor(res.data);
         }
     }
+
+    renderListDoctor = async (data) => {
+        this.props.isShowLoading(false);
+        this.setState({
+            ListDoctor: data ? data : [],
+        });
+    };
+
+    handleOnChangeInput = async (event) => {
+        let key = event.target.name;
+        let value = event.target.value;
+        let copyState = { ...this.state };
+
+        copyState[key] = value;
+
+        this.setState({
+            ...copyState,
+        });
+
+        if (!value) {
+            let res = await getAllDoctorService();
+            if (res && res.errCode === 0) {
+                this.renderListDoctor(res.data);
+            }
+        }
+    };
+
+    handleEnterKeyPress = async (event) => {
+        if (event.key === "Enter") {
+            let searchName = this.state.searchInput;
+
+            let res = await searchDoctorByNameService(searchName);
+
+            if (res && res.errCode === 0) {
+                this.renderListDoctor(res.data);
+            }
+        }
+    };
+
     render() {
         const { language } = this.props;
         const { searchInput, ListDoctor } = this.state;
