@@ -3,12 +3,17 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Table } from "antd";
+import _ from "lodash";
+import { toast } from "react-toastify";
 
 import * as actions from "../../../redux/actions";
 import HomeFooter from "../HomeFooter";
 import HomeHeader from "../HomeHeader";
 import "./HistoryBooking.scss";
-import { getBookingHistoryForPatient } from "../../../services";
+import {
+    getBookingHistoryForPatient,
+    lookUpBookingHistoryForPatient,
+} from "../../../services";
 
 const columns = [
     {
@@ -51,38 +56,15 @@ class HistoryBooking extends Component {
     async componentDidMount() {
         const { token } = this.props;
         if (token) {
-            let res = await getBookingHistoryForPatient(token);
-            if (res && res.errCode === 0) {
-                let bookings = this.buildDataBooking(res.data.bookings);
-                let bookingHistories = this.builDataBookingHistory(
-                    res.data.bookingHistory
-                );
-
-                this.setState({
-                    bookings: bookings,
-                    bookingHistories: bookingHistories,
-                });
-            }
+            this.getDataBookingLogged(token);
         }
     }
 
     async componentDidUpdate(prevProps) {
         const { token } = this.props;
         if (prevProps.token !== this.props.token) {
-            console.log("hi");
             if (token) {
-                let res = await getBookingHistoryForPatient(token);
-                if (res && res.errCode === 0) {
-                    let bookings = this.buildDataBooking(res.data.bookings);
-                    let bookingHistories = this.builDataBookingHistory(
-                        res.data.bookingHistory
-                    );
-
-                    this.setState({
-                        bookings: bookings,
-                        bookingHistories: bookingHistories,
-                    });
-                }
+                this.getDataBookingLogged(token);
             } else {
                 this.setState({
                     bookings: [],
@@ -91,6 +73,21 @@ class HistoryBooking extends Component {
             }
         }
     }
+
+    getDataBookingLogged = async (token) => {
+        let res = await getBookingHistoryForPatient(token);
+        if (res && res.errCode === 0) {
+            let bookings = this.buildDataBooking(res.data.bookings);
+            let bookingHistories = this.builDataBookingHistory(
+                res.data.bookingHistory
+            );
+
+            this.setState({
+                bookings: bookings,
+                bookingHistories: bookingHistories,
+            });
+        }
+    };
 
     buildDataBooking = (data) => {
         let dataSource = data.map((item) => {
@@ -132,6 +129,34 @@ class HistoryBooking extends Component {
         });
     };
 
+    handleEnterKeyPress = async (event) => {
+        if (event.key === "Enter") {
+            let email = this.state.searchInput;
+
+            let res = await lookUpBookingHistoryForPatient(email);
+
+            if (res && res.errCode === 0) {
+                if (res.data && !_.isEmpty(res.data)) {
+                    let bookings = this.buildDataBooking(res.data.bookings);
+                    let bookingHistories = this.builDataBookingHistory(
+                        res.data.bookingHistory
+                    );
+
+                    this.setState({
+                        bookings: bookings,
+                        bookingHistories: bookingHistories,
+                    });
+                }
+            } else {
+                this.setState({
+                    bookings: [],
+                    bookingHistories: [],
+                });
+                toast.error(res.errMessage);
+            }
+        }
+    };
+
     render() {
         const { searchInput } = this.state;
         const { isLoggedIn } = this.props;
@@ -162,9 +187,9 @@ class HistoryBooking extends Component {
                                     onChange={(e) => {
                                         this.handleOnChangeInput(e);
                                     }}
-                                    // onKeyPress={(e) => {
-                                    //     this.handleEnterKeyPress(e);
-                                    // }}
+                                    onKeyPress={(e) => {
+                                        this.handleEnterKeyPress(e);
+                                    }}
                                 />
                                 {/* <i className="fas fa-search"></i> */}
                                 <button>

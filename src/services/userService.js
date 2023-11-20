@@ -212,6 +212,10 @@ const getBookingHistoryForPatient = (token) => {
     });
 };
 
+const lookUpBookingHistoryForPatient = (email) => {
+    return axios.get(`/api/look-up-booking-history-for-patient?email=${email}`);
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -253,4 +257,5 @@ export {
     getUserInforPatient,
     getBookingHistoryForPatient,
     fetchDashboardData,
+    lookUpBookingHistoryForPatient,
 };
