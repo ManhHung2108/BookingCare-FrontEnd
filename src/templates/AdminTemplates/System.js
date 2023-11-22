@@ -4,16 +4,20 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import UserManage from "../../pages/System/UserManage";
 import UserReduxManage from "../../pages/System/Admin/UserReduxManage";
 import ManageDoctor from "../../pages/System/Admin/ManageDoctor";
-import Header from "./Header/Header";
+import HeaderSystem from "./Header/Header";
 import ManageSpecialty from "../../pages/System/Specialty/ManageSpecialty";
 import ManageClinic from "../../pages/System/Clinic/ManageClinic";
 import SystemHome from "../../pages/System/Admin/SystemHome";
-import { Menu } from "antd";
+import { Menu, Layout } from "antd";
+
 import { adminMenu, doctorMenu } from "./Header/menuApp";
 import { FormattedMessage } from "react-intl";
 import { getUserInforSystem, fetchDashboardData } from "../../services";
 import * as actions from "../../redux/actions";
 import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
+import "./System.scss";
+
+const { Content, Footer, Sider, Header } = Layout;
 
 class System extends Component {
     constructor(props) {
@@ -21,7 +25,8 @@ class System extends Component {
         this.state = {
             menuSystem: [],
             userInfo: {},
-            authorized: false, // Thay đổi trạng thái quyền truy cập dựa trên xác minh
+            authorized: false, // Thay đổi trạng thái quyền truy cập dựa trên xác minh,
+            collapsed: true,
         };
     }
     async componentDidMount() {
@@ -112,25 +117,65 @@ class System extends Component {
 
     render() {
         const { systemMenuPath } = this.props;
-        const { authorized } = this.state;
+        const { authorized, collapsed, userInfo } = this.state;
 
         return (
             <Fragment>
-                {this.props.isLoggedIn && <Header authorized={authorized} />}
-                <div
-                    className="system-container"
-                    style={{
-                        display: "flex",
-                        justifyContent: "flex-start",
-                        alignItems: "flex-start",
-                    }}
-                >
-                    <>
+                {this.props.isLoggedIn && (
+                    <HeaderSystem authorized={authorized} />
+                )}
+                <Layout className="system-container">
+                    <Sider
+                        collapsible
+                        collapsed={this.state.collapsed}
+                        onCollapse={(value) =>
+                            this.setState({ collapsed: value })
+                        }
+                        className="system-menu"
+                        width={260}
+                    >
+                        {!collapsed && (
+                            <>
+                                <div className="header-menu-container">
+                                    <div className="header-menu-avatar">
+                                        <div className="user-avatar">
+                                            <img
+                                                alt="Bui Quang Minh"
+                                                src="https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg"
+                                            ></img>
+                                        </div>
+                                        <span className="user-role">
+                                            {userInfo.userType}
+                                        </span>
+                                    </div>
+
+                                    <div className="header-menu-infor">
+                                        <h6>{`${userInfo.firstName} ${userInfo.lastName}`}</h6>
+                                        <p> {userInfo.userName}</p>
+                                    </div>
+                                </div>
+
+                                <span
+                                    className="pt-3"
+                                    style={{
+                                        backgroundColor: "#001529",
+                                        color: "white",
+                                        fontSize: 14,
+                                        fontWeight: "600",
+                                        paddingLeft: 20,
+                                        display: "block",
+                                    }}
+                                >
+                                    MANAGEMENT
+                                </span>
+                            </>
+                        )}
+
                         {authorized && (
                             <Menu
                                 style={{
                                     height: "calc(100vh - 40px)",
-                                    width: "20%",
+                                    width: "100%",
                                 }}
                                 theme="dark"
                                 mode="inline"
@@ -141,55 +186,51 @@ class System extends Component {
                                 onClick={(item) => {
                                     this.props.history.push(item.key);
                                 }}
-                            >
-                                {/* {renderMenuItems(adminMenu)} */}
-                            </Menu>
+                            ></Menu>
                         )}
-                    </>
+                    </Sider>
 
-                    <div
-                        className="system-list"
-                        style={{
-                            width: "80%",
-                            overflow: "auto",
-                            height: "calc(100vh - 40px)",
-                        }}
-                    >
-                        <Switch>
-                            <Route path="/system/home" component={SystemHome} />
-                            <Route
-                                path="/system/user-manage"
-                                component={UserReduxManage}
-                            />
-                            <Route
-                                path="/system/manage-doctor"
-                                component={ManageDoctor}
-                            />
-                            {/* <Route
-                                path="/system/user-manage-redux"
-                                component={UserReduxManage}
-                            /> */}
-                            <Route
-                                path="/system/manage-specialty"
-                                component={ManageSpecialty}
-                            />
-                            <Route
-                                path="/system/manage-clinic"
-                                component={ManageClinic}
-                            />
+                    <Layout className="system-list">
+                        <Content>
+                            <Switch>
+                                <Route
+                                    path="/system/home"
+                                    component={SystemHome}
+                                />
+                                <Route
+                                    path="/system/user-manage"
+                                    component={UserReduxManage}
+                                />
+                                <Route
+                                    path="/system/manage-doctor"
+                                    component={ManageDoctor}
+                                />
+                                {/* <Route
+                                    path="/system/user-manage-redux"
+                                    component={UserReduxManage}
+                                /> */}
+                                <Route
+                                    path="/system/manage-specialty"
+                                    component={ManageSpecialty}
+                                />
+                                <Route
+                                    path="/system/manage-clinic"
+                                    component={ManageClinic}
+                                />
 
-                            <Route
-                                path="/system/manage-schedule"
-                                component={ManageSchedule}
-                            />
-                            <Route
-                                component={() => {
-                                    return <Redirect to={systemMenuPath} />;
-                                }}
-                            />
-                        </Switch>
-                    </div>
-                </div>
+                                <Route
+                                    path="/system/manage-schedule"
+                                    component={ManageSchedule}
+                                />
+                                <Route
+                                    component={() => {
+                                        return <Redirect to={systemMenuPath} />;
+                                    }}
+                                />
+                            </Switch>
+                        </Content>
+                    </Layout>
+                </Layout>
             </Fragment>
         );
     }

@@ -131,7 +131,13 @@ export default class TableManageClinic extends Component {
                             Danh sách phòng khám
                         </h3>
                     )}
-                    pagination={{ pageSize: 5 }} // Set the pageSize to limit the number of rows per page
+                    pagination={{
+                        defaultPageSize: 5, // Số lượng bản ghi hiển thị trên mỗi trang
+                        showSizeChanger: true, // Hiển thị chọn kích thước trang
+                        pageSizeOptions: ["5", "10", "15"], // Các tùy chọn kích thước trang
+                        showTotal: (total, range) =>
+                            `${range[0]}-${range[1]} of ${total} items`, // Hiển thị tổng số bản ghi
+                    }}
                 />
             </div>
         );

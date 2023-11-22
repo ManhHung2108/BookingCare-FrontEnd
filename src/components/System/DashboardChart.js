@@ -60,9 +60,8 @@ export default class DashboardChart extends Component {
             },
         };
 
-        // console.log("check props: ", this.props.chartData);
         return (
-            <div className="chart-item mt-5">
+            <div className="chart-item mt-5 d-flex justify-content-center">
                 {chartData &&
                 chartData.labels &&
                 chartData.labels.length > 0 ? (
