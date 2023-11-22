@@ -22,37 +22,43 @@ export default class HandBook extends Component {
                             <div className="section-customize">
                                 <div className="bg-img handbook-img"></div>
                                 <div className="description">
-                                    Cơ xương khớp 1
+                                    5 khác biệt khi tầm soát bệnh, khám tổng
+                                    quát tại Doctor Check
                                 </div>
                             </div>
                             <div className="section-customize">
                                 <div className="bg-img handbook-img"></div>
                                 <div className="description">
-                                    Cơ xương khớp 2
+                                    HOT: Hoàn ngay 10% phí xét nghiệm NIPT tại
+                                    Hệ thống Medlatec - Hà Nội
                                 </div>
                             </div>
                             <div className="section-customize">
                                 <div className="bg-img handbook-img"></div>
                                 <div className="description">
-                                    Cơ xương khớp 3
+                                    Hệ thống Phòng khám Sản phụ khoa Dr.Marie có
+                                    tốt không? Review chi tiết
                                 </div>
                             </div>
                             <div className="section-customize">
                                 <div className="bg-img handbook-img"></div>
                                 <div className="description">
-                                    Cơ xương khớp 4
+                                    Bài 2: Kinh nghiệm leo đỉnh Tà Xùa, một hành
+                                    trình đáng giá để trải nghiệm
                                 </div>
                             </div>
                             <div className="section-customize">
                                 <div className="bg-img handbook-img"></div>
                                 <div className="description">
-                                    Cơ xương khớp 5
+                                    Các phương pháp điều trị đau thắt lưng và
+                                    lưu ý giảm đau tại nhà
                                 </div>
                             </div>
                             <div className="section-customize">
                                 <div className="bg-img handbook-img"></div>
                                 <div className="description">
-                                    Cơ xương khớp 6
+                                    Các phương pháp điều trị đau vai và lưu ý
+                                    giảm đau tại nhà
                                 </div>
                             </div>
                         </Slider>

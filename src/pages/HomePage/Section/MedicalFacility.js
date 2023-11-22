@@ -8,6 +8,7 @@ import { FormattedMessage } from "react-intl";
 
 import { getAllClinicService } from "../../../services";
 import { LANGUAGE } from "../../../utils";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class MedicalFacility extends Component {
     constructor(props) {
@@ -41,9 +42,12 @@ class MedicalFacility extends Component {
                         <span className="title-section">
                             <FormattedMessage id="homepage.outstanding-medical-facilities" />
                         </span>
-                        <button className="btn-section">
+                        <Link
+                            to={`/danh-sach/co-so-y-te/danh-cho-ban`}
+                            className="btn-section"
+                        >
                             <FormattedMessage id="homepage.text-search" />
-                        </button>
+                        </Link>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
@@ -59,16 +63,18 @@ class MedicalFacility extends Component {
                                                 );
                                             }}
                                         >
-                                            <div
-                                                className="bg-img medical-facility-img"
-                                                style={{
-                                                    backgroundImage: `url(${item.image})`,
-                                                }}
-                                            ></div>
-                                            <div className="description text-center">
-                                                {language === LANGUAGE.VI
-                                                    ? item.nameVi
-                                                    : item.nameEn}
+                                            <div className="container-content">
+                                                <div
+                                                    className="bg-img medical-facility-img"
+                                                    style={{
+                                                        backgroundImage: `url(${item.image})`,
+                                                    }}
+                                                ></div>
+                                                <div className="description text-center">
+                                                    {language === LANGUAGE.VI
+                                                        ? item.nameVi
+                                                        : item.nameEn}
+                                                </div>
                                             </div>
                                         </div>
                                     );

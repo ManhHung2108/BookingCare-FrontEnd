@@ -8,6 +8,7 @@ import { FormattedMessage } from "react-intl";
 
 import { getAllSpecialtyService } from "../../../services";
 import { LANGUAGE } from "../../../utils";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class Specialty extends Component {
     constructor(props) {
@@ -42,9 +43,9 @@ class Specialty extends Component {
                                 id={"homepage.popular-specialties"}
                             />
                         </span>
-                        <button className="btn-section">
+                        <Link to={`/kham-chuyen-khoa`} className="btn-section">
                             <FormattedMessage id="homepage.more-infor" />
-                        </button>
+                        </Link>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
@@ -60,17 +61,19 @@ class Specialty extends Component {
                                                 );
                                             }}
                                         >
-                                            <div
-                                                className="bg-img specialty-img"
-                                                style={{
-                                                    backgroundImage: `url(${item.image})`,
-                                                }}
-                                            ></div>
-                                            <div className="description">
-                                                {this.props.language ===
-                                                LANGUAGE.VI
-                                                    ? item.nameVi
-                                                    : item.nameEn}
+                                            <div className="container-content">
+                                                <div
+                                                    className="bg-img specialty-img"
+                                                    style={{
+                                                        backgroundImage: `url(${item.image})`,
+                                                    }}
+                                                ></div>
+                                                <div className="description">
+                                                    {this.props.language ===
+                                                    LANGUAGE.VI
+                                                        ? item.nameVi
+                                                        : item.nameEn}
+                                                </div>
                                             </div>
                                         </div>
                                     );

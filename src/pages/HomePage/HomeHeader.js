@@ -211,7 +211,7 @@ class HomeHeader extends Component {
                                     <FormattedMessage id="homeHeader.select-doctor" />
                                 </div>
                             </Link>
-                            <div className="child-content">
+                            {/* <div className="child-content">
                                 <div>
                                     <b>
                                         <FormattedMessage id="homeHeader.fee" />
@@ -220,7 +220,7 @@ class HomeHeader extends Component {
                                 <div className="sub-title">
                                     <FormattedMessage id="homeHeader.check-health" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="right-content">
                             <div className="right_content-container">
