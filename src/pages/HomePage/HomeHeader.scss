@@ -468,3 +468,122 @@
         }
     }
 }
+
+
+/* Thiết lập cho màn hình nhỏ */
+@media (max-width: 767px) {
+    .home-header-container {
+        .home-header-content {
+            flex-wrap: wrap;
+
+            .left-content {
+                width: 50%;
+            }
+
+            .right-content {
+                width          : 50%;
+                display        : flex;
+                justify-content: flex-end;
+                align-items    : center;
+
+                .right_content-container {
+                    .booking {
+                        margin       : 0;
+                        padding-right: 5px;
+
+                        span {
+                            font-size: 12px;
+                        }
+                    }
+
+                    .support {
+                        margin       : 0;
+                        padding-right: 5px;
+
+                        span {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .home-header-banner {
+        .title {
+            h1 {
+                font-size  : 18px !important;
+                line-height: 30px !important;
+            }
+        }
+
+        .search {
+            .search-form {
+                width: 100%;
+            }
+        }
+    }
+
+}
+
+/* Thiết lập cho màn hình trung bình */
+@media (min-width: 768px) and (max-width: 991px) {
+    .home-header-container {
+        .home-header-content {
+            flex-wrap: wrap;
+
+            .left-content {
+                width: 50%;
+            }
+
+            .right-content {
+                width          : 50%;
+                display        : flex;
+                justify-content: flex-end;
+                align-items    : center;
+
+                .right_content-container {
+                    .booking {
+                        margin       : 0;
+                        padding-right: 5px;
+
+                        span {
+                            font-size: 14px;
+                        }
+                    }
+
+                    .support {
+                        margin       : 0;
+                        padding-right: 5px;
+
+                        span {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .home-header-banner {
+        .title {
+            h1 {
+                font-size  : 28px !important;
+                line-height: 35px !important;
+            }
+        }
+
+        .search {
+            .search-form {
+                width: 60%;
+            }
+        }
+    }
+
+}
+
+
+
+
+/* Thiết lập cho màn hình lớn */
+@media (min-width: 992px) {}
