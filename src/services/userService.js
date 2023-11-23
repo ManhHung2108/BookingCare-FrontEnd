@@ -135,7 +135,7 @@ const postVerifyBookAppointmentService = (data) => {
     return axios.post(`/api/verify-book-appointment`, data);
 };
 
-//Api phòng khám
+//Api chuyên khoa
 const createNewSpecialty = (data) => {
     return axios.post(`/api/create-new-specialty`, data);
 };
@@ -153,6 +153,12 @@ const getAllSpecialtyService = () => {
 const getDetailSpecialtyByIdService = (data) => {
     return axios.get(
         `/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`
+    );
+};
+
+const searchSpecialtyByNameService = (data) => {
+    return axios.get(
+        `/api/search-specialty-by-name?search=${data.search}&lang=${data.lang}`
     );
 };
 
@@ -174,6 +180,12 @@ const getAllClinicService = () => {
 const getDetailClinicByIdService = (data) => {
     return axios.get(
         `/api/get-detail-clinic-by-id?id=${data.id}&location=${data.location}&search=${data.search}`
+    );
+};
+
+const searchClinicByNameService = (data) => {
+    return axios.get(
+        `/api/search-clinic-by-name?search=${data.search}&lang=${data.lang}`
     );
 };
 
@@ -261,4 +273,6 @@ export {
     fetchDashboardData,
     lookUpBookingHistoryForPatient,
     searchDoctorByNameService,
+    searchSpecialtyByNameService,
+    searchClinicByNameService,
 };

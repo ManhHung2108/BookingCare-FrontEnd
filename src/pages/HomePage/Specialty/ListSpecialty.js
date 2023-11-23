@@ -4,7 +4,10 @@ import { FormattedMessage } from "react-intl";
 
 import HomeHeader from "../HomeHeader";
 import "./ListSpecialty.scss";
-import { getAllSpecialtyService } from "../../../services";
+import {
+    getAllSpecialtyService,
+    searchSpecialtyByNameService,
+} from "../../../services";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { LANGUAGE } from "../../../utils";
 import HomeFooter from "../HomeFooter";
@@ -23,12 +26,54 @@ class ListSpecialty extends Component {
         this.props.isShowLoading(true);
         let res = await getAllSpecialtyService();
         if (res && res.errCode === 0) {
-            this.props.isShowLoading(false);
-            this.setState({
-                listSpecialty: res.data ? res.data : [],
-            });
+            if (res && res.errCode === 0) {
+                this.renderList(res.data);
+            }
         }
     }
+
+    renderList = async (data) => {
+        this.props.isShowLoading(false);
+        this.setState({
+            listSpecialty: data ? data : [],
+        });
+    };
+
+    handleOnChangeInput = async (event) => {
+        let key = event.target.name;
+        let value = event.target.value;
+        let copyState = { ...this.state };
+
+        copyState[key] = value;
+
+        this.setState({
+            ...copyState,
+        });
+
+        if (!value) {
+            let res = await getAllSpecialtyService();
+            if (res && res.errCode === 0) {
+                this.renderList(res.data);
+            }
+        }
+    };
+
+    handleEnterKeyPress = async (event) => {
+        if (event.key === "Enter") {
+            let search = this.state.searchInput;
+            let { language } = this.props;
+
+            let res = await searchSpecialtyByNameService({
+                search: search,
+                lang: language,
+            });
+
+            if (res && res.errCode === 0) {
+                this.renderList(res.data);
+            }
+        }
+    };
+
     render() {
         const { language } = this.props;
         const { searchInput, listSpecialty } = this.state;
