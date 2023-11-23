@@ -7,6 +7,7 @@ import { FormattedMessage } from "react-intl";
 
 import "./SystemHome.scss";
 import DashboardCard from "../../../components/System/DashboardCard";
+import DashboardBaner from "../../../components/System/DashboardBaner";
 import DashboardChart from "../../../components/System/DashboardChart";
 import {
     countStatsForAdminService,
@@ -40,15 +41,12 @@ class SystemHome extends Component {
             let resCountStats = await countStatsForAdminService();
 
             if (res && res.errCode === 0) {
-                if (res && res.data && res.data.resultsBooking.length > 0) {
+                if (res && res.data && res.data.length > 0) {
                     // Xử lý dữ liệu để đưa vào biểu đồ
-                    let labels = res.data.resultsBooking.map(
-                        (entry) => entry.month
-                    );
-
-                    let countsBooking = this.builData(res.data.resultsBooking);
-                    let countsCancle = this.builData(
-                        res.data.resultsBookingCancle
+                    let labels = res.data.map((entry) => entry.month);
+                    let counts = res.data.map((entry) => entry.counts);
+                    let countsCancle = res.data.map(
+                        (entry) => entry.countsCancle
                     );
 
                     const data = {
@@ -69,7 +67,7 @@ class SystemHome extends Component {
                                         ? "Số lịch đặt khám"
                                         : "Appointment appointment number"
                                 }`,
-                                data: countsBooking,
+                                data: counts,
                                 backgroundColor: "rgba(53, 162, 235, 0.5)",
                             },
                         ],
@@ -120,15 +118,12 @@ class SystemHome extends Component {
             let resClinicBooking = await getClinicMonthlyBookingStatsService();
 
             if (res && res.errCode === 0) {
-                if (res && res.data && res.data.resultsBooking.length > 0) {
+                if (res && res.data && res.data.length > 0) {
                     // Xử lý dữ liệu để đưa vào biểu đồ
-                    let labels = res.data.resultsBooking.map(
-                        (entry) => entry.month
-                    );
-
-                    let countsBooking = this.builData(res.data.resultsBooking);
-                    let countsCancle = this.builData(
-                        res.data.resultsBookingCancle
+                    let labels = res.data.map((entry) => entry.month);
+                    let counts = res.data.map((entry) => entry.counts);
+                    let countsCancle = res.data.map(
+                        (entry) => entry.countsCancle
                     );
 
                     const data = {
@@ -149,7 +144,7 @@ class SystemHome extends Component {
                                         ? "Số lịch đặt khám"
                                         : "Appointment appointment number"
                                 }`,
-                                data: countsBooking,
+                                data: counts,
                                 backgroundColor: "rgba(53, 162, 235, 0.5)",
                             },
                         ],
@@ -241,7 +236,15 @@ class SystemHome extends Component {
                             </h1>
                         </div>
 
-                        <Space direction="horizontal">
+                        <div
+                            style={{
+                                display: "flex",
+                                // justifyContent: "space-between",
+                                marginTop: "40px",
+                                gap: "20px",
+                                flexWrap: "wrap",
+                            }}
+                        >
                             <DashboardCard
                                 icon={
                                     <UserOutlined
@@ -304,7 +307,7 @@ class SystemHome extends Component {
                                 }
                                 value={doctorCountStats}
                             />
-                        </Space>
+                        </div>
 
                         <div className="admin-home_chart">
                             <DashboardChart

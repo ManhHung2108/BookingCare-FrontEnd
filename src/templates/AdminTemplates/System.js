@@ -26,7 +26,7 @@ class System extends Component {
             menuSystem: [],
             userInfo: {},
             authorized: false, // Thay đổi trạng thái quyền truy cập dựa trên xác minh,
-            collapsed: true,
+            collapsed: false,
         };
     }
     async componentDidMount() {

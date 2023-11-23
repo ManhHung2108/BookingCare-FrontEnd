@@ -49,6 +49,8 @@ export default class DashboardChart extends Component {
 
         const options = {
             responsive: true,
+            maintainAspectRatio: false, // Tắt duy trì tỉ lệ khung hình, để biểu đồ có thể co dãn tự do
+
             plugins: {
                 legend: {
                     position: "bottom",
@@ -61,11 +63,11 @@ export default class DashboardChart extends Component {
         };
 
         return (
-            <div className="chart-item mt-5 d-flex justify-content-center">
+            <div className="chart-item mt-5">
                 {chartData &&
                 chartData.labels &&
                 chartData.labels.length > 0 ? (
-                    <Bar options={options} data={chartData} />
+                    <Bar options={options} data={chartData} height={400} />
                 ) : (
                     <p>No data available</p>
                 )}

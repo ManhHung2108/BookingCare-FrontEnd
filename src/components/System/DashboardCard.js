@@ -1,4 +1,4 @@
-import { Card, Space, Statistic } from "antd";
+import { Card, Space, Statistic, Typography } from "antd";
 
 import React, { Component } from "react";
 
@@ -9,17 +9,24 @@ export default class DashboardCard extends Component {
     }
     render() {
         return (
-            <div>
-                <Card>
-                    <Space direction="horizontal" style={{ display: "flex" }}>
-                        {this.props.icon}
+            <Card style={{ width: "calc(30% - 10px)", minWidth: "150px" }}>
+                <Space
+                    direction="horizontal"
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <Space direction="vertical">
+                        <Typography.Text>{this.props.title}</Typography.Text>
                         <Statistic
-                            title={this.props.title}
                             value={this.props.value}
+                            style={{ fontWeight: "600" }}
                         />
                     </Space>
-                </Card>
-            </div>
+                    {this.props.icon}
+                </Space>
+            </Card>
         );
     }
 }

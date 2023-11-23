@@ -1,6 +1,7 @@
 .admin-home {
     background-color: #f0f0f0;
     padding-left    : 40px;
+    padding-right   : 40px;
     padding-top     : 30px;
 
     .admin-home_title {
@@ -16,7 +17,7 @@
     .admin-home_chart {
         .chart-item {
             background-color: #fff;
-            width           : 85%;
+            width           : 60%;
             border-radius   : 5px;
             padding         : 10px;
         }
