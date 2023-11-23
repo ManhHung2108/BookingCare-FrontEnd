@@ -316,7 +316,7 @@ class UserReduxManage extends Component {
                             {/* <div className="col-12">
                                 {isLoadingGender && "Loading..."}
                             </div> */}
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label>
                                     <FormattedMessage
                                         id={"manage-user.email"}
@@ -337,7 +337,7 @@ class UserReduxManage extends Component {
                                     }
                                 />
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label>
                                     <FormattedMessage
                                         id={"manage-user.passWord"}
@@ -359,7 +359,7 @@ class UserReduxManage extends Component {
                                     }
                                 />
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label>
                                     <FormattedMessage
                                         id={"manage-user.firstName"}
@@ -375,7 +375,7 @@ class UserReduxManage extends Component {
                                     }
                                 />
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label>
                                     <FormattedMessage
                                         id={"manage-user.lastName"}
@@ -391,7 +391,7 @@ class UserReduxManage extends Component {
                                     }
                                 />
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label>
                                     <FormattedMessage
                                         id={"manage-user.phoneNumber"}
@@ -407,7 +407,7 @@ class UserReduxManage extends Component {
                                     }
                                 />
                             </div>
-                            <div className="col-9">
+                            <div className="col-lg-9 col-sm-12">
                                 <label>
                                     <FormattedMessage
                                         id={"manage-user.address"}
@@ -423,7 +423,7 @@ class UserReduxManage extends Component {
                                     }
                                 />
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label htmlFor="inputGender">
                                     <FormattedMessage
                                         id={"manage-user.gender"}
@@ -454,7 +454,7 @@ class UserReduxManage extends Component {
                                         })}
                                 </select>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label htmlFor="inputPosition">
                                     <FormattedMessage
                                         id={"manage-user.position"}
@@ -485,7 +485,7 @@ class UserReduxManage extends Component {
                                         })}
                                 </select>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label htmlFor="inputRole">
                                     <FormattedMessage id={"manage-user.role"} />
                                 </label>
@@ -514,7 +514,7 @@ class UserReduxManage extends Component {
                                         })}
                                 </select>
                             </div>
-                            <div className="col-3">
+                            <div className="col-lg-3 col-sm-12">
                                 <label htmlFor="inputImg">
                                     <FormattedMessage id={"manage-user.img"} />
                                 </label>

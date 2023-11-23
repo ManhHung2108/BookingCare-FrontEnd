@@ -252,7 +252,7 @@ class ManageDoctor extends Component {
                     <FormattedMessage id={"admin.manage-doctor.title"} />
                 </div>
                 <div className="more-infor row">
-                    <div className="content-left col-5">
+                    <div className="content-left col-lg-5 col-sm-12">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.select-doctor"}
@@ -285,7 +285,7 @@ class ManageDoctor extends Component {
                             ))}
                         </Select>
                     </div>
-                    <div className="content-right col-7">
+                    <div className="content-right col-lg-7 col-sm-12">
                         <label htmlFor="description">
                             <FormattedMessage
                                 id={"admin.manage-doctor.intro"}
@@ -304,7 +304,7 @@ class ManageDoctor extends Component {
                     </div>
                 </div>
                 <div className="more-infor-extra row mt-3">
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.price"}
@@ -342,7 +342,7 @@ class ManageDoctor extends Component {
                             ))}
                         </Select>
                     </div>
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.payment"}
@@ -380,7 +380,7 @@ class ManageDoctor extends Component {
                             ))}
                         </Select>
                     </div>
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.province"}
@@ -418,7 +418,7 @@ class ManageDoctor extends Component {
                             ))}
                         </Select>
                     </div>
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.name-clinic"}
@@ -434,7 +434,7 @@ class ManageDoctor extends Component {
                             name="nameClinic"
                         />
                     </div>
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.address-clinic"}
@@ -450,7 +450,7 @@ class ManageDoctor extends Component {
                             name="addressClinic"
                         />
                     </div>
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage id={"admin.manage-doctor.note"} />
                         </label>
@@ -467,7 +467,7 @@ class ManageDoctor extends Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.select-specialty"}
@@ -505,7 +505,7 @@ class ManageDoctor extends Component {
                             ))}
                         </Select>
                     </div>
-                    <div className="col-4 form-group">
+                    <div className="col-lg-4 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-doctor.select-clinic"}

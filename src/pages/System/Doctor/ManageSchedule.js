@@ -290,7 +290,7 @@ class ManageSchedule extends Component {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-6 form-group">
+                        <div className="col-lg-6 col-sm-12 form-group">
                             <label>
                                 <FormattedMessage
                                     id={"manage-schedule.choose-doctor"}
@@ -323,7 +323,7 @@ class ManageSchedule extends Component {
                                 ))}
                             </Select>
                         </div>
-                        <div className="col-6 form-group">
+                        <div className="col-lg-6 col-sm-12 form-group">
                             <label>
                                 <FormattedMessage
                                     id={"manage-schedule.choose-date"}

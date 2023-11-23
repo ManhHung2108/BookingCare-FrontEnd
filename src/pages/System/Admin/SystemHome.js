@@ -55,7 +55,7 @@ class SystemHome extends Component {
                             {
                                 label: `${
                                     language === LANGUAGE.VI
-                                        ? "Số lịch hủy"
+                                        ? "Lịch hủy"
                                         : "Cancellation schedule number"
                                 }`,
                                 data: countsCancle,
@@ -64,7 +64,7 @@ class SystemHome extends Component {
                             {
                                 label: `${
                                     language === LANGUAGE.VI
-                                        ? "Số lịch đặt khám"
+                                        ? "Lịch đặt khám"
                                         : "Appointment appointment number"
                                 }`,
                                 data: counts,
@@ -90,7 +90,7 @@ class SystemHome extends Component {
                     labels: labels,
                     datasets: [
                         {
-                            label: "Số lượng lịch đặt khám",
+                            label: "Lịch đặt khám",
                             data: countsBooking,
                             backgroundColor: "rgba(53, 162, 235, 0.5)",
                         },
@@ -132,7 +132,7 @@ class SystemHome extends Component {
                             {
                                 label: `${
                                     language === LANGUAGE.VI
-                                        ? "Số lịch hủy"
+                                        ? "Lịch hủy"
                                         : "Cancellation schedule number"
                                 }`,
                                 data: countsCancle,
@@ -141,7 +141,7 @@ class SystemHome extends Component {
                             {
                                 label: `${
                                     language === LANGUAGE.VI
-                                        ? "Số lịch đặt khám"
+                                        ? "Lịch đặt khám"
                                         : "Appointment appointment number"
                                 }`,
                                 data: counts,
@@ -169,7 +169,7 @@ class SystemHome extends Component {
                         {
                             label: `${
                                 language === LANGUAGE.VI
-                                    ? "Số lịch đặt khám"
+                                    ? "Lịch đặt khám"
                                     : "Appointment appointment number"
                             }`,
                             data: countsBooking,
@@ -315,7 +315,7 @@ class SystemHome extends Component {
                                 chartData={this.state.chartBooking}
                                 titleChart={
                                     language === LANGUAGE.VI
-                                        ? "Thống kê đặt lịch theo tháng"
+                                        ? "Số liệu thống kê đặt lịch"
                                         : "Scheduling statistics by month"
                                 }
                             />
@@ -323,7 +323,7 @@ class SystemHome extends Component {
                                 chartData={this.state.chartClinicBooking}
                                 titleChart={
                                     language === LANGUAGE.VI
-                                        ? `Thống kê đặt lịch của phòng khám tháng ${currentMonth}`
+                                        ? `Số liệu thống kê phòng khám tháng ${currentMonth}`
                                         : `Monthly clinic scheduling statistics ${currentMonth}`
                                 }
                             />

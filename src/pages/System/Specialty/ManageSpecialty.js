@@ -232,7 +232,7 @@ class ManageSpecialty extends Component {
                     <FormattedMessage id={"admin.manage-specialty.title"} />
                 </div>
                 <div className="add-new-specialty row mt-3">
-                    <div className="col-6 form-group">
+                    <div className="col-lg-6 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-specialty.text-nameVi"}
@@ -255,7 +255,7 @@ class ManageSpecialty extends Component {
                             </span>
                         )}
                     </div>
-                    <div className="col-6 form-group">
+                    <div className="col-lg-6 col-sm-12 form-group">
                         <label>
                             <FormattedMessage
                                 id={"admin.manage-specialty.text-nameEn"}

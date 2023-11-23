@@ -10,6 +10,8 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
+import "./DashboardChart.scss";
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -53,21 +55,27 @@ export default class DashboardChart extends Component {
 
             plugins: {
                 legend: {
-                    position: "bottom",
+                    position: "top",
+                    align: "end", // Đặt chú thích bên phải
                 },
-                title: {
-                    display: true,
-                    text: titleChart,
-                },
+                // title: {
+                //     display: true,
+                //     text: titleChart,
+                // },
             },
         };
 
         return (
             <div className="chart-item mt-5">
+                <div className="chart-header">
+                    <span>{titleChart}</span>
+                </div>
                 {chartData &&
                 chartData.labels &&
                 chartData.labels.length > 0 ? (
-                    <Bar options={options} data={chartData} height={400} />
+                    <div>
+                        <Bar options={options} data={chartData} height={400} />
+                    </div>
                 ) : (
                     <p>No data available</p>
                 )}
