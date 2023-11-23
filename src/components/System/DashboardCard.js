@@ -9,7 +9,7 @@ export default class DashboardCard extends Component {
     }
     render() {
         return (
-            <Card style={{ width: "calc(30% - 10px)", minWidth: "150px" }}>
+            <Card style={{ width: "calc(33% - 10px)", minWidth: "150px" }}>
                 <Space
                     direction="horizontal"
                     style={{

@@ -208,7 +208,8 @@
             "edit": "Lưu thay đổi"
         },
         "dashboard": {
-            "title": "Chào mừng đến trang quản trị"
+            "title": "Chào mừng trở lại 👋",
+            "desc": "Khám phá và quản lý dữ liệu của bạn một cách dễ dàng."
         }
     }
 }

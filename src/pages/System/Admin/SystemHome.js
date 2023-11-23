@@ -7,7 +7,7 @@ import { FormattedMessage } from "react-intl";
 
 import "./SystemHome.scss";
 import DashboardCard from "../../../components/System/DashboardCard";
-import DashboardBaner from "../../../components/System/DashboardBaner";
+import DashboardBanner from "../../../components/System/DashboardBanner";
 import DashboardChart from "../../../components/System/DashboardChart";
 import {
     countStatsForAdminService,
@@ -229,11 +229,12 @@ class SystemHome extends Component {
                 {authorized && (
                     <div className="admin-home">
                         <div className="admin-home_title">
-                            <h1>
+                            {/* <h1>
                                 <FormattedMessage
                                     id={"admin.dashboard.title"}
                                 />
-                            </h1>
+                            </h1> */}
+                            <DashboardBanner />
                         </div>
 
                         <div

@@ -206,7 +206,8 @@
             "edit": "Edit Clinic"
         },
         "dashboard": {
-            "title": "Welcome to the admin page"
+            "title": "Welcome back 👋",
+            "desc": "Explore and manage your data with ease."
         }
     }
 }
