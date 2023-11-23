@@ -322,3 +322,192 @@ footer {
         min-height: 58px;
     }
 }
+
+/* Thiết lập cho màn hình nhỏ */
+@media (max-width: 767px) {
+    .section-share {
+        .section-container {
+            padding       : 0;
+            margin        : 5px;
+            display       : flex;
+            flex-direction: column;
+
+            .section-header {
+                // border: 1px solid green;
+                height       : 60px;
+                margin-bottom: 20px;
+                padding      : 15px;
+                position     : relative;
+
+                a {
+                    text-decoration: none;
+                    color          : black;
+                }
+
+                .title-section {
+                    font-size  : 14px;
+                    font-weight: 600;
+                }
+
+                .btn-section {
+                    position           : absolute;
+                    top                : 0;
+                    right              : 0;
+                    background-color   : rgb(218, 243, 246);
+                    padding            : 10px 15px;
+                    border             : none;
+                    border-radius      : 10px;
+                    outline            : none;
+                    font-family        : 'TikTokFont-Bold';
+                    font-size          : 14px;
+                    color              : rgb(52, 146, 158);
+                    // text-transform  : uppercase;
+                }
+            }
+
+            .section-body {
+                font-size: 14px;
+            }
+        }
+
+        .section-about-container {
+            width  : 100%;
+            padding: 20px;
+
+            .section-about-header {
+                h2 {
+                    font-size: 16px;
+                }
+            }
+
+            .section-about-content {
+                display: block;
+
+                .content-left {
+                    width: 100%;
+                }
+
+                .content-right {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    footer {
+        .home-footer {
+            background: #efefef;
+            padding   : 30px 0;
+
+            .footer-logo {
+                max-width    : 200px;
+                border-radius: 5px;
+            }
+
+            .footer-company {
+                margin   : 15px 0;
+                font-size: 1.2rem;
+
+                h2 {
+                    font-size  : 1.2rem;
+                    font-weight: bold;
+                }
+            }
+
+            .footer-address {
+                padding  : 5px 0;
+                font-size: 1.2rem;
+
+                span {
+                    color: #49bce2;
+                }
+            }
+        }
+    }
+}
+
+/* Thiết lập cho màn hình trung bình */
+@media (min-width: 768px) and (max-width: 991px) {
+    .section-about-container {
+        width  : 100%;
+        padding: 20px;
+
+        .section-about-header {
+            h2 {
+                font-size: 18px;
+            }
+        }
+
+        .section-about-content {
+            display: block;
+
+            .content-left {
+                width: 100%;
+            }
+
+            .content-right {
+                width: 100%;
+            }
+        }
+    }
+
+    footer {
+        .home-footer {
+            background: #efefef;
+            padding   : 30px 0;
+
+            .footer-logo {
+                max-width    : 200px;
+                border-radius: 5px;
+            }
+
+            .footer-company {
+                margin   : 15px 0;
+                font-size: 1.2rem;
+
+                h2 {
+                    font-size  : 1.2rem;
+                    font-weight: bold;
+                }
+            }
+
+            .footer-address {
+                padding  : 5px 0;
+                font-size: 1.2rem;
+
+                span {
+                    color: #49bce2;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+/* Thiết lập cho màn hình lớn */
+@media (min-width: 992px) {
+    .section-about-container {
+        width  : 100%;
+        padding: 20px;
+
+        .section-about-header {
+            h2 {
+                font-size: 32px;
+            }
+        }
+
+        .section-about-content {
+            display: flex;
+
+            .content-left {
+                width: 60%;
+            }
+
+            .content-right {
+                width: 40%;
+            }
+        }
+    }
+}

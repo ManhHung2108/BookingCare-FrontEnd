@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom/cjs/react-router-dom";
+import { Link, withRouter } from "react-router-dom/cjs/react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import {
+    faGear,
+    faSignOut,
+    faClockRotateLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { LANGUAGE } from "../../utils";
 import { changeLanguageAppAction } from "../../redux/actions";
@@ -139,6 +143,15 @@ class HomeHeader extends Component {
         }
     };
 
+    handleLogout = (event) => {
+        event.preventDefault();
+        this.props.history.push("/");
+
+        // Cuộn trang về đầu
+        window.scrollTo(0, 0);
+        this.props.processLogout();
+    };
+
     render() {
         let language = this.props.lang;
         let { isShowBanner, bgColor } = this.props;
@@ -171,7 +184,7 @@ class HomeHeader extends Component {
                                 <span>HealthBookings</span>
                             </Link>
                         </div>
-                        <div className="center-content">
+                        <div className="center-content d-none d-lg-flex">
                             <Link
                                 to={routes.LIST_SPECIALTY}
                                 className="child-content"
@@ -224,6 +237,22 @@ class HomeHeader extends Component {
                         </div>
                         <div className="right-content">
                             <div className="right_content-container">
+                                <Link
+                                    className="booking"
+                                    to={routes.HISTORY_BOOKING}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faClockRotateLeft}
+                                        style={{
+                                            fontSize: "20px",
+                                        }}
+                                        className="setting-icon"
+                                    />
+                                    <span>
+                                        {/* <FormattedMessage id="homeHeader.support" /> */}
+                                        Lịch hẹn
+                                    </span>
+                                </Link>
                                 <div className="support">
                                     <div>
                                         <i className="fas fa-question-circle"></i>
@@ -310,10 +339,11 @@ class HomeHeader extends Component {
                                                 </li>
                                                 <li className="setting-item">
                                                     <a
-                                                        href="/logout"
+                                                        href="/"
                                                         onClick={(event) => {
-                                                            event.preventDefault();
-                                                            this.props.processLogout();
+                                                            this.handleLogout(
+                                                                event
+                                                            );
                                                         }}
                                                     >
                                                         <FontAwesomeIcon
@@ -599,4 +629,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateFromToProps, mapDispatchToProps)(HomeHeader); //kết nối react-redux
+export default withRouter(
+    connect(mapStateFromToProps, mapDispatchToProps)(HomeHeader)
+); //kết nối react-redux

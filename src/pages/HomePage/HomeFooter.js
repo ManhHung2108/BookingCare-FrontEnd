@@ -7,8 +7,8 @@ export default class HomeFooter extends Component {
         return (
             <footer>
                 <div className="home-footer px-5">
-                    <div className="row">
-                        <div className="col-6">
+                    <div className="d-lg-flex d-sm-block">
+                        <div className="col-lg-6 col-sm-12">
                             <NavLink to="/home">
                                 <img
                                     className="footer-logo"
@@ -32,8 +32,8 @@ export default class HomeFooter extends Component {
                                 </p>
                             </div>
                         </div>
-                        <div className="col-3"></div>
-                        <div className="col-3">
+                        <div className="col-lg-3 col-sm-12"></div>
+                        <div className="col-lg-3 col-sm-12">
                             <div className="footer-address">
                                 <strong>
                                     <FormattedMessage
