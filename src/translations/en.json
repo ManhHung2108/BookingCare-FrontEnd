@@ -208,6 +208,13 @@
         "dashboard": {
             "title": "Welcome back 👋",
             "desc": "Explore and manage your data with ease."
+        },
+        "manage-patient": {
+            "title": "MANAGE PATIENT'S",
+            "choose-date": "Choose Date"
+        },
+        "menu": {
+            "text-manage": "Management"
         }
     }
 }

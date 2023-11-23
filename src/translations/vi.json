@@ -210,6 +210,13 @@
         "dashboard": {
             "title": "Chào mừng trở lại 👋",
             "desc": "Khám phá và quản lý dữ liệu của bạn một cách dễ dàng."
+        },
+        "manage-patient": {
+            "title": "Quản lý bệnh nhân",
+            "choose-date": "Chọn ngày khám"
+        },
+        "menu": {
+            "text-manage": "Quản lý"
         }
     }
 }

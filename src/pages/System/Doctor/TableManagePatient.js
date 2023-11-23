@@ -207,15 +207,6 @@ export default class TableManagePatient extends Component {
                         >
                             <FormattedMessage id={"actions.confirm"} />
                         </button>
-                        <button
-                            className="btn btn-success"
-                            onClick={() => {
-                                // this.props.deleteUser(record.id);
-                            }}
-                        >
-                            {/* <FormattedMessage id={"actions.delete"} /> */}
-                            Gửi kết quả
-                        </button>
                     </Space>
                 ),
             },

@@ -91,6 +91,7 @@ export const doctorMenu = [
     {
         //quản lý người dùng
         name: "menu.admin.manage-user",
+        icon: <UserOutlined style={{ fontSize: "20px" }} />,
         menus: [
             {
                 name: "menu.doctor.manage-schedule",

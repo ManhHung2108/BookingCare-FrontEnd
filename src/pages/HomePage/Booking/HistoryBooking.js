@@ -93,7 +93,9 @@ class HistoryBooking extends Component {
         let dataSource = data.map((item) => {
             return {
                 key: item.id,
-                fullName: `${item.patientData.firstName} ${item.patientData.lastName}`,
+                fullName: `${
+                    item.patientData.firstName ? item.patientData.firstName : ""
+                } ${item.patientData.lastName}`,
                 doctorName: `${item.User.firstName} ${item.User.lastName}`,
                 timeType: `${item.timeTypeDataPatient.valueVi}`,
                 reason: item.reason,

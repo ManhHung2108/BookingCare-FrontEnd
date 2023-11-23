@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { FormattedMessage } from "react-intl";
 
 import "./ManagePatient.scss";
 import TableManagePatient from "./TableManagePatient";
@@ -74,12 +75,15 @@ class ManagePatient extends Component {
         return (
             <div className="manage-patient_container container">
                 <div className="title">
-                    {/* <FormattedMessage id={"manage-user.title"} /> */}
-                    Manage Patient's
+                    <FormattedMessage id={"admin.manage-patient.title"} />
                 </div>
                 <div className="manage-patient_body row">
                     <div className="col-4 form-group" style={{ zIndex: "2" }}>
-                        <label>Chọn ngày khám</label>
+                        <label>
+                            <FormattedMessage
+                                id={"admin.manage-patient.choose-date"}
+                            />
+                        </label>
                         <br />
                         <DatePicker
                             className="form-control"

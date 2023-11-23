@@ -1,22 +1,26 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { Menu } from "antd";
+import { Menu, Layout } from "antd";
 
 import Header from "./Header/Header";
 import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
 import ManagePatient from "../../pages/System/Doctor/ManagePatient";
 import { FormattedMessage } from "react-intl";
-import { getUserInforSystem } from "../../services";
+import { getUserInforSystem, getUserInforPatient } from "../../services";
 import * as actions from "../../redux/actions";
 import { adminMenu, doctorMenu } from "./Header/menuApp";
 
+const { Content, Footer, Sider } = Layout;
+
 class Doctor extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
             menuSystem: [],
             userInfo: {},
+            collapsed: true,
         };
     }
     async componentDidMount() {
@@ -33,6 +37,8 @@ class Doctor extends Component {
                     userInfor = res.userInfor;
                     //Lưu lại thông tin người dùng lên redux
                     await this.props.userLoginSuccess(userInfor);
+                    userInfor = res.userInfor;
+                    let resUser = await getUserInforPatient(userInfor.id);
 
                     if (userInfor.userType === "admin") {
                         menu = adminMenu;
@@ -47,7 +53,7 @@ class Doctor extends Component {
                     if (this._isMounted) {
                         this.setState({
                             menuSystem: this.renderMenuItems(menu),
-                            userInfo: userInfor,
+                            userInfo: resUser.data,
                         });
                     }
                 }
@@ -79,14 +85,19 @@ class Doctor extends Component {
         }
     };
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         // console.log(`system: ${this.props.isLoggedIn}`);
-        const { systemMenuPath } = this.props;
+        const { systemMenuPath, userInfo } = this.props;
+        const { collapsed } = this.state;
 
         return (
             <Fragment>
                 {this.props.isLoggedIn && <Header />}
-                <div
+                <Layout
                     className="system-container"
                     style={{
                         display: "flex",
@@ -94,22 +105,71 @@ class Doctor extends Component {
                         alignItems: "flex-start",
                     }}
                 >
-                    <Menu
-                        style={{
-                            height: "calc(100vh - 40px)",
-                            width: "20%",
-                        }}
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[
-                            this.props.history.location.pathname,
-                        ]}
-                        items={this.state.menuSystem}
-                        onClick={(item) => {
-                            this.props.history.push(item.key);
-                        }}
-                    ></Menu>
-                    <div
+                    <Sider
+                        collapsible
+                        collapsed={this.state.collapsed}
+                        onCollapse={(value) =>
+                            this.setState({ collapsed: value })
+                        }
+                        className="system-menu"
+                        width={260}
+                    >
+                        {!collapsed && (
+                            <>
+                                <div className="header-menu-container">
+                                    <div className="header-menu-avatar">
+                                        <div className="user-avatar">
+                                            <img
+                                                alt={this.state.userInfo.image}
+                                                src={this.state.userInfo.image}
+                                            ></img>
+                                        </div>
+                                        <span className="user-role">
+                                            {userInfo.userType}
+                                        </span>
+                                    </div>
+
+                                    <div className="header-menu-infor">
+                                        <h6>{`${userInfo.firstName} ${userInfo.lastName}`}</h6>
+                                        <p> {userInfo.userName}</p>
+                                    </div>
+                                </div>
+
+                                <span
+                                    className="pt-3"
+                                    style={{
+                                        backgroundColor: "#001529",
+                                        color: "white",
+                                        fontSize: 14,
+                                        fontWeight: "600",
+                                        paddingLeft: 20,
+                                        display: "block",
+                                    }}
+                                >
+                                    <FormattedMessage
+                                        id={"admin.menu.text-manage"}
+                                    />
+                                </span>
+                            </>
+                        )}
+
+                        <Menu
+                            style={{
+                                height: "calc(100vh - 40px)",
+                                width: "100%",
+                            }}
+                            theme="dark"
+                            mode="inline"
+                            defaultSelectedKeys={[
+                                this.props.history.location.pathname,
+                            ]}
+                            items={this.state.menuSystem}
+                            onClick={(item) => {
+                                this.props.history.push(item.key);
+                            }}
+                        ></Menu>
+                    </Sider>
+                    <Layout
                         className="system-list"
                         style={{
                             width: "80%",
@@ -117,23 +177,25 @@ class Doctor extends Component {
                             height: "calc(100vh - 40px)",
                         }}
                     >
-                        <Switch>
-                            <Route
-                                path="/doctor/manage-schedule"
-                                component={ManageSchedule}
-                            />
-                            <Route
-                                path="/doctor/manage-patient"
-                                component={ManagePatient}
-                            />
-                            <Route
-                                component={() => {
-                                    return <Redirect to={systemMenuPath} />;
-                                }}
-                            />
-                        </Switch>
-                    </div>
-                </div>
+                        <Content>
+                            <Switch>
+                                <Route
+                                    path="/doctor/manage-schedule"
+                                    component={ManageSchedule}
+                                />
+                                <Route
+                                    path="/doctor/manage-patient"
+                                    component={ManagePatient}
+                                />
+                                <Route
+                                    component={() => {
+                                        return <Redirect to={systemMenuPath} />;
+                                    }}
+                                />
+                            </Switch>
+                        </Content>
+                    </Layout>
+                </Layout>
             </Fragment>
         );
     }

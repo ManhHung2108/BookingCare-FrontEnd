@@ -12,7 +12,11 @@ import { Menu, Layout } from "antd";
 
 import { adminMenu, doctorMenu } from "./Header/menuApp";
 import { FormattedMessage } from "react-intl";
-import { getUserInforSystem, fetchDashboardData } from "../../services";
+import {
+    getUserInforSystem,
+    fetchDashboardData,
+    getUserInforPatient,
+} from "../../services";
 import * as actions from "../../redux/actions";
 import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
 import "./System.scss";
@@ -20,6 +24,7 @@ import "./System.scss";
 const { Content, Footer, Sider, Header } = Layout;
 
 class System extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -27,40 +32,47 @@ class System extends Component {
             userInfo: {},
             authorized: false, // Thay đổi trạng thái quyền truy cập dựa trên xác minh,
             collapsed: true,
+            role: "",
         };
     }
     async componentDidMount() {
         try {
             this._isMounted = true;
-            let { token } = this.props;
-            let menu = [];
-            let userInfor = {};
-            let authorizeUser = await this.authorizeUser(token);
+            if (this._isMounted) {
+                let { token } = this.props;
+                let menu = [];
+                let userInfor = {};
+                let authorizeUser = await this.authorizeUser(token);
 
-            if (authorizeUser && authorizeUser.errCode === 0) {
-                const res = await getUserInforSystem(token);
+                if (authorizeUser && authorizeUser.errCode === 0) {
+                    const res = await getUserInforSystem(token);
 
-                if (this._isMounted) {
-                    if (res && res.errCode === 0) {
-                        userInfor = res.userInfor;
-                        //Lưu lại thông tin người dùng lên redux
-                        await this.props.userLoginSuccess(userInfor);
+                    if (this._isMounted) {
+                        if (res && res.errCode === 0) {
+                            userInfor = res.userInfor;
+                            //Lưu lại thông tin người dùng lên redux
+                            await this.props.userLoginSuccess(userInfor);
+                            let resUser = await getUserInforPatient(
+                                userInfor.id
+                            );
 
-                        if (userInfor.userType === "admin") {
-                            menu = adminMenu;
-                        } else if (userInfor.userType === "doctor") {
-                            menu = doctorMenu;
-                        } else {
-                            this.props.history.push("/home");
-                            this._isMounted = false;
-                        }
+                            if (userInfor.userType === "admin") {
+                                menu = adminMenu;
+                            } else if (userInfor.userType === "doctor") {
+                                menu = doctorMenu;
+                            } else {
+                                this.props.history.push("/home");
+                                this._isMounted = false;
+                            }
 
-                        //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
-                        if (this._isMounted) {
-                            this.setState({
-                                menuSystem: this.renderMenuItems(menu),
-                                userInfo: userInfor,
-                            });
+                            //Cập nhật trạng thái React trên một thành phần phải được gắn kết, tránh bất đồng bộ
+                            if (this._isMounted) {
+                                this.setState({
+                                    menuSystem: this.renderMenuItems(menu),
+                                    userInfo: resUser.data,
+                                    role: userInfor.userType,
+                                });
+                            }
                         }
                     }
                 }
@@ -115,9 +127,13 @@ class System extends Component {
         }
     };
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         const { systemMenuPath } = this.props;
-        const { authorized, collapsed, userInfo } = this.state;
+        const { authorized, collapsed, userInfo, role } = this.state;
 
         return (
             <Fragment>
@@ -140,12 +156,16 @@ class System extends Component {
                                     <div className="header-menu-avatar">
                                         <div className="user-avatar">
                                             <img
-                                                alt="Bui Quang Minh"
-                                                src="https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg"
+                                                alt="Avartar"
+                                                src={
+                                                    userInfo.image
+                                                        ? userInfo.image
+                                                        : "https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg"
+                                                }
                                             ></img>
                                         </div>
                                         <span className="user-role">
-                                            {userInfo.userType}
+                                            {role}
                                         </span>
                                     </div>
 
