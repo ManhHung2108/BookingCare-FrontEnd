@@ -13,9 +13,11 @@ class DashboardBanner extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            fullName: `${this.props.userInfo.firstName} ${this.props.userInfo.lastName}`,
-        });
+        if (this.props.userInfo) {
+            this.setState({
+                fullName: `${this.props.userInfo.firstName} ${this.props.userInfo.lastName}`,
+            });
+        }
     }
 
     componentDidUpdate(prevProps) {
