@@ -304,7 +304,7 @@ class UserReduxManage extends Component {
 
         return (
             <div className="user-redux-container">
-                <div className="title">
+                <div className="manage-user-title">
                     <FormattedMessage id={"manage-user.title"} />
                 </div>
                 <div className="user-reudx-body">

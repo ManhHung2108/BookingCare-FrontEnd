@@ -20,6 +20,7 @@ import {
 import * as actions from "../../redux/actions";
 import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
 import "./System.scss";
+import ManageProfile from "../../pages/System/Admin/ManageProfile";
 
 const { Content, Footer, Sider, Header } = Layout;
 
@@ -241,6 +242,10 @@ class System extends Component {
                                 <Route
                                     path="/system/manage-schedule"
                                     component={ManageSchedule}
+                                />
+                                <Route
+                                    path="/system/manage-profile"
+                                    component={ManageProfile}
                                 />
                                 <Route
                                     component={() => {

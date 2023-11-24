@@ -251,307 +251,311 @@ class ManageDoctor extends Component {
                 <div className="manage-doctor-title">
                     <FormattedMessage id={"admin.manage-doctor.title"} />
                 </div>
-                <div className="more-infor row">
-                    <div className="content-left col-lg-5 col-sm-12">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.select-doctor"}
-                            />
-                        </label>
-                        <br />
-                        <Select
-                            showSearch
-                            placeholder={
+                <div className="manage-doctor-body">
+                    <div className="more-infor row">
+                        <div className="content-left col-lg-5 col-sm-12">
+                            <label>
                                 <FormattedMessage
                                     id={"admin.manage-doctor.select-doctor"}
                                 />
-                            }
-                            style={{ width: "100%" }}
-                            onChange={this.handleSelectDoctor}
-                            value={selectedDoctor}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {/* Render các Option từ dữ liệu API */}
-                            {listDoctor.map((item) => (
-                                <Option key={item.id} value={item.id}>
-                                    {language === LANGUAGE.VI
-                                        ? `${item.firstName} ${item.lastName}`
-                                        : `${item.lastName} ${item.firstName}`}
-                                </Option>
-                            ))}
-                        </Select>
+                            </label>
+                            <br />
+                            <Select
+                                showSearch
+                                placeholder={
+                                    <FormattedMessage
+                                        id={"admin.manage-doctor.select-doctor"}
+                                    />
+                                }
+                                style={{ width: "100%" }}
+                                onChange={this.handleSelectDoctor}
+                                value={selectedDoctor}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {/* Render các Option từ dữ liệu API */}
+                                {listDoctor.map((item) => (
+                                    <Option key={item.id} value={item.id}>
+                                        {language === LANGUAGE.VI
+                                            ? `${item.firstName} ${item.lastName}`
+                                            : `${item.lastName} ${item.firstName}`}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className="content-right col-lg-7 col-sm-12">
+                            <label htmlFor="description">
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.intro"}
+                                />
+                            </label>
+                            <textarea
+                                id="description"
+                                className="form-control"
+                                // rows={4}
+                                onChange={(e) => {
+                                    this.handleChangeText(e);
+                                }}
+                                value={this.state.description}
+                                name="description"
+                            ></textarea>
+                        </div>
                     </div>
-                    <div className="content-right col-lg-7 col-sm-12">
-                        <label htmlFor="description">
-                            <FormattedMessage
-                                id={"admin.manage-doctor.intro"}
-                            />
-                        </label>
-                        <textarea
-                            id="description"
-                            className="form-control"
-                            // rows={4}
-                            onChange={(e) => {
-                                this.handleChangeText(e);
-                            }}
-                            value={this.state.description}
-                            name="description"
-                        ></textarea>
-                    </div>
-                </div>
-                <div className="more-infor-extra row mt-3">
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.price"}
-                            />
-                        </label>
-                        <br />
-                        <Select
-                            showSearch
-                            placeholder={
+                    <div className="more-infor-extra row mt-3">
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
                                 <FormattedMessage
                                     id={"admin.manage-doctor.price"}
                                 />
-                            }
-                            style={{ width: "100%" }}
-                            onChange={(value) =>
-                                this.handleChangeSelectDoctorInfor(
-                                    value,
-                                    "selectedPrice"
-                                )
-                            }
-                            value={selectedPrice}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {/* Render các Option từ dữ liệu API */}
-                            {listPrice.map((item) => (
-                                <Option key={item.id} value={item.keyMap}>
-                                    {language === LANGUAGE.VI
-                                        ? `${item.valueVi}`
-                                        : `${item.valueEn} USD`}
-                                </Option>
-                            ))}
-                        </Select>
-                    </div>
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.payment"}
-                            />
-                        </label>
-                        <br />
-                        <Select
-                            showSearch
-                            placeholder={
+                            </label>
+                            <br />
+                            <Select
+                                showSearch
+                                placeholder={
+                                    <FormattedMessage
+                                        id={"admin.manage-doctor.price"}
+                                    />
+                                }
+                                style={{ width: "100%" }}
+                                onChange={(value) =>
+                                    this.handleChangeSelectDoctorInfor(
+                                        value,
+                                        "selectedPrice"
+                                    )
+                                }
+                                value={selectedPrice}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {/* Render các Option từ dữ liệu API */}
+                                {listPrice.map((item) => (
+                                    <Option key={item.id} value={item.keyMap}>
+                                        {language === LANGUAGE.VI
+                                            ? `${item.valueVi}`
+                                            : `${item.valueEn} USD`}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
                                 <FormattedMessage
                                     id={"admin.manage-doctor.payment"}
                                 />
-                            }
-                            style={{ width: "100%" }}
-                            onChange={(value) =>
-                                this.handleChangeSelectDoctorInfor(
-                                    value,
-                                    "selectedPayment"
-                                )
-                            }
-                            value={selectedPayment}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {/* Render các Option từ dữ liệu API */}
-                            {listPayment.map((item) => (
-                                <Option key={item.id} value={item.keyMap}>
-                                    {language === LANGUAGE.VI
-                                        ? item.valueVi
-                                        : item.valueEn}
-                                </Option>
-                            ))}
-                        </Select>
-                    </div>
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.province"}
-                            />
-                        </label>
-                        <br />
-                        <Select
-                            showSearch
-                            placeholder={
+                            </label>
+                            <br />
+                            <Select
+                                showSearch
+                                placeholder={
+                                    <FormattedMessage
+                                        id={"admin.manage-doctor.payment"}
+                                    />
+                                }
+                                style={{ width: "100%" }}
+                                onChange={(value) =>
+                                    this.handleChangeSelectDoctorInfor(
+                                        value,
+                                        "selectedPayment"
+                                    )
+                                }
+                                value={selectedPayment}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {/* Render các Option từ dữ liệu API */}
+                                {listPayment.map((item) => (
+                                    <Option key={item.id} value={item.keyMap}>
+                                        {language === LANGUAGE.VI
+                                            ? item.valueVi
+                                            : item.valueEn}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
                                 <FormattedMessage
                                     id={"admin.manage-doctor.province"}
                                 />
-                            }
-                            style={{ width: "100%" }}
-                            onChange={(value) =>
-                                this.handleChangeSelectDoctorInfor(
-                                    value,
-                                    "selectedProvince"
-                                )
-                            }
-                            value={selectedProvince}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {/* Render các Option từ dữ liệu API */}
-                            {listProvince.map((item) => (
-                                <Option key={item.id} value={item.keyMap}>
-                                    {language === LANGUAGE.VI
-                                        ? item.valueVi
-                                        : item.valueEn}
-                                </Option>
-                            ))}
-                        </Select>
-                    </div>
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.name-clinic"}
-                            />
-                        </label>
-                        <br />
-                        <input
-                            className="form-control"
-                            onChange={(event) => {
-                                this.handleChangeText(event);
-                            }}
-                            value={nameClinic}
-                            name="nameClinic"
-                        />
-                    </div>
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.address-clinic"}
-                            />
-                        </label>
-                        <br />
-                        <input
-                            className="form-control"
-                            value={addressClinic}
-                            onChange={(event) => {
-                                this.handleChangeText(event);
-                            }}
-                            name="addressClinic"
-                        />
-                    </div>
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage id={"admin.manage-doctor.note"} />
-                        </label>
-                        <br />
-                        <input
-                            className="form-control"
-                            value={note}
-                            onChange={(event) => {
-                                this.handleChangeText(event);
-                            }}
-                            name="note"
-                        />
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.select-specialty"}
-                            />
-                        </label>
-                        <br />
-                        <Select
-                            showSearch
-                            placeholder={
+                            </label>
+                            <br />
+                            <Select
+                                showSearch
+                                placeholder={
+                                    <FormattedMessage
+                                        id={"admin.manage-doctor.province"}
+                                    />
+                                }
+                                style={{ width: "100%" }}
+                                onChange={(value) =>
+                                    this.handleChangeSelectDoctorInfor(
+                                        value,
+                                        "selectedProvince"
+                                    )
+                                }
+                                value={selectedProvince}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {/* Render các Option từ dữ liệu API */}
+                                {listProvince.map((item) => (
+                                    <Option key={item.id} value={item.keyMap}>
+                                        {language === LANGUAGE.VI
+                                            ? item.valueVi
+                                            : item.valueEn}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
                                 <FormattedMessage
-                                    id={"admin.manage-doctor.specialty"}
+                                    id={"admin.manage-doctor.name-clinic"}
                                 />
-                            }
-                            style={{ width: "100%" }}
-                            onChange={(value) =>
-                                this.handleChangeSelectDoctorInfor(
-                                    value,
-                                    "selectedSpecialty"
-                                )
-                            }
-                            value={selectedSpecialty}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {/* Render các Option từ dữ liệu API */}
-                            {listSpecialty.map((item) => (
-                                <Option key={item.id} value={item.keyMap}>
-                                    {language === LANGUAGE.VI
-                                        ? item.nameVi
-                                        : item.nameEn}
-                                </Option>
-                            ))}
-                        </Select>
-                    </div>
-                    <div className="col-lg-4 col-sm-12 form-group">
-                        <label>
-                            <FormattedMessage
-                                id={"admin.manage-doctor.select-clinic"}
+                            </label>
+                            <br />
+                            <input
+                                className="form-control"
+                                onChange={(event) => {
+                                    this.handleChangeText(event);
+                                }}
+                                value={nameClinic}
+                                name="nameClinic"
                             />
-                        </label>
-                        <br />
-                        <Select
-                            showSearch
-                            placeholder={
+                        </div>
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
                                 <FormattedMessage
-                                    id={"admin.manage-doctor.clinic"}
+                                    id={"admin.manage-doctor.address-clinic"}
                                 />
-                            }
-                            style={{ width: "100%" }}
-                            onChange={(value) =>
-                                this.handleChangeSelectDoctorInfor(
-                                    value,
-                                    "selectedClinic"
-                                )
-                            }
-                            value={selectedClinic}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {/* Render các Option từ dữ liệu API */}
-                            {listClinic.map((item) => (
-                                <Option key={item.id} value={item.keyMap}>
-                                    {language === LANGUAGE.VI
-                                        ? item.nameVi
-                                        : item.nameEn}
-                                </Option>
-                            ))}
-                        </Select>
+                            </label>
+                            <br />
+                            <input
+                                className="form-control"
+                                value={addressClinic}
+                                onChange={(event) => {
+                                    this.handleChangeText(event);
+                                }}
+                                name="addressClinic"
+                            />
+                        </div>
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.note"}
+                                />
+                            </label>
+                            <br />
+                            <input
+                                className="form-control"
+                                value={note}
+                                onChange={(event) => {
+                                    this.handleChangeText(event);
+                                }}
+                                name="note"
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <div className="manage-doctor-editor mt-3">
-                    <MdEditor
-                        value={this.state.contentMarkdown}
-                        style={{ height: "300px" }}
-                        renderHTML={(text) => mdParser.render(text)}
-                        onChange={this.handleEditorChange}
-                    />
+                    <div className="row">
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.select-specialty"}
+                                />
+                            </label>
+                            <br />
+                            <Select
+                                showSearch
+                                placeholder={
+                                    <FormattedMessage
+                                        id={"admin.manage-doctor.specialty"}
+                                    />
+                                }
+                                style={{ width: "100%" }}
+                                onChange={(value) =>
+                                    this.handleChangeSelectDoctorInfor(
+                                        value,
+                                        "selectedSpecialty"
+                                    )
+                                }
+                                value={selectedSpecialty}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {/* Render các Option từ dữ liệu API */}
+                                {listSpecialty.map((item) => (
+                                    <Option key={item.id} value={item.keyMap}>
+                                        {language === LANGUAGE.VI
+                                            ? item.nameVi
+                                            : item.nameEn}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className="col-lg-4 col-sm-12 form-group">
+                            <label>
+                                <FormattedMessage
+                                    id={"admin.manage-doctor.select-clinic"}
+                                />
+                            </label>
+                            <br />
+                            <Select
+                                showSearch
+                                placeholder={
+                                    <FormattedMessage
+                                        id={"admin.manage-doctor.clinic"}
+                                    />
+                                }
+                                style={{ width: "100%" }}
+                                onChange={(value) =>
+                                    this.handleChangeSelectDoctorInfor(
+                                        value,
+                                        "selectedClinic"
+                                    )
+                                }
+                                value={selectedClinic}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {/* Render các Option từ dữ liệu API */}
+                                {listClinic.map((item) => (
+                                    <Option key={item.id} value={item.keyMap}>
+                                        {language === LANGUAGE.VI
+                                            ? item.nameVi
+                                            : item.nameEn}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+                    </div>
+
+                    <div className="manage-doctor-editor mt-3">
+                        <MdEditor
+                            value={this.state.contentMarkdown}
+                            style={{ height: "300px" }}
+                            renderHTML={(text) => mdParser.render(text)}
+                            onChange={this.handleEditorChange}
+                        />
+                    </div>
                 </div>
 
                 <button

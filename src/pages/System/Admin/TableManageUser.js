@@ -134,6 +134,7 @@ export default class TableManageUser extends Component {
                         showTotal: (total, range) =>
                             `${range[0]}-${range[1]} of ${total} items`, // Hiển thị tổng số bản ghi
                     }}
+                    // responsive={{ xs: 28, sm: 12, md: 8, lg: 6 }} // Tùy chỉnh các breakpoints
                 />
             </div>
         );

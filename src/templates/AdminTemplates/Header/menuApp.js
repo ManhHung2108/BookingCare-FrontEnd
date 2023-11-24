@@ -1,6 +1,10 @@
 import { UserOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHospital, faStethoscope } from "@fortawesome/free-solid-svg-icons";
+import {
+    faHospital,
+    faStethoscope,
+    faIdCard,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const adminMenu = [
     {
@@ -75,6 +79,19 @@ export const adminMenu = [
             },
         ],
     },
+    {
+        //quản lý thông tin cá nhân
+        id: "4",
+        name: "menu.admin.profile",
+        icon: <FontAwesomeIcon icon={faIdCard} style={{ fontSize: "20px" }} />,
+        menus: [
+            {
+                id: "sub_4_1",
+                name: "menu.admin.manage-profile",
+                link: "/system/manage-profile",
+            },
+        ],
+    },
     // {
     //     //quản lý phòng khám
     //     name: "menu.admin.handbook",
@@ -101,6 +118,19 @@ export const doctorMenu = [
             {
                 name: "menu.doctor.manage-patient",
                 link: "/doctor/manage-patient",
+            },
+        ],
+    },
+    {
+        //quản lý thông tin cá nhân
+        id: "4",
+        name: "menu.admin.profile",
+        icon: <FontAwesomeIcon icon={faIdCard} style={{ fontSize: "20px" }} />,
+        menus: [
+            {
+                id: "sub_4_1",
+                name: "menu.admin.manage-profile",
+                link: "/system/manage-profile",
             },
         ],
     },

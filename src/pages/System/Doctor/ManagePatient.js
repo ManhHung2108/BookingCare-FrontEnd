@@ -74,7 +74,7 @@ class ManagePatient extends Component {
 
         return (
             <div className="manage-patient_container container">
-                <div className="title">
+                <div className="m-p-title">
                     <FormattedMessage id={"admin.manage-patient.title"} />
                 </div>
                 <div className="manage-patient_body row">
