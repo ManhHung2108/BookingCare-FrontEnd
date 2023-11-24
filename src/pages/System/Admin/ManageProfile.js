@@ -8,6 +8,7 @@ import { Tabs } from "antd";
 import { CommonUtils, LANGUAGE } from "../../../utils";
 import "./ManageProfile.scss";
 import ProfileUser from "../../../components/ProfileUser";
+import { FormattedMessage } from "react-intl";
 
 const { TabPane } = Tabs;
 
@@ -37,25 +38,37 @@ class ManageProfile extends Component {
         return (
             <div className="manage-profile-container container">
                 <div className="manage-profile-header">
-                    <h4 className="manage-profile-title">Manage Profile</h4>
+                    <h4 className="manage-profile-title">
+                        <FormattedMessage id={"admin.manage-profile.title"} />
+                    </h4>
                     <nav className="">
                         <ol className="breadcrums">
                             <li>
-                                <Link to={"/system/home"}>Dashboard</Link>
-                            </li>
-                            <li className="breadcrums-separator">
-                                <span className="doot"></span>
-                            </li>
-                            <li>
-                                <Link to={"/system/manage-profile"}>
-                                    Profile
+                                <Link to={"/system/home"}>
+                                    <FormattedMessage
+                                        id={"admin.manage-profile.text-home"}
+                                    />
                                 </Link>
                             </li>
                             <li className="breadcrums-separator">
                                 <span className="doot"></span>
                             </li>
                             <li>
-                                <div>Account</div>
+                                <Link to={"/system/manage-profile"}>
+                                    <FormattedMessage
+                                        id={"admin.manage-profile.text-profile"}
+                                    />
+                                </Link>
+                            </li>
+                            <li className="breadcrums-separator">
+                                <span className="doot"></span>
+                            </li>
+                            <li>
+                                <div>
+                                    <FormattedMessage
+                                        id={"admin.manage-profile.text-account"}
+                                    />
+                                </div>
                             </li>
                         </ol>
                     </nav>
@@ -78,7 +91,9 @@ class ManageProfile extends Component {
                                             marginRight: "5px",
                                         }}
                                     />
-                                    General
+                                    <FormattedMessage
+                                        id={"admin.manage-profile.text-general"}
+                                    />
                                 </span>
                             }
                         >
@@ -95,7 +110,11 @@ class ManageProfile extends Component {
                                             marginRight: "5px",
                                         }}
                                     />
-                                    Security
+                                    <FormattedMessage
+                                        id={
+                                            "admin.manage-profile.text-security"
+                                        }
+                                    />
                                 </span>
                             }
                         >

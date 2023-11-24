@@ -6,6 +6,7 @@ import * as actions from "../redux/actions";
 import { getUserInforPatient, updateProfileService } from "../services";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { FormattedMessage } from "react-intl";
 
 class ProfileUser extends Component {
     constructor(props) {
@@ -233,12 +234,9 @@ class ProfileUser extends Component {
                             <div className="row">
                                 <div className="col-lg-6 col-sm-12 mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                    id={
-                                        "manage-user.email"
-                                    }
-                                /> */}
-                                        Email
+                                        <FormattedMessage
+                                            id={"admin.manage-profile.email"}
+                                        />
                                     </label>
                                     <input
                                         className="form-control"
@@ -250,12 +248,11 @@ class ProfileUser extends Component {
                                 </div>
                                 <div className="col-lg-6 col-sm-12 mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                    id={
-                                        "manage-user.firstName"
-                                    }
-                                /> */}
-                                        Họ
+                                        <FormattedMessage
+                                            id={
+                                                "admin.manage-profile.firstName"
+                                            }
+                                        />
                                     </label>
                                     <input
                                         className="form-control"
@@ -269,12 +266,9 @@ class ProfileUser extends Component {
                                 </div>
                                 <div className="col-lg-6 col-sm-12 mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                    id={
-                                        "manage-user.lastName"
-                                    }
-                                /> */}
-                                        Tên
+                                        <FormattedMessage
+                                            id={"admin.manage-profile.lastName"}
+                                        />
                                     </label>
                                     <input
                                         className="form-control"
@@ -288,11 +282,11 @@ class ProfileUser extends Component {
                                 </div>
                                 <div className="col-lg-6 col-sm-12 mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                    id={
-                                        "manage-user.phoneNumber"
-                                    }
-                                /> */}
+                                        <FormattedMessage
+                                            id={
+                                                "admin.manage-profile.phoneNumber"
+                                            }
+                                        />
                                         Số điện thoại
                                     </label>
                                     <input
@@ -308,12 +302,9 @@ class ProfileUser extends Component {
 
                                 <div className="col-6 form-group mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                    id={
-                                        "patient.booking-modal.gender"
-                                    }
-                                /> */}
-                                        Giới tính
+                                        <FormattedMessage
+                                            id={"admin.manage-profile.gender"}
+                                        />
                                     </label>
                                     <select
                                         className="form-control"
@@ -341,10 +332,9 @@ class ProfileUser extends Component {
 
                                 <div className="col-6 form-group mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                            id={"patient.booking-modal.address"}
-                                        /> */}
-                                        Địa chỉ
+                                        <FormattedMessage
+                                            id={"admin.manage-profile.address"}
+                                        />
                                     </label>
                                     <input
                                         className="form-control"
@@ -358,12 +348,9 @@ class ProfileUser extends Component {
 
                                 <div className="col-6 form-group mt-3">
                                     <label>
-                                        {/* <FormattedMessage
-                                    id={
-                                        "patient.booking-modal.birthday"
-                                    }
-                                /> */}
-                                        Ngày sinh
+                                        <FormattedMessage
+                                            id={"admin.manage-profile.birthday"}
+                                        />
                                     </label>
                                     <br></br>
 
@@ -385,7 +372,9 @@ class ProfileUser extends Component {
                                         this.handleSave(e);
                                     }}
                                 >
-                                    Lưu thay đổi
+                                    <FormattedMessage
+                                        id={"admin.manage-profile.save"}
+                                    />
                                 </button>
                             </div>
                         </div>
@@ -409,6 +398,8 @@ const mapDispatchToProps = (dispatch) => {
         getGenders: () => {
             return dispatch(actions.fecthGenderStart());
         },
+        userLoginSuccess: (userInfo) =>
+            dispatch(actions.userLoginSuccess(userInfo)),
     };
 };
 

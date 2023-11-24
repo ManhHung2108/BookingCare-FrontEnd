@@ -96,6 +96,7 @@ class Header extends Component {
     render() {
         const { processLogout } = this.props;
         const { userInfo, authorized } = this.state;
+
         return (
             <>
                 {authorized && (
@@ -116,7 +117,7 @@ class Header extends Component {
                         <div className="languages">
                             <span className="welcome">
                                 <FormattedMessage id={"homeHeader.welcome"} />
-                                {userInfo && userInfo.lastName
+                                {userInfo
                                     ? `${userInfo.firstName} ${userInfo.lastName}!`
                                     : ""}
                             </span>

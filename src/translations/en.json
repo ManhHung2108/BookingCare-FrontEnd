@@ -215,6 +215,22 @@
             "title": "MANAGE PATIENT'S",
             "choose-date": "Choose Date"
         },
+        "manage-profile": {
+            "title": "Manage Profile",
+            "text-home": "Dashboard",
+            "text-profile": "Profile",
+            "text-account": "Account",
+            "text-general": "General",
+            "text-security": "Security",
+            "email": "Email",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "phoneNumber": "Phone Number",
+            "gender": "Gender",
+            "address": "Address",
+            "birthday": "Birthday",
+            "save": "Save Changes"
+        },
         "menu": {
             "text-manage": "Management"
         }

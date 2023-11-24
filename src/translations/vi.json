@@ -217,6 +217,22 @@
             "title": "Quản lý bệnh nhân",
             "choose-date": "Chọn ngày khám"
         },
+        "manage-profile": {
+            "title": "Quản lý hồ sơ",
+            "text-home": "Trang chủ",
+            "text-profile": "Hồ sơ",
+            "text-account": "Tài khoản",
+            "text-general": "Chung",
+            "text-security": "Bảo mật",
+            "email": "Email",
+            "firstName": "Họ",
+            "lastName": "Tên",
+            "phoneNumber": "Số điện thoại",
+            "gender": "Giới tính",
+            "address": "Địa chỉ",
+            "birthday": "Ngày sinh",
+            "save": "Lưu thay đổi"
+        },
         "menu": {
             "text-manage": "Quản lý"
         }
