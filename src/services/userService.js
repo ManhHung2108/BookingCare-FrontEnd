@@ -230,6 +230,11 @@ const lookUpBookingHistoryForPatient = (email) => {
     return axios.get(`/api/look-up-booking-history-for-patient?email=${email}`);
 };
 
+//Api update profile
+const updateProfileService = (data) => {
+    return axios.put(`/api/update-profile/${data.userId}`, data);
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -275,4 +280,5 @@ export {
     searchDoctorByNameService,
     searchSpecialtyByNameService,
     searchClinicByNameService,
+    updateProfileService,
 };
