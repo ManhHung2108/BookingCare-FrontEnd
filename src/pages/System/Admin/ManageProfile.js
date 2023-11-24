@@ -9,6 +9,7 @@ import { CommonUtils, LANGUAGE } from "../../../utils";
 import "./ManageProfile.scss";
 import ProfileUser from "../../../components/ProfileUser";
 import { FormattedMessage } from "react-intl";
+import ChangePassword from "../../../components/ChangePassword";
 
 const { TabPane } = Tabs;
 
@@ -118,7 +119,7 @@ class ManageProfile extends Component {
                                 </span>
                             }
                         >
-                            Content of Tab Pane 2
+                            <ChangePassword />
                         </TabPane>
                     </Tabs>
                 </div>

@@ -54,7 +54,7 @@ class DetailDoctor extends Component {
 
         return (
             <>
-                <HomeHeader isShowBanner={false} />
+                <HomeHeader isShowBanner={false} bgColor={true} />
                 <div className="container-fluid">
                     <div className="intro-doctor container">
                         <div

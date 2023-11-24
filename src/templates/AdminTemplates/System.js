@@ -172,7 +172,7 @@ class System extends Component {
 
                                     <div className="header-menu-infor">
                                         <h6>{`${userInfo.firstName} ${userInfo.lastName}`}</h6>
-                                        <p> {userInfo.userName}</p>
+                                        <p>{userInfo.email}</p>
                                     </div>
                                 </div>
 
