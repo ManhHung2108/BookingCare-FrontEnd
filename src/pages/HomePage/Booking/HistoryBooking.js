@@ -159,7 +159,10 @@ class HistoryBooking extends Component {
                         : item.statusData.valueEn
                 }`,
                 reason: item.reason,
-                description: "",
+                description:
+                    item.bookingData && item.bookingData.description
+                        ? item.bookingData.description
+                        : "",
             };
         });
 
@@ -182,7 +185,6 @@ class HistoryBooking extends Component {
             let tokenBooking = this.state.searchInput;
 
             let res = await lookUpBookingHistoryForPatient(tokenBooking);
-
             if (res && res.errCode === 0) {
                 if (res.data && !_.isEmpty(res.data)) {
                     let booking = this.builDataLookUp(res.data.booking);
@@ -275,6 +277,14 @@ class HistoryBooking extends Component {
                 title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
                 dataIndex: "reason",
                 key: "reason",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Result" : "Kết quả khám",
+                dataIndex: "description",
+                key: "description",
+                render: (text, record) => {
+                    return <span>{text}</span>;
+                },
             },
             {
                 title: language === LANGUAGE.EN ? "Status" : "Trạng thái",
