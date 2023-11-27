@@ -5,6 +5,8 @@ import { FormattedMessage } from "react-intl";
 import { Table } from "antd";
 import _ from "lodash";
 import { toast } from "react-toastify";
+import moment from "moment";
+import { LANGUAGE } from "../../../utils";
 
 import * as actions from "../../../redux/actions";
 import HomeFooter from "../HomeFooter";
@@ -15,33 +17,21 @@ import {
     lookUpBookingHistoryForPatient,
 } from "../../../services";
 
-const columns = [
-    {
-        title: "Họ và tên",
-        dataIndex: "fullName",
-        key: "fullName",
-    },
-    {
-        title: "Bác sĩ khám",
-        dataIndex: "doctorName",
-        key: "doctorName",
-    },
-    {
-        title: "Thời gian",
-        dataIndex: "timeType",
-        key: "timeType",
-    },
-    {
-        title: "Lý do khám khám",
-        dataIndex: "reason",
-        key: "reason",
-    },
-    {
-        title: "Kết quả khám",
-        dataIndex: "description",
-        key: "description",
-    },
-];
+// Hàm này trả về tên lớp CSS tùy thuộc vào giá trị trạng thái
+const getStatusColor = (status) => {
+    switch (status) {
+        case "S1":
+            return "new-status"; // Đặt tên lớp CSS cho trạng thái hoàn thành
+        case "S2":
+            return "confirmed-status"; // Đặt tên lớp CSS cho trạng thái chưa hoàn thành
+        case "S3":
+            return "done-status"; // Đặt tên lớp CSS cho trạng thái chưa hoàn thành
+        case "S4":
+            return "cancle-status"; // Đặt tên lớp CSS cho trạng thái chưa hoàn thành
+        default:
+            return "default-status"; // Đặt tên lớp CSS cho trạng thái mặc định hoặc khác
+    }
+};
 
 class HistoryBooking extends Component {
     constructor(props) {
@@ -50,6 +40,8 @@ class HistoryBooking extends Component {
             searchInput: "",
             bookings: [],
             bookingHistories: [],
+
+            lookUpBooking: [],
         };
     }
 
@@ -90,6 +82,7 @@ class HistoryBooking extends Component {
     };
 
     buildDataBooking = (data) => {
+        const { language } = this.props;
         let dataSource = data.map((item) => {
             return {
                 key: item.id,
@@ -97,7 +90,16 @@ class HistoryBooking extends Component {
                     item.patientData.firstName ? item.patientData.firstName : ""
                 } ${item.patientData.lastName}`,
                 doctorName: `${item.User.firstName} ${item.User.lastName}`,
-                timeType: `${item.timeTypeDataPatient.valueVi}`,
+                timeType: `${item.timeTypeDataPatient.valueVi}, ${
+                    language === LANGUAGE.VI
+                        ? moment
+                              .unix(+item.date / 1000)
+                              .format("dddd - DD/MM/YYYY")
+                        : moment
+                              .unix(+item.date / 1000)
+                              .locale("en")
+                              .format("ddd - MM/DD/YYYY")
+                }`,
                 reason: item.reason,
                 description: "",
             };
@@ -107,16 +109,60 @@ class HistoryBooking extends Component {
     };
 
     builDataBookingHistory = (data) => {
+        const { language } = this.props;
         let dataSource = data.map((item) => {
             return {
                 key: item.id,
                 fullName: `${item.bookingData.patientData.firstName} ${item.bookingData.patientData.lastName}`,
                 doctorName: `${item.bookingData.User.firstName} ${item.bookingData.User.lastName}`,
-                timeType: `${item.bookingData.timeTypeDataPatient.valueVi}`,
+                timeType: `${item.bookingData.timeTypeDataPatient.valueVi}, ${
+                    language === LANGUAGE.VI
+                        ? moment
+                              .unix(+item.date / 1000)
+                              .format("dddd - DD/MM/YYYY")
+                        : moment
+                              .unix(+item.date / 1000)
+                              .locale("en")
+                              .format("ddd - MM/DD/YYYY")
+                }`,
                 reason: item.bookingData.reason,
                 description: item.description,
             };
         });
+
+        return dataSource;
+    };
+
+    builDataLookUp = (data) => {
+        const { language } = this.props;
+        let dataSource = data.map((item) => {
+            return {
+                key: item.id,
+                fullName: `${
+                    item.patientData.firstName ? item.patientData.firstName : ""
+                } ${item.patientData.lastName}`,
+                doctorName: `${item.User.firstName} ${item.User.lastName}`,
+                timeType: `${item.timeTypeDataPatient.valueVi}, ${
+                    language === LANGUAGE.VI
+                        ? moment
+                              .unix(+item.date / 1000)
+                              .format("dddd - DD/MM/YYYY")
+                        : moment
+                              .unix(+item.date / 1000)
+                              .locale("en")
+                              .format("ddd - MM/DD/YYYY")
+                }`,
+                statusId: `${item.statusId}`,
+                status: `${
+                    language === LANGUAGE.VI
+                        ? item.statusData.valueVi
+                        : item.statusData.valueEn
+                }`,
+                reason: item.reason,
+                description: "",
+            };
+        });
+
         return dataSource;
     };
 
@@ -133,26 +179,21 @@ class HistoryBooking extends Component {
 
     handleEnterKeyPress = async (event) => {
         if (event.key === "Enter") {
-            let email = this.state.searchInput;
+            let tokenBooking = this.state.searchInput;
 
-            let res = await lookUpBookingHistoryForPatient(email);
+            let res = await lookUpBookingHistoryForPatient(tokenBooking);
 
             if (res && res.errCode === 0) {
                 if (res.data && !_.isEmpty(res.data)) {
-                    let bookings = this.buildDataBooking(res.data.bookings);
-                    let bookingHistories = this.builDataBookingHistory(
-                        res.data.bookingHistory
-                    );
+                    let booking = this.builDataLookUp(res.data.booking);
 
                     this.setState({
-                        bookings: bookings,
-                        bookingHistories: bookingHistories,
+                        lookUpBooking: booking,
                     });
                 }
             } else {
                 this.setState({
-                    bookings: [],
-                    bookingHistories: [],
+                    lookUpBooking: [],
                 });
                 toast.error(res.errMessage);
             }
@@ -160,8 +201,99 @@ class HistoryBooking extends Component {
     };
 
     render() {
-        const { searchInput } = this.state;
-        const { isLoggedIn } = this.props;
+        const { searchInput, lookUpBooking } = this.state;
+        const { isLoggedIn, language } = this.props;
+
+        const columns = [
+            {
+                title: language === LANGUAGE.VI ? "Họ và tên" : "FullName",
+                dataIndex: "fullName",
+                key: "fullName",
+            },
+            {
+                itle: language === LANGUAGE.EN ? "Doctor" : "Bác sĩ khám",
+                dataIndex: "doctorName",
+                key: "doctorName",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Time" : "Thời gian",
+                dataIndex: "timeType",
+                key: "timeType",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
+                dataIndex: "reason",
+                key: "reason",
+            },
+        ];
+
+        const columnsHistories = [
+            {
+                title: language === LANGUAGE.VI ? "Họ và tên" : "FullName",
+                dataIndex: "fullName",
+                key: "fullName",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Doctor" : "Bác sĩ khám",
+                dataIndex: "doctorName",
+                key: "doctorName",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Time" : "Thời gian",
+                dataIndex: "timeType",
+                key: "timeType",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
+                dataIndex: "reason",
+                key: "reason",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Result" : "Kết quả khám",
+                dataIndex: "description",
+                key: "description",
+            },
+        ];
+
+        const columnsLookUp = [
+            {
+                title: language === LANGUAGE.VI ? "Họ và tên" : "FullName",
+                dataIndex: "fullName",
+                key: "fullName",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Doctor" : "Bác sĩ khám",
+                dataIndex: "doctorName",
+                key: "doctorName",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Time" : "Thời gian",
+                dataIndex: "timeType",
+                key: "timeType",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
+                dataIndex: "reason",
+                key: "reason",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Status" : "Trạng thái",
+                dataIndex: "status",
+                key: "status",
+                render: (text, record) => {
+                    return (
+                        <span
+                            className={`status-column ${getStatusColor(
+                                record.statusId
+                            )}`}
+                        >
+                            {record.status}
+                        </span>
+                    );
+                },
+            },
+        ];
+
         return (
             <>
                 <HomeHeader bgColor={true} />
@@ -172,55 +304,91 @@ class HistoryBooking extends Component {
                             <span>/</span>
                         </Link>
                         <div>
-                            {/* <FormattedMessage
-                                id={"patient.list-clinic.text-title"}
-                            /> */}
-                            Lịch hẹn
+                            <FormattedMessage
+                                id={
+                                    "patient.appointment-schedule.text-appointment-schedule"
+                                }
+                            />
                         </div>
                     </div>
                     {isLoggedIn === false ? (
-                        <div className="booking-search">
-                            <div className="filter_search">
-                                <input
-                                    className="form-control"
-                                    name="searchInput"
-                                    value={searchInput}
-                                    placeholder="Nhập email đã đặt lịch"
-                                    onChange={(e) => {
-                                        this.handleOnChangeInput(e);
-                                    }}
-                                    onKeyPress={(e) => {
-                                        this.handleEnterKeyPress(e);
-                                    }}
-                                />
-                                {/* <i className="fas fa-search"></i> */}
-                                <button>
-                                    <FormattedMessage
-                                        id={"patient.list-clinic.text-search"}
+                        <>
+                            <div className="booking-search">
+                                <div className="filter_search">
+                                    <input
+                                        className="form-control"
+                                        name="searchInput"
+                                        value={searchInput}
+                                        placeholder="Search"
+                                        onChange={(e) => {
+                                            this.handleOnChangeInput(e);
+                                        }}
+                                        onKeyPress={(e) => {
+                                            this.handleEnterKeyPress(e);
+                                        }}
                                     />
-                                </button>
+                                    <i className="fas fa-search"></i>
+                                </div>
                             </div>
-                        </div>
+                            <div className="booking-history-content">
+                                <div className="booking-current">
+                                    <h2>
+                                        <FormattedMessage
+                                            id={
+                                                "patient.appointment-schedule.text-title-lookup"
+                                            }
+                                        />
+                                    </h2>
+                                    {lookUpBooking &&
+                                    lookUpBooking.length > 0 ? (
+                                        <Table
+                                            dataSource={lookUpBooking}
+                                            columns={columnsLookUp}
+                                        />
+                                    ) : (
+                                        <p className="text-center">
+                                            <FormattedMessage
+                                                id={
+                                                    "patient.appointment-schedule.text-result"
+                                                }
+                                            />
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </>
                     ) : (
-                        ""
+                        <>
+                            <div className="booking-history-content">
+                                <div className="booking-current">
+                                    <h2>
+                                        <FormattedMessage
+                                            id={
+                                                "patient.appointment-schedule.text-title-appointment-scheduled"
+                                            }
+                                        />
+                                    </h2>
+                                    <Table
+                                        dataSource={this.state.bookings}
+                                        columns={columns}
+                                    />
+                                </div>
+                                <div className="booking-history">
+                                    <h2>
+                                        <FormattedMessage
+                                            id={
+                                                "patient.appointment-schedule.text-title-history"
+                                            }
+                                        />
+                                    </h2>
+                                    <Table
+                                        dataSource={this.state.bookingHistories}
+                                        columns={columnsHistories}
+                                    />
+                                </div>
+                            </div>
+                        </>
                     )}
-
-                    <div className="booking-history-content">
-                        <div className="booking-current">
-                            <h2>Lịch hẹn đã đặt</h2>
-                            <Table
-                                dataSource={this.state.bookings}
-                                columns={columns}
-                            />
-                        </div>
-                        <div className="booking-history">
-                            <h2>Lịch sử khám</h2>
-                            <Table
-                                dataSource={this.state.bookingHistories}
-                                columns={columns}
-                            />
-                        </div>
-                    </div>
                 </div>
                 <HomeFooter />
             </>

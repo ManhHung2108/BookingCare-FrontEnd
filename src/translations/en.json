@@ -155,6 +155,13 @@
             "text-title": "List of doctors for you",
             "text-examination": "List of doctors for you",
             "text-search": "Search"
+        },
+        "appointment-schedule": {
+            "text-appointment-schedule": "Appointment scheduled",
+            "text-result": "You do not have an appointment scheduled in this browser.",
+            "text-title-lookup": "Look up appointment schedules",
+            "text-title-appointment-scheduled": "Appointment scheduled",
+            "text-title-history": "Examination history"
         }
     },
     "admin": {
