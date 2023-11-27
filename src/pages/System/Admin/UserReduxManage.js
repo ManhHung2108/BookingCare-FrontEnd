@@ -262,6 +262,7 @@ class UserReduxManage extends Component {
     handleEditUser = (user) => {
         // console.log("check edit user from parent: ", user);
         let imageBase64 = "";
+
         if (user.image) {
             //decode từ base64 sang binary
             imageBase64 = new Buffer(user.image, "base64").toString("binary");
@@ -271,13 +272,13 @@ class UserReduxManage extends Component {
             id: user.id,
             email: user.email,
             passWord: "HARDCODE",
-            firstName: user.firstName,
+            firstName: user.firstName ? user.firstName : "",
             lastName: user.lastName,
             phoneNumber: user.phoneNumber,
             address: user.address,
             avatar: "",
             gender: user.gender,
-            position: user.positionId,
+            position: user.positionId ? user.positionId : "",
             role: user.roleId,
             previewImgUrl: imageBase64,
             action: CRUD_ACTIONS.EDIT, //chỉnh lại action là edit
@@ -285,8 +286,7 @@ class UserReduxManage extends Component {
     };
 
     render() {
-        let { language, genders, isLoadingGender, roles, positions, users } =
-            this.props;
+        let { language, genders, roles, positions, users } = this.props;
 
         let {
             email,
@@ -313,9 +313,7 @@ class UserReduxManage extends Component {
                             <div className="col-12 my-3">
                                 <FormattedMessage id={"manage-user.add"} />
                             </div>
-                            {/* <div className="col-12">
-                                {isLoadingGender && "Loading..."}
-                            </div> */}
+
                             <div className="col-lg-3 col-sm-12">
                                 <label>
                                     <FormattedMessage

@@ -354,6 +354,7 @@ class HistoryBooking extends Component {
                                         <Table
                                             dataSource={lookUpBooking}
                                             columns={columnsLookUp}
+                                            pagination={false}
                                         />
                                     ) : (
                                         <p className="text-center">

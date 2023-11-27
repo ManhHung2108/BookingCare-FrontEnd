@@ -24,7 +24,9 @@ export default class TableManageUser extends Component {
         const dataSource =
             data &&
             data.length > 0 &&
-            data.map((item) => ({ ...item, key: item.id }));
+            data.map((item) => {
+                return { ...item, key: item.id, role: item.Role.valueVi };
+            });
 
         //Tạo columns
         const columns = [
@@ -58,6 +60,15 @@ export default class TableManageUser extends Component {
                 title: language === LANGUAGE.EN ? "Last Name" : "Tên",
                 dataIndex: "lastName",
                 key: "lastName",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Role" : "Vai trò",
+                dataIndex: "role",
+                key: "role",
+                render: (_, record) => <span>{record.role}</span>,
+                sorter: (a, b) => {
+                    return a.roleId.localeCompare(b.roleId);
+                },
             },
             {
                 title:
