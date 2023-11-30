@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import actionTypes from "../types/actionTypes";
-import { getDetailDoctor } from "../../services";
+import { getDetailDoctor, cancleBookingService } from "../../services";
 
 export const addUserSuccess = () => ({
     type: actionTypes.ADD_USER_SUCCESS,
@@ -56,5 +56,24 @@ const getDetailDoctorSuccess = (data) => {
 const getDetailDoctorFailed = () => {
     return {
         type: actionTypes.GET_DETAIL_DOCTOR_FAILED,
+    };
+};
+
+export const cancleBookingAction = (id) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
+            let res = await cancleBookingService(id);
+            if (res && res.errCode === 0) {
+                toast.success(res.message);
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            } else {
+                toast.error(res.errMessage);
+            }
+        } catch (error) {}
     };
 };

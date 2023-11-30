@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { FormattedMessage } from "react-intl";
-import { Table } from "antd";
+import { Table, Space } from "antd";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -102,6 +102,7 @@ class HistoryBooking extends Component {
                 }`,
                 reason: item.reason,
                 description: "",
+                date: item.date,
             };
         });
 
@@ -202,6 +203,20 @@ class HistoryBooking extends Component {
         }
     };
 
+    handleCancelBooking = async (data) => {
+        const { token } = this.props;
+        var isConfirmed = window.confirm(
+            "Bạn có chắc chắn hủy lịch này không?"
+        );
+
+        if (isConfirmed) {
+            await this.props.cancleBooking(data.key);
+            if (token) {
+                this.getDataBookingLogged(token);
+            }
+        }
+    };
+
     render() {
         const { searchInput, lookUpBooking } = this.state;
         const { isLoggedIn, language } = this.props;
@@ -213,7 +228,7 @@ class HistoryBooking extends Component {
                 key: "fullName",
             },
             {
-                itle: language === LANGUAGE.EN ? "Doctor" : "Bác sĩ khám",
+                title: language === LANGUAGE.EN ? "Doctor" : "Bác sĩ khám",
                 dataIndex: "doctorName",
                 key: "doctorName",
             },
@@ -226,6 +241,30 @@ class HistoryBooking extends Component {
                 title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
                 dataIndex: "reason",
                 key: "reason",
+            },
+            {
+                title: "Action",
+                key: "action",
+                render: (_, record) => {
+                    const currentDate = new Date();
+
+                    //Trừ đi 1 ngày của timetamp
+                    let dateBooking =
+                        parseInt(record.date) - 24 * 60 * 60 * 1000;
+
+                    return currentDate.getTime() < dateBooking ? (
+                        <Space size="middle">
+                            <button
+                                className="btn btn-danger"
+                                onClick={() => {
+                                    this.handleCancelBooking(record);
+                                }}
+                            >
+                                Hủy
+                            </button>
+                        </Space>
+                    ) : null;
+                },
             },
         ];
 
@@ -419,6 +458,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         isShowLoading: (isLoading) => {
             return dispatch(actions.isLoadingAction(isLoading));
+        },
+        cancleBooking: (id) => {
+            return dispatch(actions.cancleBookingAction(id));
         },
     };
 };

@@ -229,6 +229,9 @@ const getBookingHistoryForPatient = (token) => {
 const lookUpBookingHistoryForPatient = (email) => {
     return axios.get(`/api/look-up-booking-history-for-patient?email=${email}`);
 };
+const cancleBookingService = (id) => {
+    return axios.put(`/api/cancle-booking/${id}`);
+};
 
 //Api update profile
 const updateProfileService = (data) => {
@@ -280,5 +283,6 @@ export {
     searchDoctorByNameService,
     searchSpecialtyByNameService,
     searchClinicByNameService,
+    cancleBookingService,
     updateProfileService,
 };
