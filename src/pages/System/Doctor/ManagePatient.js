@@ -10,6 +10,7 @@ import "./ManagePatient.scss";
 import TableManagePatient from "./TableManagePatient";
 import { getListPatientForDoctorService } from "../../../services";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import * as actions from "../../../redux/actions";
 
 class ManagePatient extends Component {
     constructor(props) {
@@ -69,6 +70,17 @@ class ManagePatient extends Component {
         );
     };
 
+    handleCancle = async (data) => {
+        var isConfirmed = window.confirm(
+            "Bạn có chắc chắn hủy lịch này không?"
+        );
+
+        if (isConfirmed) {
+            await this.props.cancleBooking(data.key);
+            this.getDataPatient();
+        }
+    };
+
     render() {
         const { currentDate } = this.state;
 
@@ -100,6 +112,7 @@ class ManagePatient extends Component {
                     data={this.state.listPatient}
                     language={this.props.language}
                     getDataPatient={this.getDataPatient}
+                    handleCancle={this.handleCancle}
                 />
             </div>
         );
@@ -115,7 +128,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+        cancleBooking: (id) => {
+            return dispatch(actions.cancleBookingAction(id));
+        },
+    };
 };
 
 export default withRouter(

@@ -86,7 +86,8 @@
         "add": "Add",
         "edit": "Edit",
         "delete": "Delete",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "cancel": "Cancel"
     },
     "homepage": {
         "out-standing-doctor": "Last Week's featured doctor",

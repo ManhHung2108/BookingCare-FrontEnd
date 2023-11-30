@@ -260,7 +260,7 @@ class HistoryBooking extends Component {
                                     this.handleCancelBooking(record);
                                 }}
                             >
-                                Hủy
+                                <FormattedMessage id={"actions.cancel"} />
                             </button>
                         </Space>
                     ) : null;

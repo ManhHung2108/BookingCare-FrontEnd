@@ -207,6 +207,14 @@ export default class TableManagePatient extends Component {
                         >
                             <FormattedMessage id={"actions.confirm"} />
                         </button>
+                        <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                                this.props.handleCancle(record);
+                            }}
+                        >
+                            <FormattedMessage id={"actions.cancel"} />
+                        </button>
                     </Space>
                 ),
             },

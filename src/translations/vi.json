@@ -86,7 +86,8 @@
         "add": "Thêm",
         "edit": "Sửa",
         "delete": "Xóa",
-        "confirm": "Xác nhận"
+        "confirm": "Xác nhận",
+        "cancel": "Hủy"
     },
     "homepage": {
         "out-standing-doctor": "Bác sĩ nổi bật",
