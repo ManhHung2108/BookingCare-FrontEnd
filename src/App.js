@@ -27,6 +27,7 @@ import ListDoctor from "./pages/HomePage/Doctor/ListDoctor";
 import ListClinic from "./pages/HomePage/Clinic/ListClinic";
 import HistoryBooking from "./pages/HomePage/Booking/HistoryBooking";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import Register from "./pages/Register/Register";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -65,8 +66,13 @@ class App extends Component {
                                     path={configs.routes.LOGIN}
                                     component={userIsNotAuthenticated(Login)}
                                     //Được phép truy cập trang Login khi isLogged=false (hoc),
-                                    //nếu true thì chạy đến thẳng trang home để xủ lý chuyển sang admin
+                                    //nếu true thì chạy đến thẳng trang home để xủ lý chuyển trang
                                 />
+                                <Route
+                                    path={configs.routes.REGISTER}
+                                    component={userIsNotAuthenticated(Register)}
+                                />
+
                                 <Route
                                     path={configs.routes.SYSTEM}
                                     component={userIsAuthenticated(System)}

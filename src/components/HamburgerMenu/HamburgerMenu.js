@@ -85,13 +85,26 @@ class HamburgerMenu extends Component {
                             );
                         })}
                         {isLoggedIn === false ? (
-                            <li>
-                                <Link to={configs.routes.LOGIN}>
-                                    <FormattedMessage
-                                        id={"homeHeader.hambergerMenu.login"}
-                                    />
-                                </Link>
-                            </li>
+                            <>
+                                <li>
+                                    <Link to={configs.routes.LOGIN}>
+                                        <FormattedMessage
+                                            id={
+                                                "homeHeader.hambergerMenu.login"
+                                            }
+                                        />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={configs.routes.REGISTER}>
+                                        <FormattedMessage
+                                            id={
+                                                "homeHeader.hambergerMenu.register"
+                                            }
+                                        />
+                                    </Link>
+                                </li>
+                            </>
                         ) : (
                             <li>
                                 <Link

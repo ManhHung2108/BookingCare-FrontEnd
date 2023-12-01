@@ -18,7 +18,8 @@
             "contact": "Contact",
             "terms": "Terms of use",
             "logout": "Logout",
-            "login": "Login"
+            "login": "Login",
+            "register": "Register"
         }
     },
     "banner": {
@@ -106,6 +107,24 @@
         }
     },
     "patient": {
+        "login": {
+            "userName": "UserName",
+            "passWord": "PassWord",
+            "login": "Login",
+            "register": "Register",
+            "other-app": "Or Login with: ",
+            "forgot": "Forgot password?"
+        },
+        "register": {
+            "title": "REGISTER",
+            "email": "Email",
+            "passWord": "PassWord",
+            "confirm": "Confirm Password",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "phoneNumber": "Phone Number",
+            "register": "Register"
+        },
         "detail-doctor": {
             "schedule": "Schedule",
             "no-schedule": "The doctor does not have appointments scheduled for this time, please choose another time!",

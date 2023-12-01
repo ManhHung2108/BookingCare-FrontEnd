@@ -12,6 +12,7 @@ const routes = {
     LIST_DOCTOR: "/danh-sach/bac-si/danh-cho-ban",
     LIST_CLINIC: "/danh-sach/co-so-y-te/danh-cho-ban",
     HISTORY_BOOKING: "/booking",
+    REGISTER: "/register",
 };
 
 export default routes;
