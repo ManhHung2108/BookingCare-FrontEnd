@@ -84,7 +84,7 @@ class Login extends Component {
             if (res && res.errCode !== 0) {
                 //Lấy kết quả trả về
                 this.setState({
-                    errMessage: res.message,
+                    errMessage: res.errMessage,
                 });
             }
 

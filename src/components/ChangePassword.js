@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
+import * as actions from "../redux/actions";
 
 class ChangePassword extends Component {
     constructor(props) {
@@ -32,6 +33,42 @@ class ChangePassword extends Component {
                 // console.log(this.state);
             }
         );
+    };
+
+    compareValues = (value1, value2) => {
+        return value1 === value2;
+    };
+
+    handleSave = () => {
+        const { userInfo } = this.props;
+        const { oldPassword, newPassword, confirmPassword } = this.state;
+        let copyState = { ...this.state };
+
+        let data = {
+            id: userInfo.id,
+            oldPassword: oldPassword,
+            newPassword: newPassword,
+        };
+
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            copyState.errMessage = "Yêu cầu nhập đầy đủ, không được bỏ trống!";
+        } else {
+            if (this.compareValues(oldPassword, newPassword)) {
+                copyState.errMessage = "Mật khẩu mới phải khác mật khẩu cũ!";
+            } else {
+                if (
+                    this.compareValues(newPassword, confirmPassword) === false
+                ) {
+                    copyState.errMessage = "Xác nhận mật khẩu không hợp lệ!";
+                } else {
+                    this.props.changePassword(data);
+                }
+            }
+        }
+
+        this.setState({
+            ...copyState,
+        });
     };
 
     render() {
@@ -141,6 +178,9 @@ class ChangePassword extends Component {
                             </span>
                         </div>
                     </div>
+                    <div className="col-12 text-danger text-center">
+                        {this.state.errMessage}
+                    </div>
                     <div className="btn-save col-12">
                         <button
                             className="btn btn-primary"
@@ -167,7 +207,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        changePassword: (data) => {
+            return dispatch(actions.changePasswordAction(data));
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

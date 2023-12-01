@@ -237,6 +237,9 @@ const cancleBookingService = (id) => {
 const updateProfileService = (data) => {
     return axios.put(`/api/update-profile/${data.userId}`, data);
 };
+const changePasswordService = (data) => {
+    return axios.post(`/api/change-password`, data);
+};
 
 export {
     handleLoginApi,
@@ -285,4 +288,5 @@ export {
     searchClinicByNameService,
     cancleBookingService,
     updateProfileService,
+    changePasswordService,
 };

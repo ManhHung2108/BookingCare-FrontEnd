@@ -1,6 +1,10 @@
 import { toast } from "react-toastify";
 import actionTypes from "../types/actionTypes";
-import { getDetailDoctor, cancleBookingService } from "../../services";
+import {
+    getDetailDoctor,
+    cancleBookingService,
+    changePasswordService,
+} from "../../services";
 
 export const addUserSuccess = () => ({
     type: actionTypes.ADD_USER_SUCCESS,
@@ -73,6 +77,28 @@ export const cancleBookingAction = (id) => {
                 });
             } else {
                 toast.error(res.errMessage);
+            }
+        } catch (error) {}
+    };
+};
+
+export const changePasswordAction = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
+            let res = await changePasswordService(data);
+            if (res && res.errCode === 0) {
+                toast.success(res.message);
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            } else {
+                toast.error(res.errMessage);
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
             }
         } catch (error) {}
     };
