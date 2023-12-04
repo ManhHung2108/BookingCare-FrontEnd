@@ -304,7 +304,7 @@ class HomeHeader extends Component {
                                             backgroundImage: `url(${
                                                 userInfor && userInfor.image
                                                     ? userInfor.image
-                                                    : ""
+                                                    : require(`../../assets/images/avatar/no-avatar.png`)
                                             })`,
                                             position: "relative",
                                         }}

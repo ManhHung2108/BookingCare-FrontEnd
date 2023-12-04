@@ -7,7 +7,9 @@ import DatePicker from "react-datepicker";
 import "./Register.scss";
 import HeaderBack from "../../components/HeaderBack";
 import { LANGUAGE, validateEmail, validatePhone } from "../../utils";
+import { registerUserService } from "../../services";
 import * as actions from "../../redux/actions";
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 class Register extends Component {
     constructor(props) {
@@ -129,13 +131,13 @@ class Register extends Component {
             console.log(data);
 
             //Thỏa mãn dispatch action create user lên reducer
-            // let res = await this.props.createNewUser(data); //gửi data để gọi api
-            // if (res && res.errCode === 0) {
-            //     toast.success("Thêm mới thành công người dùng!");
-            //     this.getAllUser();
-            // } else {
-            //     toast.error(res.errMessage);
-            // }
+            let res = await registerUserService(data);
+            if (res && res.errCode === 0) {
+                toast.success("Thêm mới thành công người dùng!");
+                this.props.history.push("/login");
+            } else {
+                toast.error(res.errMessage);
+            }
         }
     };
 
@@ -179,9 +181,9 @@ class Register extends Component {
             <>
                 <HeaderBack />
                 <div className="register-container d-flex">
-                    <div className="col-6 register-content">
+                    <div className="col-md-6 register-content container">
                         <div className="row justify-content-center align-items-center w-100">
-                            <div className="Logo mb-5">
+                            <div className="Logo mb-lg-5 mb-sm-2">
                                 <img
                                     src={require("../../assets/images/LogoWebsite.PNG")}
                                     alt="HealthBookings"
@@ -220,7 +222,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-6">
+                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="passWord"
                                                 className="form-label"
@@ -243,7 +245,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-6">
+                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="confirmPassword"
                                                 className="form-label"
@@ -266,7 +268,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-lg-6 col-sm-12">
+                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="firstName"
                                                 className="form-label"
@@ -289,7 +291,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-lg-6 col-sm-12">
+                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="lastName"
                                                 className="form-label"
@@ -312,7 +314,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-6">
+                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="phoneNumber"
                                                 className="form-label"
@@ -335,7 +337,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="col-6 form-group">
+                                        <div className="col-sm-12 col-md-12 col-lg-6 form-group">
                                             <label>
                                                 <FormattedMessage
                                                     id={
@@ -354,7 +356,7 @@ class Register extends Component {
                                                 value={birthDay}
                                             />
                                         </div>
-                                        <div className="col-6 form-group">
+                                        <div className="col-sm-12 col-md-12 col-lg-6 form-group">
                                             <label>
                                                 <FormattedMessage
                                                     id={
@@ -411,7 +413,7 @@ class Register extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="register-bg_img col-6">
+                    <div className="register-bg_img col-lg-6 col-sm-0">
                         <div className="style_shape__1HA08"></div>
                     </div>
                 </div>
@@ -435,4 +437,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(Register)
+);

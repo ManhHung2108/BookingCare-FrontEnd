@@ -1,11 +1,13 @@
 .register-container {
     background-color: #f1eff2;
-    height          : calc(100vh - 50px);
+    height          : calc(100vh - 52px);
 
     .register-content {
         display        : flex;
         flex-direction : column;
         justify-content: center;
+        align-items    : center;
+        max-height     : calc(100vh - 52px);
 
         .Logo {
             display        : flex;

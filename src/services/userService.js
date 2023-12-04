@@ -218,7 +218,7 @@ const countStatsForAdminService = () => {
     return axios.get(`/api/count-stats-for-admin`);
 };
 
-//Api booking history
+//Api lịch hẹn
 const getBookingHistoryForPatient = (token) => {
     return axios.get("/api/get-booking-history-for-patient", {
         headers: {
@@ -241,10 +241,16 @@ const changePasswordService = (data) => {
     return axios.post(`/api/change-password`, data);
 };
 
-//Api get all gender
+//Api lấy ra genders
 const getAllGenderService = () => {
     return axios.get(`/api/get-all-gender`);
 };
+
+//Api đăng ký tài khoản
+const registerUserService = (data) => {
+    return axios.post(`/api/register`, data);
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -294,4 +300,5 @@ export {
     updateProfileService,
     changePasswordService,
     getAllGenderService,
+    registerUserService,
 };
