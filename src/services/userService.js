@@ -241,6 +241,10 @@ const changePasswordService = (data) => {
     return axios.post(`/api/change-password`, data);
 };
 
+//Api get all gender
+const getAllGenderService = () => {
+    return axios.get(`/api/get-all-gender`);
+};
 export {
     handleLoginApi,
     getAllUsersService,
@@ -289,4 +293,5 @@ export {
     cancleBookingService,
     updateProfileService,
     changePasswordService,
+    getAllGenderService,
 };

@@ -4,6 +4,7 @@ import {
     getDetailDoctor,
     cancleBookingService,
     changePasswordService,
+    getAllGenderService,
 } from "../../services";
 
 export const addUserSuccess = () => ({
@@ -101,5 +102,41 @@ export const changePasswordAction = (data) => {
                 });
             }
         } catch (error) {}
+    };
+};
+
+export const getAllGenderAction = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
+            let res = await getAllGenderService();
+
+            if (res && res.errCode === 0) {
+                dispatch(getAllGenderSuccess(res.data));
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            } else {
+                dispatch(getAllGenderFailed());
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            }
+        } catch (error) {}
+    };
+};
+
+const getAllGenderSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ALL_GENDER_SUCCESS,
+        data,
+    };
+};
+const getAllGenderFailed = (data) => {
+    return {
+        type: actionTypes.GET_ALL_GENDER_FAILED,
+        data,
     };
 };

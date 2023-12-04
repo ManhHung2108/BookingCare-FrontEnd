@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import DatePicker from "react-datepicker";
 
 import "./Register.scss";
 import HeaderBack from "../../components/HeaderBack";
 import { LANGUAGE, validateEmail, validatePhone } from "../../utils";
+import * as actions from "../../redux/actions";
 
 class Register extends Component {
     constructor(props) {
@@ -17,12 +19,53 @@ class Register extends Component {
             firstName: "",
             lastName: "",
             phoneNumber: "",
+            birthDay: "",
+            gender: "",
+
+            genders: [],
         };
     }
+
+    componentDidMount() {
+        this.props.getAllGender();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.gendersFromRedux !== this.props.gendersFromRedux) {
+            let genders = this.buildDataGender(this.props.gendersFromRedux);
+
+            this.setState({
+                genders: genders,
+                gender:
+                    this.props.gendersFromRedux &&
+                    this.props.gendersFromRedux.length > 0
+                        ? this.props.gendersFromRedux[0].id
+                        : "",
+            });
+        }
+    }
+
+    buildDataGender = (data) => {
+        let result = [];
+        let language = this.props.language;
+
+        if (data && data.length > 0) {
+            result = data.map((item) => {
+                return {
+                    lable:
+                        language === LANGUAGE.VI ? item.valueVi : item.valueEn,
+                    value: item.id,
+                };
+            });
+        }
+
+        return result;
+    };
 
     handleOnChangeInput = (e) => {
         const value = e.target.value;
         const key = e.target.name;
+
         const copyState = { ...this.state };
 
         copyState[key] = value;
@@ -30,6 +73,10 @@ class Register extends Component {
         this.setState({
             ...copyState,
         });
+    };
+
+    handleSelectDate = (date) => {
+        this.setState({ birthDay: date });
     };
 
     handleRegister = async (e) => {
@@ -41,7 +88,11 @@ class Register extends Component {
             firstName,
             lastName,
             phoneNumber,
+            birthDay,
+            gender,
         } = this.state;
+
+        let formattedBirthDay = new Date(birthDay).getTime();
 
         let data = {
             email: email,
@@ -49,6 +100,8 @@ class Register extends Component {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,
+            birthday: formattedBirthDay,
+            gender: gender,
         };
 
         let isValid = this.checkValidateInput();
@@ -94,6 +147,7 @@ class Register extends Component {
             "firstName",
             "lastName",
             "phoneNumber",
+            "gender",
         ];
         let isValid = true;
 
@@ -116,6 +170,10 @@ class Register extends Component {
             firstName,
             lastName,
             phoneNumber,
+            birthDay,
+            gender,
+
+            genders,
         } = this.state;
         return (
             <>
@@ -277,6 +335,62 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
+                                        <div className="col-6 form-group">
+                                            <label>
+                                                <FormattedMessage
+                                                    id={
+                                                        "patient.booking-modal.birthday"
+                                                    }
+                                                />
+                                            </label>
+                                            <br></br>
+                                            <DatePicker
+                                                className="form-control w-full"
+                                                selected={birthDay}
+                                                onChange={(date) => {
+                                                    this.handleSelectDate(date);
+                                                }}
+                                                dateFormat="dd/MM/yyyy" // Định dạng ngày tháng thành "dd/mm/yyyy"
+                                                value={birthDay}
+                                            />
+                                        </div>
+                                        <div className="col-6 form-group">
+                                            <label>
+                                                <FormattedMessage
+                                                    id={
+                                                        "patient.booking-modal.gender"
+                                                    }
+                                                />
+                                            </label>
+                                            <select
+                                                className="form-control"
+                                                id="inputGender"
+                                                name="gender"
+                                                value={gender}
+                                                onChange={(event) =>
+                                                    this.handleOnChangeInput(
+                                                        event
+                                                    )
+                                                }
+                                            >
+                                                {genders &&
+                                                    genders.length > 0 &&
+                                                    genders.map(
+                                                        (item, index) => {
+                                                            return (
+                                                                <option
+                                                                    key={index}
+                                                                    value={
+                                                                        item.value
+                                                                    }
+                                                                >
+                                                                    {item.lable}
+                                                                </option>
+                                                            );
+                                                        }
+                                                    )}
+                                            </select>
+                                        </div>
                                         <div className="col-12">
                                             <button
                                                 type="submit"
@@ -308,11 +422,17 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        language: state.appReducer.language,
         isLoggedIn: state.user.isLoggedIn,
+        gendersFromRedux: state.user.genders,
     };
 };
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        getAllGender: () => {
+            dispatch(actions.getAllGenderAction());
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
