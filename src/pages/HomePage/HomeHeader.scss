@@ -478,6 +478,16 @@
 
             .left-content {
                 width: 50%;
+
+                .header-logo {
+                    i {
+                        font-size: 25px !important;
+                    }
+
+                    span {
+                        font-size: 12px !important;
+                    }
+                }
             }
 
             .right-content {
@@ -499,10 +509,21 @@
                     .support {
                         margin       : 0;
                         padding-right: 5px;
+                        display      : none;
 
                         span {
                             font-size: 12px;
                         }
+                    }
+
+                    .language-vi,
+                    .language-en {
+                        font-size: 12px;
+                    }
+
+                    .header-username {
+                        height: 30px;
+                        width : 30px;
                     }
                 }
             }
@@ -520,6 +541,10 @@
         .search {
             .search-form {
                 width: 100%;
+
+                .search-input input {
+                    height: fit-content;
+                }
             }
         }
     }

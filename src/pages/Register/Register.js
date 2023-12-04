@@ -3,13 +3,14 @@ import { toast } from "react-toastify";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import DatePicker from "react-datepicker";
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 import "./Register.scss";
 import HeaderBack from "../../components/HeaderBack";
 import { LANGUAGE, validateEmail, validatePhone } from "../../utils";
 import { registerUserService } from "../../services";
 import * as actions from "../../redux/actions";
-import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import configs from "../../configs";
 
 class Register extends Component {
     constructor(props) {
@@ -128,13 +129,10 @@ class Register extends Component {
                 return;
             }
 
-            console.log(data);
-
-            //Thỏa mãn dispatch action create user lên reducer
             let res = await registerUserService(data);
             if (res && res.errCode === 0) {
-                toast.success("Thêm mới thành công người dùng!");
-                this.props.history.push("/login");
+                toast.success("Đăng ký thành công!");
+                this.props.history.push(configs.routes.LOGIN);
             } else {
                 toast.error(res.errMessage);
             }
@@ -199,7 +197,7 @@ class Register extends Component {
                                 </div>
                                 <div className="card-body">
                                     <form className="row">
-                                        <div className="mb-3 col-12">
+                                        <div className="mb-lg-3 col-12">
                                             <label
                                                 htmlFor="email"
                                                 className="form-label"
@@ -222,7 +220,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
+                                        <div className="mb-lg-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="passWord"
                                                 className="form-label"
@@ -245,7 +243,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
+                                        <div className="mb-lg-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="confirmPassword"
                                                 className="form-label"
@@ -268,7 +266,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
+                                        <div className="mb-lg-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="firstName"
                                                 className="form-label"
@@ -291,7 +289,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
+                                        <div className="mb-lg-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="lastName"
                                                 className="form-label"
@@ -314,7 +312,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="mb-3 col-sm-12 col-md-12 col-lg-6">
+                                        <div className="mb-lg-3 col-sm-12 col-md-12 col-lg-6">
                                             <label
                                                 htmlFor="phoneNumber"
                                                 className="form-label"
@@ -337,7 +335,7 @@ class Register extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className="col-sm-12 col-md-12 col-lg-6 form-group">
+                                        <div className="col-6 form-group">
                                             <label>
                                                 <FormattedMessage
                                                     id={
@@ -356,7 +354,7 @@ class Register extends Component {
                                                 value={birthDay}
                                             />
                                         </div>
-                                        <div className="col-sm-12 col-md-12 col-lg-6 form-group">
+                                        <div className="col-6 form-group">
                                             <label>
                                                 <FormattedMessage
                                                     id={
@@ -413,7 +411,7 @@ class Register extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="register-bg_img col-lg-6 col-sm-0">
+                    <div className="register-bg_img col-lg-6">
                         <div className="style_shape__1HA08"></div>
                     </div>
                 </div>
