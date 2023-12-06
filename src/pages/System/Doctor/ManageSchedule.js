@@ -15,7 +15,9 @@ import { LANGUAGE } from "../../../utils/constants";
 import {
     saveBulkScheduleDoctorService,
     getScheduleDoctorByDateServicde,
+    deleteScheduleService,
 } from "../../../services";
+import TableManageSchedules from "./TableManageSchedules";
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -69,9 +71,6 @@ class ManageSchedule extends Component {
             this.setState({
                 rangeTime: data,
             });
-        }
-
-        if (prevState.listSchedule !== this.state.listSchedule) {
         }
 
         if (prevProps.userInfo !== this.props.userInfo) {
@@ -138,7 +137,7 @@ class ManageSchedule extends Component {
     handleSelectDate = async (date) => {
         const { selectedDoctor } = this.state;
         const { language } = this.props;
-        // this.setState({ currentDate: date });
+        this.setState({ currentDate: date });
 
         if (!selectedDoctor) {
             toast.error(
@@ -194,10 +193,7 @@ class ManageSchedule extends Component {
             return;
         }
 
-        let data = []; //gửi lên server
-        // let formattedDate = moment(currentDate).format(
-        //     dateFormat.SEND_TO_SERVER
-        // );
+        let data = [];
 
         //Gửi lên dạng timeTamp
         let formattedDate = new Date(currentDate).getTime();
@@ -245,6 +241,7 @@ class ManageSchedule extends Component {
                         : "Isvalid ScheduleTime Time!"
                 }`
             );
+            this.getAllScheduleDoctor(selectedDoctor, currentDate);
         }
         // console.log("check response saveBulkScheduleDoctorService: ", res);
 
@@ -271,10 +268,27 @@ class ManageSchedule extends Component {
         // }
     };
 
+    handleDelete = async (data) => {
+        const { selectedDoctor, currentDate } = this.state;
+        let res = await deleteScheduleService(data.key);
+        if (res && res.errCode === 0) {
+            console.log(res);
+            toast.success(res.message);
+            this.getAllScheduleDoctor(selectedDoctor, currentDate);
+        } else {
+            toast.error(res.errMessage);
+        }
+    };
+
     render() {
         const { Option } = Select;
-        const { selectedDoctor, listDoctor, currentDate, rangeTime } =
-            this.state;
+        const {
+            selectedDoctor,
+            listDoctor,
+            currentDate,
+            rangeTime,
+            listSchedule,
+        } = this.state;
         const { language, userInfo } = this.props;
 
         // Tạo một đối tượng Date đại diện cho ngày hiện tại
@@ -372,6 +386,11 @@ class ManageSchedule extends Component {
                             </button>
                         </div>
                     </div>
+
+                    <TableManageSchedules
+                        data={listSchedule}
+                        handleDelete={this.handleDelete}
+                    />
                 </div>
             </div>
         );

@@ -108,6 +108,9 @@ const saveDetailDoctorService = (data) => {
 const saveBulkScheduleDoctorService = (data) => {
     return axios.post(`/api/bulk-create-schedule`, data);
 };
+const deleteScheduleService = (id) => {
+    return axios.delete(`/api/delete-schedule/${id}`);
+};
 
 //Api detail Doctor
 const getDetailDoctor = (id) => {
@@ -315,4 +318,5 @@ export {
     newReviewService,
     getDoctorRatingService,
     getDoctorReviewService,
+    deleteScheduleService,
 };
