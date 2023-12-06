@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
 
 import HomeHeader from "../HomeHeader";
 import "./ListSpecialty.scss";
@@ -79,6 +80,13 @@ class ListSpecialty extends Component {
         const { searchInput, listSpecialty } = this.state;
         return (
             <>
+                <Helmet>
+                    <title>{`healthbookings.vn/kham-chuyen-khoa`}</title>
+                    <meta
+                        name="description"
+                        content={`Danh sách chuyên khoa`}
+                    />
+                </Helmet>
                 <HomeHeader bgColor={true} />
                 <div className="list-specialty_container">
                     <div className="list-specialty-header">

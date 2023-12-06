@@ -11,6 +11,7 @@ export default class HomeFooter extends Component {
                         <div className="col-lg-6 col-sm-12">
                             <NavLink to="/home">
                                 <img
+                                    title="Logo"
                                     className="footer-logo"
                                     src={require("../../assets/images/LogoWebsite.PNG")}
                                     alt="HealthBookings"

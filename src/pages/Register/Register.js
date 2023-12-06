@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import DatePicker from "react-datepicker";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { Helmet } from "react-helmet";
 
 import "./Register.scss";
 import HeaderBack from "../../components/HeaderBack";
@@ -177,6 +178,10 @@ class Register extends Component {
         } = this.state;
         return (
             <>
+                <Helmet>
+                    <title>{`Trang đăng ký`}</title>
+                    <meta name="description" content={`Trang đăng ký`} />
+                </Helmet>
                 <HeaderBack />
                 <div className="register-container d-flex">
                     <div className="col-md-6 register-content container">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
 
 import "./Login.scss";
 import { handleLoginApi, handleLoginApi2 } from "../../services/userService";
@@ -116,6 +117,10 @@ class Login extends Component {
         //JSX
         return (
             <>
+                <Helmet>
+                    <title>{`Trang đăng nhập`}</title>
+                    <meta name="description" content={`Trang đăng nhập`} />
+                </Helmet>
                 <HeaderBack />
                 <div className="login-background d-flex">
                     <div className="login-container col-6">

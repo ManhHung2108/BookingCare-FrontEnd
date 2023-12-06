@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import { postVerifyBookAppointmentService } from "../../services";
 import HomeHeader from "../HomePage/HomeHeader";
@@ -49,6 +50,10 @@ class VerifyEmail extends Component {
         const { statusVerify, errCode } = this.state;
         return (
             <div>
+                <Helmet>
+                    <title>{`Xác nhận lịch hẹn`}</title>
+                    <meta name="description" content={`Xác nhận lịch hẹn`} />
+                </Helmet>
                 <HomeHeader />
                 <div className="verify-email_container">
                     {statusVerify === false ? (

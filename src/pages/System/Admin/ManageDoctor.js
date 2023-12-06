@@ -118,7 +118,8 @@ class ManageDoctor extends Component {
             action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
 
             priceId: this.state.selectedPrice,
-            paymentId: this.state.selectedPayment,
+            // paymentId: this.state.selectedPayment,
+            paymentId: "PAY1",
             provinceId: this.state.selectedProvince,
             nameClinic: this.state.nameClinic,
             addressClinic: this.state.addressClinic,
@@ -343,7 +344,7 @@ class ManageDoctor extends Component {
                                 ))}
                             </Select>
                         </div>
-                        <div className="col-lg-4 col-sm-12 form-group">
+                        {/* <div className="col-lg-4 col-sm-12 form-group">
                             <label>
                                 <FormattedMessage
                                     id={"admin.manage-doctor.payment"}
@@ -371,7 +372,6 @@ class ManageDoctor extends Component {
                                         .indexOf(input.toLowerCase()) >= 0
                                 }
                             >
-                                {/* Render các Option từ dữ liệu API */}
                                 {listPayment.map((item) => (
                                     <Option key={item.id} value={item.keyMap}>
                                         {language === LANGUAGE.VI
@@ -380,7 +380,7 @@ class ManageDoctor extends Component {
                                     </Option>
                                 ))}
                             </Select>
-                        </div>
+                        </div> */}
                         <div className="col-lg-4 col-sm-12 form-group">
                             <label>
                                 <FormattedMessage

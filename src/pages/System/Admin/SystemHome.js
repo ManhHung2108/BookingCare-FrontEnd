@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHospital, faUserDoctor } from "@fortawesome/free-solid-svg-icons";
 import { Space } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
 
 import "./SystemHome.scss";
 import DashboardCard from "../../../components/System/DashboardCard";
@@ -226,6 +227,10 @@ class SystemHome extends Component {
 
         return (
             <>
+                <Helmet>
+                    <title>{`Dasnhboard`}</title>
+                    <meta name="description" content={`Dasnhboard`} />
+                </Helmet>
                 {authorized && (
                     <div className="admin-home">
                         <div className="admin-home_title">

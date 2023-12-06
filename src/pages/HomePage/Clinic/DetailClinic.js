@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
 
 import "./DetailClinic.scss";
 import HomeHeader from "../HomeHeader";
@@ -168,8 +169,18 @@ class DetailClinic extends Component {
         let { arrDoctorId, dataDetailClinic, listProvince, searchInput } =
             this.state;
         let { language } = this.props;
+
         return (
             <>
+                <Helmet>
+                    <title>
+                        {`Đặt lịch khám tại - ${dataDetailClinic.nameVi}`}
+                    </title>
+                    <meta
+                        name="description"
+                        content={`Đặt lịch khám tại - ${dataDetailClinic.nameVi}`}
+                    />
+                </Helmet>
                 <div className="detail-clinic_container">
                     <HomeHeader />
                     <div

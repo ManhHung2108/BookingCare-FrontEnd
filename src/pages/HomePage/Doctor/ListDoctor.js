@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
 
 import HomeHeader from "../HomeHeader";
 import "./ListDoctor.scss";
@@ -73,6 +74,10 @@ class ListDoctor extends Component {
         const { searchInput, ListDoctor } = this.state;
         return (
             <>
+                <Helmet>
+                    <title>{`Danh sách bác sĩ dành cho bạn`}</title>
+                    <meta name="description" content={`Danh sách bác sĩ`} />
+                </Helmet>
                 <HomeHeader bgColor={true} />
                 <div className="list-doctor_container">
                     <div className="list-doctor-header">

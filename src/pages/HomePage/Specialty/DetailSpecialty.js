@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
 
 import "./DetailSpecialty.scss";
 import HomeHeader from "../HomeHeader";
@@ -118,6 +119,21 @@ class DetailSpecialty extends Component {
         let { language } = this.props;
         return (
             <>
+                <Helmet>
+                    <title>{`${
+                        language === LANGUAGE.VI
+                            ? dataDetailSpecialty.nameVi
+                            : dataDetailSpecialty.nameEn
+                    }`}</title>
+                    <meta
+                        name="description"
+                        content={`Thông tin chi tiết ${
+                            language === LANGUAGE.VI
+                                ? dataDetailSpecialty.nameVi
+                                : dataDetailSpecialty.nameEn
+                        }`}
+                    />
+                </Helmet>
                 <div className="detail-specialty_container">
                     <HomeHeader />
                     <div
