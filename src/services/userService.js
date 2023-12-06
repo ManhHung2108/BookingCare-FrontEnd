@@ -255,6 +255,12 @@ const registerUserService = (data) => {
 const newReviewService = (data) => {
     return axios.post(`/api/new-review`, data);
 };
+const getDoctorRatingService = (id) => {
+    return axios.get(`/api/get-doctor-rating?id=${id}`);
+};
+const getDoctorReviewService = (id) => {
+    return axios.get(`/api/get-reviews?id=${id}`);
+};
 
 export {
     handleLoginApi,
@@ -307,4 +313,6 @@ export {
     getAllGenderService,
     registerUserService,
     newReviewService,
+    getDoctorRatingService,
+    getDoctorReviewService,
 };

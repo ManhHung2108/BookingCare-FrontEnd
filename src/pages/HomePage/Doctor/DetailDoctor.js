@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
+import { Rate } from "antd";
 
 import HomeHeader from "../HomeHeader";
+import HomeFooter from "../HomeFooter";
 import "./DetailDoctor.scss";
 import { getDetailDoctorAction } from "../../../redux/actions";
+import { getDoctorRatingService } from "../../../services";
 import { LANGUAGE } from "../../../utils";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfor from "./DoctorExtraInfor";
+import ReviewList from "../../../components/ReviewList";
 
 class DetailDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
             doctorDetail: {},
+            rating: null,
+            doctorId: null,
         };
     }
 
@@ -24,6 +30,14 @@ class DetailDoctor extends Component {
             this.props.match.params.id
         ) {
             this.handleGetDetailDoctor(this.props.match.params.id);
+            let resRating = await getDoctorRatingService(
+                this.props.match.params.id
+            );
+
+            this.setState({
+                rating: parseInt(resRating.data.averageRating),
+                doctorId: this.props.match.params.id,
+            });
         }
     }
     componentDidUpdate(prevProps, prevStates, snapshot) {
@@ -44,7 +58,7 @@ class DetailDoctor extends Component {
         //     this.props.doctorDetailRedux
         // );
 
-        let { doctorDetail } = this.state;
+        let { doctorDetail, rating, doctorId } = this.state;
         let { language } = this.props;
         let nameVi = "",
             nameEn = "";
@@ -65,14 +79,27 @@ class DetailDoctor extends Component {
                 <HomeHeader isShowBanner={false} bgColor={true} />
                 <div className="container-fluid">
                     <div className="intro-doctor container">
-                        <div
-                            className="intro-left"
-                            style={{
-                                backgroundImage: `url(${
-                                    doctorDetail.image ? doctorDetail.image : ""
-                                })`,
-                            }}
-                        ></div>
+                        <div className="intro-left">
+                            <div
+                                className="image-doctor"
+                                style={{
+                                    backgroundImage: `url(${
+                                        doctorDetail.image
+                                            ? doctorDetail.image
+                                            : ""
+                                    })`,
+                                }}
+                            ></div>
+                            <div className="rating">
+                                {rating && (
+                                    <Rate
+                                        disabled
+                                        allowHalf
+                                        defaultValue={rating}
+                                    />
+                                )}
+                            </div>
+                        </div>
                         <div className="intro-right">
                             <div className="intro-right_up">
                                 {language === LANGUAGE.VI ? nameVi : nameEn}
@@ -121,9 +148,12 @@ class DetailDoctor extends Component {
                                     ></div>
                                 )}
                         </div>
-                        <div className="comments-doctor"></div>
+                        <div className="comments-doctor">
+                            <ReviewList doctorId={doctorId} />
+                        </div>
                     </div>
                 </div>
+                <HomeFooter />
             </>
         );
     }
