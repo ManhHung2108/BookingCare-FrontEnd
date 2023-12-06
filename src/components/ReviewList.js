@@ -13,7 +13,6 @@ export default class ReviewList extends Component {
         if (prevProps.doctorId !== this.props.doctorId) {
             let res = await getDoctorReviewService(this.props.doctorId);
             if (res && res.errCode === 0) {
-                console.log(res.data);
                 this.setState({
                     reviews: res.data,
                 });

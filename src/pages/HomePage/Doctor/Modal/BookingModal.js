@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import moment from "moment";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import "./BookingModal.scss";
 import ProfileDoctor from "../ProfileDoctor";
@@ -32,6 +33,8 @@ class BookingModal extends Component {
             doctorName: "",
 
             genders: "",
+
+            recaptchaValue: null,
         };
     }
     componentDidMount() {
@@ -141,7 +144,7 @@ class BookingModal extends Component {
         let timeString = this.buildTimeBooking(this.props.dataTime);
         let doctorName = this.buildDoctorName(this.props.dataTime);
 
-        let res = await postPatientBookAppointmentService({
+        let data = {
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
             email: this.state.email,
@@ -155,16 +158,31 @@ class BookingModal extends Component {
             language: this.props.language,
             timeString: timeString,
             doctorName: doctorName,
-        });
+        };
 
+        let res = await postPatientBookAppointmentService(data);
         if (res && res.errCode === 0) {
             toast.success("Booking a new appointment success!");
             this.props.handleCloseModalBooking();
+            this.setState({
+                recaptchaValue: null,
+            });
         } else {
             toast.error("Booking a new appointment error!");
         }
 
         // console.log("check state from btnConfirm BookingModal: ", this.state);
+    };
+
+    handleRecaptchaChange = (value) => {
+        // Có thể có các lệnh xử lý khác ở đây
+        try {
+            this.setState({
+                recaptchaValue: value,
+            });
+        } catch (error) {
+            console.error("Error in handleRecaptchaChange:", error);
+        }
     };
 
     render() {
@@ -368,6 +386,10 @@ class BookingModal extends Component {
                                     </select>
                                 </div>
                             </div>
+                            <ReCAPTCHA
+                                sitekey="6LcDeigpAAAAALF7KPDFg0HCJGvh3tj-pv5F2WcK"
+                                onChange={this.handleRecaptchaChange}
+                            />
                         </div>
                         <div className="booking-modal-footer">
                             <button
@@ -375,6 +397,9 @@ class BookingModal extends Component {
                                 onClick={() => {
                                     this.handleConfirmBooking();
                                 }}
+                                disabled={
+                                    this.state.recaptchaValue ? false : true
+                                }
                             >
                                 <FormattedMessage
                                     id={"patient.booking-modal.btnConfirm"}
