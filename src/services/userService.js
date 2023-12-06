@@ -251,6 +251,11 @@ const registerUserService = (data) => {
     return axios.post(`/api/register`, data);
 };
 
+//Api đánh giá
+const newReviewService = (data) => {
+    return axios.post(`/api/new-review`, data);
+};
+
 export {
     handleLoginApi,
     getAllUsersService,
@@ -301,4 +306,5 @@ export {
     changePasswordService,
     getAllGenderService,
     registerUserService,
+    newReviewService,
 };

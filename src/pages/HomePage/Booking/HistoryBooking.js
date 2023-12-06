@@ -15,7 +15,9 @@ import "./HistoryBooking.scss";
 import {
     getBookingHistoryForPatient,
     lookUpBookingHistoryForPatient,
+    newReviewService,
 } from "../../../services";
+import ReviewModal from "../../../components/ReviewModal";
 
 // Hàm này trả về tên lớp CSS tùy thuộc vào giá trị trạng thái
 const getStatusColor = (status) => {
@@ -42,6 +44,9 @@ class HistoryBooking extends Component {
             bookingHistories: [],
 
             lookUpBooking: [],
+
+            bookingData: {},
+            modalVisible: false,
         };
     }
 
@@ -111,6 +116,7 @@ class HistoryBooking extends Component {
 
     builDataBookingHistory = (data) => {
         const { language } = this.props;
+        console.log(data);
         let dataSource = data.map((item) => {
             return {
                 key: item.id,
@@ -128,6 +134,9 @@ class HistoryBooking extends Component {
                 }`,
                 reason: item.bookingData.reason,
                 description: item.description,
+                doctorId: item.doctorId,
+                bookingId: item.bookingId,
+                reviewId: item.reviewId,
             };
         });
 
@@ -217,8 +226,35 @@ class HistoryBooking extends Component {
         }
     };
 
+    //Đánh giá
+    handleReviewClick = (data) => {
+        this.setState({
+            bookingData: data,
+            modalVisible: true,
+        });
+    };
+
+    handleModalClose = () => {
+        this.setState({
+            modalVisible: false,
+        });
+    };
+
+    handleReviewSubmit = async (data) => {
+        const { token } = this.props;
+        let res = await newReviewService(data);
+
+        if (res && res.errCode === 0) {
+            toast.success(res.message);
+            this.getDataBookingLogged(token);
+        } else {
+            toast.error(res.errMessage);
+        }
+    };
+
     render() {
-        const { searchInput, lookUpBooking } = this.state;
+        const { searchInput, lookUpBooking, bookingData, modalVisible } =
+            this.state;
         const { isLoggedIn, language } = this.props;
 
         const columns = [
@@ -243,7 +279,7 @@ class HistoryBooking extends Component {
                 key: "reason",
             },
             {
-                title: "Action",
+                title: language === LANGUAGE.EN ? "Action" : "Chức năng",
                 key: "action",
                 render: (_, record) => {
                     const currentDate = new Date();
@@ -293,6 +329,25 @@ class HistoryBooking extends Component {
                 title: language === LANGUAGE.EN ? "Result" : "Kết quả khám",
                 dataIndex: "description",
                 key: "description",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Action" : "Chức năng",
+                key: "action",
+                render: (_, record) => {
+                    return record.reviewId ? null : (
+                        <Space size="middle">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => {
+                                    this.handleReviewClick(record);
+                                }}
+                            >
+                                {/* <FormattedMessage id={"actions.cancel"} /> */}
+                                Đánh giá
+                            </button>
+                        </Space>
+                    );
+                },
             },
         ];
 
@@ -435,6 +490,14 @@ class HistoryBooking extends Component {
                                         dataSource={this.state.bookingHistories}
                                         columns={columnsHistories}
                                     />
+                                    {bookingData && (
+                                        <ReviewModal
+                                            visible={modalVisible}
+                                            onClose={this.handleModalClose}
+                                            onSubmit={this.handleReviewSubmit}
+                                            data={bookingData}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </>
