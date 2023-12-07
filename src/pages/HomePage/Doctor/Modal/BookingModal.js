@@ -162,13 +162,13 @@ class BookingModal extends Component {
 
         let res = await postPatientBookAppointmentService(data);
         if (res && res.errCode === 0) {
-            toast.success("Booking a new appointment success!");
+            toast.success(res.message);
             this.props.handleCloseModalBooking();
             this.setState({
                 recaptchaValue: null,
             });
         } else {
-            toast.error("Booking a new appointment error!");
+            toast.error(res.errMessage);
         }
 
         // console.log("check state from btnConfirm BookingModal: ", this.state);

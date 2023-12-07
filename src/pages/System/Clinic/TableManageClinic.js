@@ -28,6 +28,8 @@ export default class TableManageClinic extends Component {
                 if (item.descriptionMarkdown.length > 100) {
                     item.description =
                         item.descriptionMarkdown.slice(0, 100) + "...";
+                } else {
+                    item.description = item.descriptionMarkdown;
                 }
                 item.key = item.id;
                 return { ...item };

@@ -35,7 +35,7 @@ class DetailDoctor extends Component {
             );
 
             this.setState({
-                rating: parseInt(resRating.data.averageRating),
+                rating: parseInt(resRating.data),
                 doctorId: this.props.match.params.id,
             });
         }
@@ -91,11 +91,11 @@ class DetailDoctor extends Component {
                                 }}
                             ></div>
                             <div className="rating">
-                                {rating && (
+                                {rating != 0 && rating && (
                                     <Rate
                                         disabled
                                         allowHalf
-                                        defaultValue={rating}
+                                        defaultValue={rating != 0 ? rating : 0}
                                     />
                                 )}
                             </div>

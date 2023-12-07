@@ -170,6 +170,8 @@ class ManageClinic extends Component {
                 address: false,
                 selectedProvince: false,
             },
+
+            action: CRUD_ACTIONS.CREATE,
         });
     };
 
