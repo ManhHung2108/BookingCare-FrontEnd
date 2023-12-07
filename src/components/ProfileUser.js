@@ -3,7 +3,11 @@ import DatePicker from "react-datepicker";
 import { CommonUtils, LANGUAGE } from "../utils";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
-import { getUserInforPatient, updateProfileService } from "../services";
+import {
+    getUserInforPatient,
+    updateProfileService,
+    getUserInforSystem,
+} from "../services";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
@@ -26,35 +30,51 @@ class ProfileUser extends Component {
 
             genders: "",
 
-            infor: {},
+            userInfo: {},
         };
     }
     async componentDidMount() {
+        const { token } = this.props;
         this.props.getGenders();
-        const { userInfo } = this.props;
-        if (userInfo) {
-            let res = await getUserInforPatient(userInfo.id);
+
+        if (token) {
+            const res = await getUserInforSystem(token);
             if (res && res.errCode === 0) {
-                let info = res.data;
-
-                let formattedDate = moment.unix(+info.birthday / 1000).toDate(); // Convert timestamp to Date object
-
+                let userInfo = res.userInfor;
                 this.setState({
-                    id: userInfo.id,
-                    firstName: info.firstName,
-                    lastName: info.lastName,
-                    phoneNumber: info.phoneNumber ? info.phoneNumber : "",
-                    email: info.email,
-                    address: info.address,
-                    birthDay: formattedDate,
-                    selectedGender: info.gender,
-                    previewImgUrl: info.image,
+                    userInfo: userInfo,
                 });
+                if (userInfo) {
+                    let res = await getUserInforPatient(userInfo.id);
+                    if (res && res.errCode === 0) {
+                        let info = res.data;
+
+                        let formattedDate = moment
+                            .unix(+info.birthday / 1000)
+                            .toDate(); // Convert timestamp to Date object
+
+                        this.setState({
+                            id: userInfo.id,
+                            firstName: info.firstName,
+                            lastName: info.lastName,
+                            phoneNumber: info.phoneNumber
+                                ? info.phoneNumber
+                                : "",
+                            email: info.email,
+                            address: info.address,
+                            birthDay: formattedDate,
+                            selectedGender: info.gender,
+                            previewImgUrl: info.image,
+                        });
+                    }
+                }
             }
         }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
+        const { token } = this.props;
+
         if (this.props.language !== prevProps.language) {
             this.setState({
                 genders: this.buildDataGender(this.props.gendersRedux),
@@ -98,6 +118,41 @@ class ProfileUser extends Component {
                 }
             }
         }
+
+        if (prevProps.token !== this.props.token)
+            if (token) {
+                const res = await getUserInforSystem(token);
+                if (res && res.errCode === 0) {
+                    let userInfo = res.userInfor;
+                    this.setState({
+                        userInfo: userInfo,
+                    });
+                    if (userInfo) {
+                        let res = await getUserInforPatient(userInfo.id);
+                        if (res && res.errCode === 0) {
+                            let info = res.data;
+
+                            let formattedDate = moment
+                                .unix(+info.birthday / 1000)
+                                .toDate(); // Convert timestamp to Date object
+
+                            this.setState({
+                                id: userInfo.id,
+                                firstName: info.firstName,
+                                lastName: info.lastName,
+                                phoneNumber: info.phoneNumber
+                                    ? info.phoneNumber
+                                    : "",
+                                email: info.email,
+                                address: info.address,
+                                birthDay: formattedDate,
+                                selectedGender: info.gender,
+                                previewImgUrl: info.image,
+                            });
+                        }
+                    }
+                }
+            }
     }
 
     buildDataGender = (data) => {
@@ -157,7 +212,7 @@ class ProfileUser extends Component {
         let birthDay = new Date(this.state.birthDay).getTime(); //timestamp
 
         let data = {
-            userId: this.props.userInfo.id,
+            userId: this.state.userInfo.id,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             address: this.state.address,
@@ -166,11 +221,10 @@ class ProfileUser extends Component {
             birthDay: birthDay,
             avatar: this.state.avatar,
         };
-
-        // console.log("check data: ", data);
+        this.props.isShowLoading(true);
         let res = await updateProfileService(data);
-
         if (res && res.errCode === 0) {
+            this.props.isShowLoading(false);
             toast.success(res.message);
         } else {
             toast.error(res.errMessage);
@@ -390,11 +444,15 @@ const mapStateToProps = (state) => {
         language: state.appReducer.language,
         gendersRedux: state.adminReducer.genders,
         userInfo: state.user.userInfo,
+        token: state.user.token,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
         getGenders: () => {
             return dispatch(actions.fecthGenderStart());
         },
