@@ -58,7 +58,7 @@ export default class HomeFooter extends Component {
                             <div className="footer-address">
                                 <strong>Hotline</strong>
                                 <br />
-                                <span>0986-938-375</span> {"(7h30 - 18h)"}
+                                <span>0123-438-375</span> {"(7h30 - 18h)"}
                             </div>
                         </div>
                     </div>

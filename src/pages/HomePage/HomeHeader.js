@@ -261,7 +261,7 @@ class HomeHeader extends Component {
                                             <FormattedMessage id="homeHeader.support" />
                                         </span>
                                     </div>
-                                    <span>0986-938-375</span>
+                                    <span>0123-438-375</span>
                                 </div>
                                 <div
                                     className={
@@ -312,7 +312,7 @@ class HomeHeader extends Component {
                                         <div className="header-setting-poup-list">
                                             <ul>
                                                 <li className="setting-item">
-                                                    <a>
+                                                    <Link to={routes.PROFILE}>
                                                         <span className="setting-icon">
                                                             <i
                                                                 className="far fa-user"
@@ -323,7 +323,7 @@ class HomeHeader extends Component {
                                                             ></i>
                                                         </span>
                                                         <span>Xem hồ sơ</span>
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                                 <li className="setting-item">
                                                     <a>

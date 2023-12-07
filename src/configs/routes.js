@@ -13,6 +13,7 @@ const routes = {
     LIST_CLINIC: "/danh-sach/co-so-y-te/danh-cho-ban",
     HISTORY_BOOKING: "/booking",
     REGISTER: "/register",
+    PROFILE: "/profile",
 };
 
 export default routes;
