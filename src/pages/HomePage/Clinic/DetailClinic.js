@@ -15,6 +15,7 @@ import {
 } from "../../../services/userService";
 import { LANGUAGE } from "../../../utils";
 import _ from "lodash";
+import * as actions from "../../../redux/actions";
 
 class DetailClinic extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class DetailClinic extends Component {
             this.props.match.params &&
             this.props.match.params.id
         ) {
+            this.props.isShowLoading(true);
             let id = this.props.match.params.id;
             let res = await getDetailClinicByIdService({
                 id: id,
@@ -76,11 +78,16 @@ class DetailClinic extends Component {
                         valueEn: "ALL",
                     });
                 }
-                this.setState({
-                    dataDetailClinic: res.data,
-                    arrDoctorId: arrDoctorId,
-                    listProvince: arrProvince ? arrProvince : [],
-                });
+                this.setState(
+                    {
+                        dataDetailClinic: res.data,
+                        arrDoctorId: arrDoctorId,
+                        listProvince: arrProvince ? arrProvince : [],
+                    },
+                    () => {
+                        this.props.isShowLoading(false);
+                    }
+                );
             }
         }
     }
@@ -314,7 +321,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailClinic);

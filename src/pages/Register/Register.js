@@ -130,8 +130,10 @@ class Register extends Component {
                 return;
             }
 
+            this.props.isShowLoading(true);
             let res = await registerUserService(data);
             if (res && res.errCode === 0) {
+                this.props.isShowLoading(false);
                 toast.success("Đăng ký thành công!");
                 this.props.history.push(configs.routes.LOGIN);
             } else {
@@ -434,6 +436,9 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
         getAllGender: () => {
             dispatch(actions.getAllGenderAction());
         },

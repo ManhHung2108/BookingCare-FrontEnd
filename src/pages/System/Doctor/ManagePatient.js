@@ -27,7 +27,9 @@ class ManagePatient extends Component {
             if (this.userInfor && this.userInfor.userType !== "doctor") {
                 this.props.history.push(`/system/home`);
             }
+            this.props.isShowLoading(true);
             this.getDataPatient();
+            this.props.isShowLoading(false);
         }
     }
 
@@ -76,7 +78,9 @@ class ManagePatient extends Component {
         );
 
         if (isConfirmed) {
+            this.props.isShowLoading(true);
             await this.props.cancleBooking(data.key);
+            this.props.isShowLoading(false);
             this.getDataPatient();
         }
     };

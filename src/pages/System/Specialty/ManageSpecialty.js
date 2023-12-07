@@ -16,6 +16,7 @@ import {
 import { toast } from "react-toastify";
 import TableManageSpecialty from "./TableManageSpecialty";
 import { getAllSpecialtyService } from "../../../services";
+import * as actions from "../../../redux/actions";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 class ManageSpecialty extends Component {
@@ -47,9 +48,11 @@ class ManageSpecialty extends Component {
     }
 
     getAllSpecialty = async () => {
+        this.props.isShowLoading(true);
         let res = await getAllSpecialtyService();
 
         if (res && res.errCode === 0) {
+            this.props.isShowLoading(false);
             this.setState({
                 listSpecialty: res.data ? res.data : [],
             });
@@ -391,7 +394,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty);

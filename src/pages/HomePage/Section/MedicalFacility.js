@@ -9,6 +9,7 @@ import { FormattedMessage } from "react-intl";
 import { getAllClinicService } from "../../../services";
 import { LANGUAGE } from "../../../utils";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import * as actions from "../../../redux/actions";
 
 class MedicalFacility extends Component {
     constructor(props) {
@@ -18,8 +19,10 @@ class MedicalFacility extends Component {
         };
     }
     async componentDidMount() {
+        this.props.isShowLoading(true);
         let res = await getAllClinicService();
         if (res && res.errCode === 0) {
+            this.props.isShowLoading(false);
             this.setState({
                 listClinic: res.data ? res.data : [],
             });
@@ -94,7 +97,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default withRouter(

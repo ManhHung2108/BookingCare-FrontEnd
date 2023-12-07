@@ -61,6 +61,7 @@ class BookingModal extends Component {
                 doctorId: this.props.dataTime.doctorId,
                 timeType: this.props.dataTime.timeType,
                 date: this.props.dataTime.date,
+                recaptchaValue: this.props.recaptchaValue,
             });
         }
     }
@@ -159,15 +160,17 @@ class BookingModal extends Component {
             timeString: timeString,
             doctorName: doctorName,
         };
-
+        this.props.isShowLoading(true);
         let res = await postPatientBookAppointmentService(data);
         if (res && res.errCode === 0) {
+            this.props.isShowLoading(false);
             toast.success(res.message);
             this.props.handleCloseModalBooking();
             this.setState({
                 recaptchaValue: null,
             });
         } else {
+            this.props.isShowLoading(false);
             toast.error(res.errMessage);
         }
 
@@ -430,6 +433,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
         getGenders: () => {
             return dispatch(actions.fecthGenderStart());
         },

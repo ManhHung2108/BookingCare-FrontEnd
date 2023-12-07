@@ -18,6 +18,7 @@ import {
     deleteScheduleService,
 } from "../../../services";
 import TableManageSchedules from "./TableManageSchedules";
+import * as actions from "../../../redux/actions";
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -89,11 +90,12 @@ class ManageSchedule extends Component {
     getAllScheduleDoctor = async (doctorId, date) => {
         //Gửi lên dạng timeTamp
         let formattedDate = new Date(date).getTime();
-
+        this.props.isShowLoading(true);
         let res = await getScheduleDoctorByDateServicde(
             doctorId,
             formattedDate
         );
+        this.props.isShowLoading(false);
 
         this.setState(
             {
@@ -409,6 +411,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
         getAllDoctor: () => {
             return dispatch(getAllDoctorAction());
         },

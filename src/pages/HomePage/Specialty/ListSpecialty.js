@@ -52,6 +52,7 @@ class ListSpecialty extends Component {
         });
 
         if (!value) {
+            this.props.isShowLoading(true);
             let res = await getAllSpecialtyService();
             if (res && res.errCode === 0) {
                 this.renderList(res.data);
@@ -63,13 +64,14 @@ class ListSpecialty extends Component {
         if (event.key === "Enter") {
             let search = this.state.searchInput;
             let { language } = this.props;
-
+            this.props.isShowLoading(true);
             let res = await searchSpecialtyByNameService({
                 search: search,
                 lang: language,
             });
 
             if (res && res.errCode === 0) {
+                this.props.isShowLoading(false);
                 this.renderList(res.data);
             }
         }

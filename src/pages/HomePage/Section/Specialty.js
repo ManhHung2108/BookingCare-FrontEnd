@@ -9,6 +9,7 @@ import { FormattedMessage } from "react-intl";
 import { getAllSpecialtyService } from "../../../services";
 import { LANGUAGE } from "../../../utils";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import * as actions from "../../../redux/actions";
 
 class Specialty extends Component {
     constructor(props) {
@@ -18,8 +19,10 @@ class Specialty extends Component {
         };
     }
     async componentDidMount() {
+        this.props.isShowLoading(true);
         let res = await getAllSpecialtyService();
         if (res && res.errCode === 0) {
+            this.props.isShowLoading(false);
             this.setState({
                 listSpecialty: res.data ? res.data : [],
             });
@@ -93,7 +96,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default withRouter(

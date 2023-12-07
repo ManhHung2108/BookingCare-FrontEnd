@@ -11,6 +11,7 @@ import { LANGUAGE } from "../../../utils";
 import { getTopDoctorAction } from "../../../redux/actions";
 import { getTopDoctorHome2Service } from "../../../services/userService";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import * as actions from "../../../redux/actions";
 
 class OutStandingDoctor extends Component {
     constructor(props) {
@@ -22,11 +23,17 @@ class OutStandingDoctor extends Component {
 
     async componentDidMount() {
         // this.props.loadTopDoctors();
+        this.props.isShowLoading(true);
         let res = await getTopDoctorHome2Service(8);
         if (res && res.errCode === 0) {
-            this.setState({
-                arrDoctors: res.data,
-            });
+            this.setState(
+                {
+                    arrDoctors: res.data,
+                },
+                () => {
+                    this.props.isShowLoading(false);
+                }
+            );
         }
     }
 
@@ -129,6 +136,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
         loadTopDoctors: () => {
             return dispatch(getTopDoctorAction());
         },

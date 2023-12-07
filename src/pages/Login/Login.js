@@ -82,11 +82,13 @@ class Login extends Component {
         e.preventDefault();
 
         try {
+            this.props.isShowLoading(true);
             let res = await handleLoginApi2(
                 this.state.userName,
                 this.state.passWord
             );
             if (res && res.errCode !== 0) {
+                this.props.isShowLoading(false);
                 //Lấy kết quả trả về
                 this.setState({
                     errMessage: res.errMessage,
@@ -94,6 +96,7 @@ class Login extends Component {
             }
 
             if (res && res.errCode === 0) {
+                this.props.isShowLoading(false);
                 this.props.userLoginSuccess2(res.token);
             }
         } catch (error) {
@@ -245,6 +248,9 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
         userLoginSuccess: (userInfo) =>
             dispatch(actions.userLoginSuccess(userInfo)),
         userLoginSuccess2: (token) => {

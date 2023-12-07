@@ -61,13 +61,14 @@ class ListClinic extends Component {
         if (event.key === "Enter") {
             let search = this.state.searchInput;
             let { language } = this.props;
-
+            this.props.isShowLoading(true);
             let res = await searchClinicByNameService({
                 search: search,
                 lang: language,
             });
 
             if (res && res.errCode === 0) {
+                this.props.isShowLoading(false);
                 this.renderList(res.data);
             }
         }

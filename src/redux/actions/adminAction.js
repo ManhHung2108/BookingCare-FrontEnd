@@ -301,16 +301,25 @@ export const getAllDoctorFailed = () => {
 export const saveDetailDoctorAction = (data) => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
             let res = await saveDetailDoctorService(data);
             if (res && res.errCode === 0) {
                 toast.success("Lưu thông tin chi tiết bác sĩ thành công!");
                 dispatch({
                     type: actionTypes.SAVE_DETAIL_DOCTOR_SUCCESS,
                 });
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
             } else {
                 toast.error("Lưu thông tin chi tiết bác sĩ thất bại!");
                 dispatch({
                     type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+                });
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
                 });
             }
         } catch (error) {
@@ -318,6 +327,9 @@ export const saveDetailDoctorAction = (data) => {
             console.log("Lỗi saveDetailDoctor: ", error);
             dispatch({
                 type: actionTypes.SAVE_DETAIL_DOCTOR_FAILED,
+            });
+            dispatch({
+                type: actionTypes.HIDE_LOADING,
             });
         }
     };
@@ -327,11 +339,17 @@ export const saveDetailDoctorAction = (data) => {
 export const getAllScheduleTimeAction = (type) => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
             let res = await getAllCodeService("TIME");
             if (res && res.errCode === 0) {
                 dispatch({
                     type: actionTypes.GET_ALLCODE_SCHEDULE_TIME_SUCCESS,
                     data: res.data,
+                });
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
                 });
             }
         } catch (err) {

@@ -135,6 +135,7 @@ class DoctorSchedule extends Component {
         this.setState({
             isOpenModalBooking: true,
             dataScheduleTimeModal: time,
+            recaptchaValue: null,
         });
         // console.log("check click schedule time: ", time);
     };
@@ -152,6 +153,7 @@ class DoctorSchedule extends Component {
             allAvalableTime,
             isOpenModalBooking,
             dataScheduleTimeModal,
+            recaptchaValue,
         } = this.state;
         return (
             <>
@@ -239,6 +241,7 @@ class DoctorSchedule extends Component {
                     isOpenModal={isOpenModalBooking}
                     handleCloseModalBooking={this.handleCloseModalBooking}
                     dataTime={dataScheduleTimeModal}
+                    recaptchaValue={recaptchaValue}
                 />
             </>
         );

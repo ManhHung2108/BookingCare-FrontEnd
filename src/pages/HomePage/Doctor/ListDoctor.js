@@ -60,10 +60,11 @@ class ListDoctor extends Component {
     handleEnterKeyPress = async (event) => {
         if (event.key === "Enter") {
             let searchName = this.state.searchInput;
-
+            this.props.isShowLoading(true);
             let res = await searchDoctorByNameService(searchName);
 
             if (res && res.errCode === 0) {
+                this.props.isShowLoading(false);
                 this.renderListDoctor(res.data);
             }
         }

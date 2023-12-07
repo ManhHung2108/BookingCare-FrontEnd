@@ -18,6 +18,7 @@ import {
     deleteClinicService,
 } from "../../../services";
 import TableManageClinic from "./TableManageClinic";
+import * as actions from "../../../redux/actions";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 class ManageClinic extends Component {
@@ -51,8 +52,10 @@ class ManageClinic extends Component {
     }
 
     async componentDidMount() {
+        this.props.isShowLoading(true);
         let resProvince = await getAllCodeService("PROVINCE");
         let resClinic = await getAllClinicService();
+        this.props.isShowLoading(false);
 
         if (resProvince && resProvince.errCode === 0) {
             this.setState({
@@ -192,8 +195,10 @@ class ManageClinic extends Component {
             return;
         } else {
             if (this.state.action === CRUD_ACTIONS.CREATE) {
+                this.props.isShowLoading(true);
                 let res = await createNewClinic(data);
                 if (res && res.errCode === 0) {
+                    this.props.isShowLoading(false);
                     toast.success("Thêm phòng khám thành công!");
                     this.resetData();
                     this.getAllClinic();
@@ -204,8 +209,10 @@ class ManageClinic extends Component {
 
             if (this.state.action === CRUD_ACTIONS.EDIT) {
                 //dispatch action edit user lên reducer
+                this.props.isShowLoading(true);
                 let res = await editClinicService(data);
                 if (res && res.errCode === 0) {
+                    this.props.isShowLoading(false);
                     toast.success(res.message);
                     this.resetData();
                     this.getAllClinic();
@@ -498,7 +505,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageClinic);

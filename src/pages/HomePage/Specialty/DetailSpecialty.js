@@ -15,6 +15,7 @@ import {
 } from "../../../services/userService";
 import { LANGUAGE } from "../../../utils";
 import _ from "lodash";
+import * as actions from "../../../redux/actions";
 
 class DetailSpecialty extends Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class DetailSpecialty extends Component {
             this.props.match.params.id
         ) {
             let id = this.props.match.params.id;
+            this.props.isShowLoading(true);
             let res = await getDetailSpecialtyByIdService({
                 id: id,
                 location: "ALL",
@@ -69,11 +71,16 @@ class DetailSpecialty extends Component {
                         valueEn: "ALL",
                     });
                 }
-                this.setState({
-                    dataDetailSpecialty: res.data,
-                    arrDoctorId: arrDoctorId,
-                    listProvince: arrProvince ? arrProvince : [],
-                });
+                this.setState(
+                    {
+                        dataDetailSpecialty: res.data,
+                        arrDoctorId: arrDoctorId,
+                        listProvince: arrProvince ? arrProvince : [],
+                    },
+                    () => {
+                        this.props.isShowLoading(false);
+                    }
+                );
             }
         }
     }
@@ -275,7 +282,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        isShowLoading: (isLoading) => {
+            return dispatch(actions.isLoadingAction(isLoading));
+        },
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);
