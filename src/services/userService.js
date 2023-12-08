@@ -197,8 +197,8 @@ const getSearchByNameService = (query) => {
     return axios.get(`/api/search-by-name?q=${query}`);
 };
 
-const getSearchService = () => {
-    return axios.get(`/api/search`);
+const getSearchService = (limit) => {
+    return axios.get(`/api/search?limit=${limit}`);
 };
 
 const getListPatientForDoctorService = (doctorId, date) => {

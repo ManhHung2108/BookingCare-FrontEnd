@@ -11,7 +11,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import "./BookingModal.scss";
 import ProfileDoctor from "../ProfileDoctor";
 import * as actions from "../../../../redux/actions";
-import { LANGUAGE } from "../../../../utils";
+import { LANGUAGE, validateEmail, validatePhone } from "../../../../utils";
 import { postPatientBookAppointmentService } from "../../../../services";
 
 class BookingModal extends Component {
@@ -31,6 +31,16 @@ class BookingModal extends Component {
             language: "vi",
             timeString: "",
             doctorName: "",
+
+            error: {
+                fullName: false,
+                phoneNumber: false,
+                email: false,
+                address: false,
+                reason: false,
+                birthDay: false,
+                selectedGender: false,
+            },
 
             genders: "",
 
@@ -83,17 +93,32 @@ class BookingModal extends Component {
         return result;
     };
 
-    handleChangeInput = (event, id) => {
+    handleChangeInput = (event, key) => {
         let valueInput = event.target.value;
         let copyState = { ...this.state };
-        copyState[id] = valueInput;
+        if (!valueInput) {
+            copyState.error[key] = `Không được để trống!`;
+        } else {
+            copyState.error[key] = null;
+        }
+        copyState[key] = valueInput;
         this.setState({
             ...copyState,
         });
     };
 
     handleSelectDate = (date) => {
-        this.setState({ birthDay: date });
+        let copyState = { ...this.state };
+        if (!date) {
+            copyState.error.birthDay = "Yêu cầu nhập đúng ngày sinh!";
+        } else {
+            copyState.birthDay = date;
+            copyState.error.birthDay = "";
+        }
+
+        this.setState({
+            ...copyState,
+        });
     };
 
     capitalizeFirstLetter(string) {
@@ -139,6 +164,72 @@ class BookingModal extends Component {
         return ``;
     };
 
+    validateInput = () => {
+        let copyState = { ...this.state };
+        let isValid = true;
+        let arr = [
+            "fullName",
+            "phoneNumber",
+            "email",
+            "address",
+            "reason",
+            "selectedGender",
+        ];
+
+        arr.forEach((key) => {
+            if (!copyState[key]) {
+                copyState.error[key] = `Không được để trống!`;
+                isValid = false;
+            }
+        });
+
+        if (!this.state.birthDay) {
+            copyState.error["birthDay"] = `Không được để trống!`;
+            isValid = false;
+        }
+
+        if (!validateEmail(copyState.email)) {
+            copyState.error["email"] = `Email không đúng!`;
+            isValid = false;
+        }
+
+        if (!validatePhone(copyState.phoneNumber)) {
+            copyState.error["phoneNumber"] = `Số điện thoại không đúng!`;
+            isValid = false;
+        }
+
+        this.setState({
+            ...copyState,
+        });
+
+        return isValid;
+    };
+
+    resetInput = () => {
+        this.setState({
+            fullName: "",
+            phoneNumber: "",
+            email: "",
+            address: "",
+            reason: "",
+            birthDay: "",
+            selectedGender:
+                this.props.gendersRedux && this.props.gendersRedux.length > 0
+                    ? this.props.gendersRedux[0].keyMap
+                    : "",
+
+            error: {
+                fullName: false,
+                phoneNumber: false,
+                email: false,
+                address: false,
+                reason: false,
+                birthDay: false,
+                selectedGender: false,
+            },
+        });
+    };
+
     handleConfirmBooking = async () => {
         //validate input
         let birthDay = new Date(this.state.birthDay).getTime(); //timestamp
@@ -160,21 +251,25 @@ class BookingModal extends Component {
             timeString: timeString,
             doctorName: doctorName,
         };
-        this.props.isShowLoading(true);
-        let res = await postPatientBookAppointmentService(data);
-        if (res && res.errCode === 0) {
-            this.props.isShowLoading(false);
-            toast.success(res.message);
-            this.props.handleCloseModalBooking();
-            this.setState({
-                recaptchaValue: null,
-            });
-        } else {
-            this.props.isShowLoading(false);
-            toast.error(res.errMessage);
-        }
 
-        // console.log("check state from btnConfirm BookingModal: ", this.state);
+        let isValid = this.validateInput();
+        console.log(isValid);
+        if (isValid) {
+            this.props.isShowLoading(true);
+            let res = await postPatientBookAppointmentService(data);
+            if (res && res.errCode === 0) {
+                this.props.isShowLoading(false);
+                toast.success(res.message);
+                this.props.handleCloseModalBooking();
+                this.resetInput();
+                this.setState({
+                    recaptchaValue: null,
+                });
+            } else {
+                this.props.isShowLoading(false);
+                toast.error(res.errMessage);
+            }
+        }
     };
 
     handleRecaptchaChange = (value) => {
@@ -199,6 +294,7 @@ class BookingModal extends Component {
             birthDay,
             selectedGender,
         } = this.state;
+
         const { isOpenModal, handleCloseModalBooking, dataTime } = this.props;
 
         let doctorId = "";
@@ -266,6 +362,12 @@ class BookingModal extends Component {
                                             );
                                         }}
                                     />
+
+                                    {this.state.error.fullName && (
+                                        <span className="error text-danger">
+                                            {this.state.error.fullName}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-6 form-group">
                                     <label>
@@ -285,6 +387,11 @@ class BookingModal extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.error.phoneNumber && (
+                                        <span className="error text-danger">
+                                            {this.state.error.phoneNumber}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-6 form-group">
                                     <label>
@@ -302,6 +409,11 @@ class BookingModal extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.error.email && (
+                                        <span className="error text-danger">
+                                            {this.state.error.email}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-6 form-group">
                                     <label>
@@ -319,6 +431,11 @@ class BookingModal extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.error.address && (
+                                        <span className="error text-danger">
+                                            {this.state.error.address}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-12 form-group">
                                     <label>
@@ -336,6 +453,11 @@ class BookingModal extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.error.reason && (
+                                        <span className="error text-danger">
+                                            {this.state.error.reason}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-6 form-group">
                                     <label>
@@ -355,6 +477,11 @@ class BookingModal extends Component {
                                         dateFormat="dd/MM/yyyy" // Định dạng ngày tháng thành "dd/mm/yyyy"
                                         value={birthDay}
                                     />
+                                    {this.state.error.birthDay && (
+                                        <span className="error text-danger">
+                                            {this.state.error.birthDay}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="col-6 form-group">
                                     <label>
@@ -387,6 +514,11 @@ class BookingModal extends Component {
                                                 );
                                             })}
                                     </select>
+                                    {this.state.error.selectedGender && (
+                                        <span className="error text-danger">
+                                            {this.state.error.selectedGender}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                             <ReCAPTCHA

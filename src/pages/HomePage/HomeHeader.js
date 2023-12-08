@@ -41,7 +41,7 @@ class HomeHeader extends Component {
     async componentDidMount() {
         let copyState = { ...this.state };
         let { token } = this.props;
-        let res = await getSearchService();
+        let res = await getSearchService(5);
         if (res && res.errCode === 0) {
             copyState.listSearchClinic = res.data.resClinic;
             copyState.listSearchSpecialty = res.data.resSpecialty;
@@ -113,7 +113,7 @@ class HomeHeader extends Component {
             ...copyState,
         });
         if (copyState.searchQuery === "") {
-            let res = await getSearchService();
+            let res = await getSearchService(5);
             if (res && res.errCode === 0) {
                 copyState.listSearchClinic = res.data.resClinic;
                 copyState.listSearchSpecialty = res.data.resSpecialty;
