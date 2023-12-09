@@ -203,7 +203,8 @@
             "select-clinic": "Chọn phòng khám",
             "name-clinic": "Tên phòng khám",
             "address-clinic": "Địa chỉ phòng khám",
-            "note": "Ghi chú"
+            "note": "Ghi chú",
+            "listDoctor": "Danh sách bác sĩ"
         },
         "manage-specialty": {
             "title": "Quản lý chuyên khoa",

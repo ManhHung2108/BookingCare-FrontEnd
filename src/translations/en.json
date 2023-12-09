@@ -203,7 +203,8 @@
             "select-clinic": "Choose Clinic",
             "name-clinic": "Clinic's name",
             "address-clinic": "Clinic's address",
-            "note": "Note"
+            "note": "Note",
+            "listDoctor": "List Doctor"
         },
         "manage-specialty": {
             "title": "Manage Specialty",

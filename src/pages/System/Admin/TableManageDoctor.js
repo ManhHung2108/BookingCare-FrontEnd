@@ -184,7 +184,9 @@ export default class TableManageDoctor extends Component {
                     bordered
                     title={() => (
                         <h3>
-                            <FormattedMessage id={"manage-user.listUser"} />
+                            <FormattedMessage
+                                id={"admin.manage-doctor.listDoctor"}
+                            />
                         </h3>
                     )}
                     pagination={{
