@@ -5,7 +5,7 @@ const handleLoginApi = (email, passWord) => {
     return axios.post("/api/login", { email, passWord });
 };
 const handleLoginApi2 = (username, password) => {
-    return axios.post("/login2", { username, password });
+    return axios.post("/api/login2", { username, password });
 };
 
 //Xác thực đăng nhập
@@ -14,7 +14,7 @@ const getUserInforPatient = (id) => {
 };
 
 const getUserInforSystem = (token) => {
-    return axios.get("/system-user-infor", {
+    return axios.get("/api/system-user-infor", {
         headers: {
             Authorization: `Bearer ${token}`, // Thay thế 'Bearer' bằng phần tiêu đề thích hợp nếu yêu cầu của bạn yêu cầu
         },
@@ -23,7 +23,7 @@ const getUserInforSystem = (token) => {
 
 //Ủy quyền người dùng
 const getAdminSystem = (token) => {
-    return axios.get("/admin-dashboard", {
+    return axios.get("/api/admin-dashboard", {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -31,7 +31,7 @@ const getAdminSystem = (token) => {
 };
 const fetchDashboardData = (token) => {
     return axios
-        .get("/home-dashboard", {
+        .get("/api/home-dashboard", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
