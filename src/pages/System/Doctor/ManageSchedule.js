@@ -10,12 +10,14 @@ import "./ManageSchedule.scss";
 import {
     getAllDoctorAction,
     getAllScheduleTimeAction,
+    getAllClinicAction,
 } from "../../../redux/actions/adminAction";
 import { LANGUAGE } from "../../../utils/constants";
 import {
     saveBulkScheduleDoctorService,
     getScheduleDoctorByDateServicde,
     deleteScheduleService,
+    getDoctorByClinic,
 } from "../../../services";
 import TableManageSchedules from "./TableManageSchedules";
 import * as actions from "../../../redux/actions";
@@ -31,11 +33,15 @@ class ManageSchedule extends Component {
 
             listSchedule: [],
             userType: "admin",
+
+            listClinic: [],
+            selectedClinic: "",
         };
     }
     componentDidMount = () => {
         this.handleGetAllDoctor();
         this.props.getAllSchedule();
+        this.props.getAllClinic();
 
         //Nếu là doctor không cho chọn bác sĩ
         const { userInfo } = this.props;
@@ -84,6 +90,12 @@ class ManageSchedule extends Component {
                     userType: this.props.userInfo.userType,
                 });
             }
+        }
+
+        if (prevProps.listClinicRedux !== this.props.listClinicRedux) {
+            this.setState({
+                listClinic: this.props.listClinicRedux,
+            });
         }
     }
 
@@ -274,11 +286,22 @@ class ManageSchedule extends Component {
         const { selectedDoctor, currentDate } = this.state;
         let res = await deleteScheduleService(data.key);
         if (res && res.errCode === 0) {
-            console.log(res);
             toast.success(res.message);
             this.getAllScheduleDoctor(selectedDoctor, currentDate);
         } else {
             toast.error(res.errMessage);
+        }
+    };
+
+    handleSelectClinic = async (id) => {
+        this.setState({
+            selectedClinic: id,
+        });
+        let res = await getDoctorByClinic(id);
+        if (res && res.errCode === 0) {
+            this.setState({
+                listDoctor: res.data,
+            });
         }
     };
 
@@ -290,6 +313,8 @@ class ManageSchedule extends Component {
             currentDate,
             rangeTime,
             listSchedule,
+            listClinic,
+            selectedClinic,
         } = this.state;
         const { language, userInfo } = this.props;
 
@@ -305,6 +330,40 @@ class ManageSchedule extends Component {
                     <FormattedMessage id={"manage-schedule.title"} />
                 </div>
                 <div className="container">
+                    {userInfo && userInfo.userType === "doctor" ? null : (
+                        <div className="row">
+                            <div className="col-4 mb-3">
+                                <label>Chọn phòng khám</label>
+                                <Select
+                                    showSearch
+                                    placeholder="Chọn một mục"
+                                    style={{ width: "100%" }}
+                                    onChange={this.handleSelectClinic}
+                                    value={selectedClinic}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {/* Render các Option từ dữ liệu API */}
+                                    {listClinic &&
+                                        listClinic.length &&
+                                        listClinic.map((item) => (
+                                            <Option
+                                                key={item.id}
+                                                value={item.id}
+                                            >
+                                                {language === LANGUAGE.VI
+                                                    ? item.nameVi
+                                                    : item.nameEn}
+                                            </Option>
+                                        ))}
+                                </Select>
+                            </div>
+                        </div>
+                    )}
+
                     <div className="row">
                         <div className="col-lg-6 col-sm-12 form-group">
                             <label>
@@ -333,8 +392,16 @@ class ManageSchedule extends Component {
                                 {listDoctor.map((item) => (
                                     <Option key={item.id} value={item.id}>
                                         {language === LANGUAGE.VI
-                                            ? `${item.firstName} ${item.lastName}`
-                                            : `${item.lastName} ${item.firstName}`}
+                                            ? `${item.firstName} ${
+                                                  item.lastName
+                                              } - ${
+                                                  item.nameVi ? item.nameVi : ""
+                                              }`
+                                            : `${item.lastName} ${
+                                                  item.firstName
+                                              } - ${
+                                                  item.nameEn ? item.nameEn : ""
+                                              }`}
                                     </Option>
                                 ))}
                             </Select>
@@ -406,6 +473,7 @@ const mapStateToProps = (state) => {
         listDoctorRedux: state.adminReducer.listDoctor,
         allScheduleTimeRedux: state.adminReducer.allScheduleTime,
         userInfo: state.user.userInfo,
+        listClinicRedux: state.adminReducer.clinics,
     };
 };
 
@@ -419,6 +487,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getAllSchedule: () => {
             return dispatch(getAllScheduleTimeAction());
+        },
+        getAllClinic: () => {
+            return dispatch(getAllClinicAction());
         },
     };
 };

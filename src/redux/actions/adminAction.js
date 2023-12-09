@@ -416,3 +416,38 @@ export const fecthRequiredDoctorInforFailed = () => {
         type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED,
     };
 };
+
+export const getAllClinicAction = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: actionTypes.DiSPLAY_LOADING,
+            });
+            let res = await getAllClinicService();
+            if (res && res.errCode === 0) {
+                dispatch(getAllClinicSuccess(res.data));
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            } else {
+                dispatch(getAllClinicFailed());
+                dispatch({
+                    type: actionTypes.HIDE_LOADING,
+                });
+            }
+        } catch (error) {}
+    };
+};
+
+const getAllClinicSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ALL_CLINIC_SUCCESS,
+        data,
+    };
+};
+const getAllClinicFailed = (data) => {
+    return {
+        type: actionTypes.GET_ALL_CLINIC_FAILED,
+        data,
+    };
+};

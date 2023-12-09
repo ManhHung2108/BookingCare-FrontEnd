@@ -111,6 +111,9 @@ const saveBulkScheduleDoctorService = (data) => {
 const deleteScheduleService = (id) => {
     return axios.delete(`/api/delete-schedule/${id}`);
 };
+const getDoctorByClinic = (specialtyId) => {
+    return axios.get(`/api/get-doctor-by-clinic?clinicId=${specialtyId}`);
+};
 
 //Api detail Doctor
 const getDetailDoctor = (id) => {
@@ -319,4 +322,5 @@ export {
     getDoctorRatingService,
     getDoctorReviewService,
     deleteScheduleService,
+    getDoctorByClinic,
 };

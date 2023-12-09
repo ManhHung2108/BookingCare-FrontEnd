@@ -122,6 +122,16 @@ const adminReducer = (state = initialState, action) => {
 
             return { ...state };
         }
+        case actionTypes.GET_ALL_CLINIC_SUCCESS: {
+            let copyState = { ...state };
+            copyState.clinics = action.data;
+            return copyState;
+        }
+        case actionTypes.GET_ALL_CLINIC_FAILED: {
+            let copyState = { ...state };
+            copyState.clinics = [];
+            return copyState;
+        }
         default:
             return state;
     }
