@@ -18,6 +18,7 @@ import {
 } from "../../../services";
 import { connect } from "react-redux";
 import { LANGUAGE } from "../../../utils/constants";
+import DoughnutChart from "../../../components/System/DoughnutChart";
 
 class SystemHome extends Component {
     constructor(props) {
@@ -29,6 +30,8 @@ class SystemHome extends Component {
             doctorCountStats: 0,
             clinicCountStats: 0,
             authorized: false,
+            totalBooking: 0,
+            totalCancleBooking: 0,
         };
     }
 
@@ -50,6 +53,11 @@ class SystemHome extends Component {
                         (entry) => entry.countsCancle
                     );
 
+                    this.setState({
+                        totalBooking: counts,
+                        totalCancleBooking: countsCancle,
+                    });
+
                     const data = {
                         labels: labels,
                         datasets: [
@@ -57,19 +65,21 @@ class SystemHome extends Component {
                                 label: `${
                                     language === LANGUAGE.VI
                                         ? "Lịch hủy"
-                                        : "Cancellation schedule number"
+                                        : "Cancellation schedule"
                                 }`,
                                 data: countsCancle,
                                 backgroundColor: "rgba(255, 99, 132, 0.5)",
+                                hoverBackgroundColor: "rgba(255, 99, 132, 1)",
                             },
                             {
                                 label: `${
                                     language === LANGUAGE.VI
-                                        ? "Lịch đặt khám"
-                                        : "Appointment appointment number"
+                                        ? "Lịch đặt"
+                                        : "Appointment number"
                                 }`,
                                 data: counts,
                                 backgroundColor: "rgba(53, 162, 235, 0.5)",
+                                hoverBackgroundColor: "rgba(53, 162, 235, 1)",
                             },
                         ],
                     };
@@ -91,7 +101,7 @@ class SystemHome extends Component {
                     labels: labels,
                     datasets: [
                         {
-                            label: "Lịch đặt khám",
+                            label: "Lịch đặt",
                             data: countsBooking,
                             backgroundColor: "rgba(53, 162, 235, 0.5)",
                         },
@@ -127,6 +137,11 @@ class SystemHome extends Component {
                         (entry) => entry.countsCancle
                     );
 
+                    this.setState({
+                        totalBooking: counts,
+                        totalCancleBooking: countsCancle,
+                    });
+
                     const data = {
                         labels: labels,
                         datasets: [
@@ -134,19 +149,21 @@ class SystemHome extends Component {
                                 label: `${
                                     language === LANGUAGE.VI
                                         ? "Lịch hủy"
-                                        : "Cancellation schedule number"
+                                        : "Cancellation schedule"
                                 }`,
                                 data: countsCancle,
                                 backgroundColor: "rgba(255, 99, 132, 0.5)",
+                                hoverBackgroundColor: "rgba(255, 99, 132, 1)",
                             },
                             {
                                 label: `${
                                     language === LANGUAGE.VI
-                                        ? "Lịch đặt khám"
-                                        : "Appointment appointment number"
+                                        ? "Lịch đặt"
+                                        : "Appointment"
                                 }`,
                                 data: counts,
                                 backgroundColor: "rgba(53, 162, 235, 0.5)",
+                                hoverBackgroundColor: "rgba(53, 162, 235, 1)",
                             },
                         ],
                     };
@@ -170,8 +187,8 @@ class SystemHome extends Component {
                         {
                             label: `${
                                 language === LANGUAGE.VI
-                                    ? "Lịch đặt khám"
-                                    : "Appointment appointment number"
+                                    ? "Lịch đặt"
+                                    : "Appointment"
                             }`,
                             data: countsBooking,
                             backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -220,6 +237,8 @@ class SystemHome extends Component {
             doctorCountStats,
             clinicCountStats,
             authorized,
+            totalBooking,
+            totalCancleBooking,
         } = this.state;
 
         const currentDate = new Date();
@@ -316,14 +335,24 @@ class SystemHome extends Component {
                         </div>
 
                         <div className="admin-home_chart">
-                            <DashboardChart
-                                chartData={this.state.chartBooking}
-                                titleChart={
-                                    language === LANGUAGE.VI
-                                        ? "Số liệu thống kê đặt lịch"
-                                        : "Scheduling statistics by month"
-                                }
-                            />
+                            <div className="row">
+                                <div className="col-8">
+                                    <DashboardChart
+                                        chartData={this.state.chartBooking}
+                                        titleChart={
+                                            language === LANGUAGE.VI
+                                                ? "Số liệu thống kê đặt lịch"
+                                                : "Scheduling statistics by month"
+                                        }
+                                    />
+                                </div>
+                                <div className="col-4 mt-7">
+                                    <DoughnutChart
+                                        totalBooking={totalBooking}
+                                        totalCancleBooking={totalCancleBooking}
+                                    />
+                                </div>
+                            </div>
                             <DashboardChart
                                 chartData={this.state.chartClinicBooking}
                                 titleChart={

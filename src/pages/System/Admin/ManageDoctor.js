@@ -14,6 +14,7 @@ import {
 import { CRUD_ACTIONS, LANGUAGE } from "../../../utils/constants";
 import { getDetailDoctor } from "../../../services/userService";
 import { FormattedMessage } from "react-intl";
+import TableManageDoctor from "./TableManageDoctor";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */); //convert HTML sang Text
 
@@ -129,6 +130,7 @@ class ManageDoctor extends Component {
         };
         //Gửi cục data lên server để check cần sửa hay tạo mới
         await this.props.saveDetailDoctor(data);
+        this.handleGetAllDoctor();
 
         this.setState({
             contentMarkdown: "",
@@ -225,6 +227,77 @@ class ManageDoctor extends Component {
         });
     };
 
+    handleEditDoctor = async (data) => {
+        this.setState({
+            selectedDoctor: data.key,
+        });
+
+        let response = await getDetailDoctor(data.key);
+        //check xem đã có thông tin chưa
+        if (
+            response &&
+            response.errCode === 0 &&
+            response.data &&
+            response.data.Markdown
+        ) {
+            let markdown = response.data.Markdown;
+
+            let addressClinic = "",
+                nameClinic = "",
+                note = "",
+                priceId = null,
+                paymentId = null,
+                provinceId = null,
+                specialtyId = null,
+                clinicId = null;
+
+            if (response.data.Doctor_Infor) {
+                nameClinic = response.data.Doctor_Infor.nameClinic;
+                addressClinic = response.data.Doctor_Infor.addressClinic;
+                note = response.data.Doctor_Infor.note;
+                priceId = response.data.Doctor_Infor.priceId;
+                paymentId = response.data.Doctor_Infor.paymentId;
+                provinceId = response.data.Doctor_Infor.provinceId;
+                specialtyId = response.data.Doctor_Infor.specialtyId.toString();
+                clinicId = response.data.Doctor_Infor.clinicId
+                    ? response.data.Doctor_Infor.clinicId.toString()
+                    : null;
+            }
+
+            this.setState({
+                contentHTML: markdown.contentHTML,
+                contentMarkdown: markdown.contentMarkdown,
+                description: markdown.description,
+                hasOldData: true, //có set là true,
+
+                nameClinic: nameClinic,
+                addressClinic: addressClinic,
+                note: note,
+                selectedPrice: priceId,
+                selectedPayment: paymentId,
+                selectedProvince: provinceId,
+                selectedSpecialty: specialtyId,
+                selectedClinic: clinicId,
+            });
+        } else {
+            this.setState({
+                contentMarkdown: "",
+                contentHTML: "",
+                description: "",
+                hasOldData: false, //chưa có
+
+                addressClinic: "",
+                nameClinic: "",
+                note: "",
+                selectedPrice: null,
+                selectedPayment: null,
+                selectedProvince: null,
+                selectedSpecialty: null,
+                selectedClinic: null,
+            });
+        }
+    };
+
     render() {
         const { Option } = Select;
         const {
@@ -281,8 +354,26 @@ class ManageDoctor extends Component {
                                 {listDoctor.map((item) => (
                                     <Option key={item.id} value={item.id}>
                                         {language === LANGUAGE.VI
-                                            ? `${item.firstName} ${item.lastName}`
-                                            : `${item.lastName} ${item.firstName}`}
+                                            ? `${item.firstName} ${
+                                                  item.lastName
+                                              } - ${
+                                                  item.Doctor_Infor
+                                                      .specialtyData.nameVi
+                                                      ? item.Doctor_Infor
+                                                            .specialtyData
+                                                            .nameVi
+                                                      : ""
+                                              }`
+                                            : `${item.lastName} ${
+                                                  item.firstName
+                                              } - ${
+                                                  item.Doctor_Infor
+                                                      .specialtyData.nameEn
+                                                      ? item.Doctor_Infor
+                                                            .specialtyData
+                                                            .nameEn
+                                                      : ""
+                                              }`}
                                     </Option>
                                 ))}
                             </Select>
@@ -557,7 +648,6 @@ class ManageDoctor extends Component {
                         />
                     </div>
                 </div>
-
                 <button
                     className={
                         hasOldData === true
@@ -574,6 +664,11 @@ class ManageDoctor extends Component {
                         <FormattedMessage id={"admin.manage-doctor.add"} />
                     )}
                 </button>
+                <TableManageDoctor
+                    data={listDoctor}
+                    language={language}
+                    handleEditDoctorFromParent={this.handleEditDoctor}
+                />
             </div>
         );
     }

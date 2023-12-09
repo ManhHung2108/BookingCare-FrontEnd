@@ -40,13 +40,13 @@ class DashboardBanner extends Component {
                         <FormattedMessage id={"admin.dashboard.desc"} />
                     </div>
                 </div>
-                <div className="banner-right">
+                {/* <div className="banner-right">
                     <img
                         src={require(`../../assets/images/dashboard/banner.png`)}
                         alt="banner.png"
                         height={200}
                     />
-                </div>
+                </div> */}
             </div>
         );
     }
