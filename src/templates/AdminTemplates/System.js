@@ -22,7 +22,7 @@ import ManageSchedule from "../../pages/System/Doctor/ManageSchedule";
 import "./System.scss";
 import ManageProfile from "../../pages/System/Admin/ManageProfile";
 
-const { Content, Footer, Sider, Header } = Layout;
+const { Content, Sider } = Layout;
 
 class System extends Component {
     _isMounted = false;
