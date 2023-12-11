@@ -14,7 +14,8 @@ import * as actions from "../../../../redux/actions";
 import { LANGUAGE, validateEmail, validatePhone } from "../../../../utils";
 import { postPatientBookAppointmentService } from "../../../../services";
 
-const sitekey = "6LdfLC0pAAAAAMKFPIlfXoCqOMhOSBHxYByhydvu";
+// const sitekey = "6LdfLC0pAAAAAMKFPIlfXoCqOMhOSBHxYByhydvu";
+const sitekey = "6LcDeigpAAAAAGR-uUlDOI72QqfzYluAjJ-rRMro";
 const sitekeyLocal = "6LcDeigpAAAAALF7KPDFg0HCJGvh3tj-pv5F2WcK";
 
 class BookingModal extends Component {
