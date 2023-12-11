@@ -3,13 +3,15 @@
     .booking-modal-content {
         display       : flex;
         flex-direction: column;
+        border-radius : 16px;
 
 
         .booking-modal-header {
-            padding        : 10px;
-            border-bottom  : 1px solid #ccc;
-            display        : flex;
-            justify-content: space-between;
+            padding           : 10px;
+            border-bottom     : 1px solid #ccc;
+            display           : flex;
+            justify-content   : space-between;
+            // background     : #D4EFFC;
 
             .text-header {
                 font-size  : 20px;
@@ -37,6 +39,29 @@
             .react-datepicker-wrapper {
                 width: 100%;
             }
+
+            .booking-note {
+                background   : #D4EFFC;
+                padding      : 10px;
+                border-radius: 3px;
+                margin-bottom: 15px;
+
+                p {
+                    margin-bottom: 5px !important;
+                    margin-bottom: 5px 0;
+                }
+
+                ul {
+                    margin: 0 10px 10px 25px;
+                }
+
+                .text-note {
+                    text-align: justify;
+                    font-size : 14px;
+                }
+            }
+
+
         }
 
         .booking-modal-footer {

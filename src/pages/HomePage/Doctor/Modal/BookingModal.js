@@ -529,6 +529,26 @@ class BookingModal extends Component {
                                 sitekey={sitekeyLocal}
                                 onChange={this.handleRecaptchaChange}
                             />
+                            <div className="col-12 mt-3 booking-note">
+                                <p className="text-note">
+                                    <b>LƯU Ý</b>
+                                </p>
+                                <p className="text-note">
+                                    Thông tin anh/chị cung cấp sẽ được sử dụng
+                                    làm hồ sơ khám chữa bệnh, khi điền thông tin
+                                    anh chị vui lòng:
+                                </p>
+                                <ul>
+                                    <li className="text-note">
+                                        {`Ghi rõ họ và tên, viết hoa chữ cái đầu
+                                        tiên ví dụ: `}
+                                        <b>Đỗ Mạnh Hùng</b>
+                                    </li>
+                                    <li className="text-note">
+                                        Điền đầy đủ thông tin trước khi xác nhận
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div className="booking-modal-footer">
                             <button
