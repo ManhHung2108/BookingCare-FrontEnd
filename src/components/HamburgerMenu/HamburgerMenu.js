@@ -27,7 +27,7 @@ class HamburgerMenu extends Component {
         this.props.handleOpenMenuFromHeader();
     };
     render() {
-        const { userInfo, language, isLoggedIn } = this.props;
+        const { isLoggedIn } = this.props;
 
         const menus = [
             {

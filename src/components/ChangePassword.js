@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
 import { FormattedMessage } from "react-intl";
 import * as actions from "../redux/actions";
 

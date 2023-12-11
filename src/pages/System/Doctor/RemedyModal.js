@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { Modal } from "reactstrap";
-import DatePicker from "react-datepicker";
-import _ from "lodash";
 import { toast } from "react-toastify";
-import moment from "moment";
 
 import "./RemedyModal.scss";
 import { CommonUtils, LANGUAGE } from "../../../utils";
