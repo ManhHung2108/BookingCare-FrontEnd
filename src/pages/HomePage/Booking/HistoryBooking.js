@@ -73,6 +73,7 @@ class HistoryBooking extends Component {
 
     getDataBookingLogged = async (token) => {
         let res = await getBookingHistoryForPatient(token);
+        console.log(res);
         if (res && res.errCode === 0) {
             let bookings = this.buildDataBooking(res.data.bookings);
             let bookingHistories = this.builDataBookingHistory(
@@ -116,7 +117,6 @@ class HistoryBooking extends Component {
 
     builDataBookingHistory = (data) => {
         const { language } = this.props;
-        console.log(data);
         let dataSource = data.map((item) => {
             return {
                 key: item.id,
@@ -125,10 +125,10 @@ class HistoryBooking extends Component {
                 timeType: `${item.bookingData.timeTypeDataPatient.valueVi}, ${
                     language === LANGUAGE.VI
                         ? moment
-                              .unix(+item.date / 1000)
+                              .unix(+item.bookingData.date / 1000)
                               .format("dddd - DD/MM/YYYY")
                         : moment
-                              .unix(+item.date / 1000)
+                              .unix(+item.bookingData.date / 1000)
                               .locale("en")
                               .format("ddd - MM/DD/YYYY")
                 }`,
