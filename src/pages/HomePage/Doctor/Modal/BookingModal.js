@@ -14,6 +14,9 @@ import * as actions from "../../../../redux/actions";
 import { LANGUAGE, validateEmail, validatePhone } from "../../../../utils";
 import { postPatientBookAppointmentService } from "../../../../services";
 
+const sitekey = "6LdfLC0pAAAAAMKFPIlfXoCqOMhOSBHxYByhydvu";
+const sitekeyLocal = "6LcDeigpAAAAALF7KPDFg0HCJGvh3tj-pv5F2WcK";
+
 class BookingModal extends Component {
     constructor(props) {
         super(props);
@@ -522,7 +525,7 @@ class BookingModal extends Component {
                                 </div>
                             </div>
                             <ReCAPTCHA
-                                sitekey="6LcDeigpAAAAALF7KPDFg0HCJGvh3tj-pv5F2WcK"
+                                sitekey={sitekey}
                                 onChange={this.handleRecaptchaChange}
                             />
                         </div>
