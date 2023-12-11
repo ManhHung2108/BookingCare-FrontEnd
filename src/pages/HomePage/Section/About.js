@@ -32,7 +32,7 @@ class About extends Component {
                                         <a
                                             target="_blank"
                                             title="Báo sức khỏe đời sống"
-                                            href="http://www.fithou.edu.vn/"
+                                            href="https://baotintuc.vn/y-te/viec-xep-so-lay-so-xep-hang-tu-to-mo-sang-kham-benh-rat-bat-cap-20221024150005519.htm"
                                             rel="noreferrer"
                                         >
                                             <div className="truyenthong-img suckhoedoisong-img"></div>
@@ -42,7 +42,7 @@ class About extends Component {
                                         <a
                                             target="_blank"
                                             title="VnExpress"
-                                            href="https://video.vnexpress.net/cuoc-song-4-0/kham-benh-khong-phai-xep-hang-o-ha-noi-3797126.html"
+                                            href="https://baotintuc.vn/y-te/viec-xep-so-lay-so-xep-hang-tu-to-mo-sang-kham-benh-rat-bat-cap-20221024150005519.htm"
                                             rel="noreferrer"
                                         >
                                             <div className="truyenthong-img vnexpress-img"></div>
