@@ -35,6 +35,7 @@ class BookingModal extends Component {
             language: "vi",
             timeString: "",
             doctorName: "",
+            addressClinic: "",
 
             error: {
                 fullName: false,
@@ -76,6 +77,8 @@ class BookingModal extends Component {
                 timeType: this.props.dataTime.timeType,
                 date: this.props.dataTime.date,
                 recaptchaValue: this.props.recaptchaValue,
+                addressClinic:
+                    this.props.dataTime.doctorData.Doctor_Infor.addressClinic,
             });
         }
     }
@@ -254,10 +257,11 @@ class BookingModal extends Component {
             language: this.props.language,
             timeString: timeString,
             doctorName: doctorName,
+            addressClinic: this.state.addressClinic,
         };
 
         let isValid = this.validateInput();
-        console.log(isValid);
+
         if (isValid) {
             this.props.isShowLoading(true);
             let res = await postPatientBookAppointmentService(data);

@@ -73,7 +73,6 @@ class HistoryBooking extends Component {
 
     getDataBookingLogged = async (token) => {
         let res = await getBookingHistoryForPatient(token);
-        console.log(res);
         if (res && res.errCode === 0) {
             let bookings = this.buildDataBooking(res.data.bookings);
             let bookingHistories = this.builDataBookingHistory(
@@ -109,6 +108,7 @@ class HistoryBooking extends Component {
                 reason: item.reason,
                 description: "",
                 date: item.date,
+                addressClinic: item.User.Doctor_Infor.addressClinic,
             };
         });
 
@@ -137,6 +137,7 @@ class HistoryBooking extends Component {
                 doctorId: item.doctorId,
                 bookingId: item.bookingId,
                 reviewId: item.reviewId,
+                addressClinic: item.bookingData.User.Doctor_Infor.addressClinic,
             };
         });
 
@@ -274,6 +275,11 @@ class HistoryBooking extends Component {
                 key: "timeType",
             },
             {
+                title: language === LANGUAGE.EN ? "Địa chỉ" : "Adress Clinic",
+                dataIndex: "addressClinic",
+                key: "addressClinic",
+            },
+            {
                 title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
                 dataIndex: "reason",
                 key: "reason",
@@ -319,6 +325,11 @@ class HistoryBooking extends Component {
                 title: language === LANGUAGE.EN ? "Time" : "Thời gian",
                 dataIndex: "timeType",
                 key: "timeType",
+            },
+            {
+                title: language === LANGUAGE.EN ? "Địa chỉ" : "Adress Clinic",
+                dataIndex: "addressClinic",
+                key: "addressClinic",
             },
             {
                 title: language === LANGUAGE.EN ? "Reason" : "Lý do khám",
